@@ -13,6 +13,8 @@ file(GLOB_RECURSE SRCS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 add_executable(${PROJECT_NAME} ${SRCS})
 target_compile_definitions(${PROJECT_NAME} PRIVATE std_cxx_17)
 target_include_directories(${PROJECT_NAME}
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
         PRIVATE
             ${CMAKE_CURRENT_SOURCE_DIR}/modules/capnzero/capnzero/include
             ${CMAKE_CURRENT_SOURCE_DIR}/modules/alica-message-protos/src
