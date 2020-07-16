@@ -3,25 +3,57 @@ project(task-allocation-monitor VERSION 0.1.0 LANGUAGES CXX)
 
 execute_process(COMMAND bash -c "conan install .. -if ${CMAKE_CURRENT_BINARY_DIR}")
 include("${CMAKE_CURRENT_BINARY_DIR}/conan_paths.cmake")
+
 find_package(rapidjson REQUIRED)
+find_package(gtest REQUIRED)
 
 add_subdirectory(modules/alica-message-protos)
 add_subdirectory(modules/capnzero/capnzero)
 
 file(GLOB_RECURSE SRCS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
+list(REMOVE_ITEM SRCS "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
 
-add_executable(${PROJECT_NAME} ${SRCS})
+add_library(alica_message_processor ${SRCS})
+target_compile_definitions(alica_message_processor PRIVATE std_cxx_17)
+target_include_directories(alica_message_processor
+        PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/modules/capnzero/capnzero/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/modules/alica-message-protos/src
+        )
+target_link_libraries(alica_message_processor
+        PRIVATE
+        capnp
+        alica-message-protos
+        rapidjson::rapidjson
+        )
+
+add_executable(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 target_compile_definitions(${PROJECT_NAME} PRIVATE std_cxx_17)
 target_include_directories(${PROJECT_NAME}
-        PUBLIC
-            ${CMAKE_CURRENT_SOURCE_DIR}/include
         PRIVATE
-            ${CMAKE_CURRENT_SOURCE_DIR}/modules/capnzero/capnzero/include
-            ${CMAKE_CURRENT_SOURCE_DIR}/modules/alica-message-protos/src
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/modules/capnzero/capnzero/include
         )
 target_link_libraries(${PROJECT_NAME}
         PRIVATE
-            capnzero
-            alica-message-protos
-            rapidjson::rapidjson
+        capnzero
+        alica-message-protos
+        alica_message_processor
+        )
+
+file(GLOB_RECURSE UNIT_TESTS "${CMAKE_CURRENT_SOURCE_DIR}/test/*.cpp")
+add_executable(unit_tests ${UNIT_TESTS})
+target_include_directories(unit_tests
+        PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/modules/alica-message-protos/src
+        )
+target_link_libraries(unit_tests
+        PRIVATE
+        alica_message_processor
+        alica-message-protos
+        rapidjson::rapidjson
+        gtest::gtest
+        kj
         )

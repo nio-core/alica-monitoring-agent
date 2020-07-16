@@ -1,9 +1,10 @@
 #pragma once
 
 #include <capnp/serialize.h>
+#include <string>
 
 namespace processing {
-    void try_read_alica_engine_info(::capnp::FlatArrayMessageReader &reader);
+    std::string try_read_alica_engine_info(::capnp::FlatArrayMessageReader& reader);
 
     void try_read_allocation_authority_information(::capnp::FlatArrayMessageReader &reader);
 

@@ -1,17 +1,20 @@
-#include <capnzero/CapnZero.h>
 #include <vector>
+#include <iostream>
 #include <string>
-#include <rapidjson/document.h>
 #include <processing.h>
+#include "../modules/capnzero/capnzero/include/capnzero/Subscriber.h"
 
 void callback(::capnp::FlatArrayMessageReader& reader) {
-    processing::try_read_alica_engine_info(reader);
+    auto json = processing::try_read_alica_engine_info(reader);
     processing::try_read_allocation_authority_information(reader);
     processing::try_read_plan_tree_information(reader);
     processing::try_read_role_switch(reader);
     processing::try_read_solver_result(reader);
     processing::try_read_sync_ready(reader);
     processing::try_read_sync_talk(reader);
+
+    std::cout << "Generating JSON:" << std::endl
+              << json << std::endl;
 }
 
 void usage() {
