@@ -48,6 +48,7 @@ add_executable(unit_tests ${UNIT_TESTS})
 target_include_directories(unit_tests
         PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/modules/alica-message-protos/src
+        ${CMAKE_CURRENT_SOURCE_DIR}/test/include
         )
 target_link_libraries(unit_tests
         PRIVATE

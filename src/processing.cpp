@@ -14,7 +14,11 @@
 
 bool is_valid(alica_msgs::AlicaEngineInfo::Reader& engineInfo) {
     return engineInfo.hasSenderId() && engineInfo.hasMasterPlan() && engineInfo.hasCurrentPlan() && engineInfo.hasCurrentTask()
-    && engineInfo.hasCurrentState() && engineInfo.hasCurrentRole() && engineInfo.hasAgentIdsWithMe();
+           && engineInfo.hasCurrentState() && engineInfo.hasCurrentRole() && engineInfo.hasAgentIdsWithMe();
+}
+
+bool is_valid(alica_msgs::AllocationAuthorityInfo::Reader& allocationAuthorityInfo) {
+    return allocationAuthorityInfo.hasAuthority() && allocationAuthorityInfo.hasSenderId() && allocationAuthorityInfo.hasEntrypointRobots();
 }
 
 std::string processing::try_read_alica_engine_info(::capnp::FlatArrayMessageReader& reader) {
@@ -59,13 +63,50 @@ std::string processing::try_read_alica_engine_info(::capnp::FlatArrayMessageRead
     return buffer.GetString();
 }
 
-void processing::try_read_allocation_authority_information(::capnp::FlatArrayMessageReader &reader) {
-    try {
-        auto allocation_authority_information = reader.getRoot<alica_msgs::AllocationAuthorityInfo>();
-        std::cout << "+++ Received allocation authority information" << std::endl;
-    } catch (std::exception& e) {
-        std::cout << "--- Could not read allocation authority info from received message" << std::endl;
+std::string processing::try_read_allocation_authority_information(::capnp::FlatArrayMessageReader &reader) {
+    auto allocationAuthorityInformation = reader.getRoot<alica_msgs::AllocationAuthorityInfo>();
+    if(!is_valid(allocationAuthorityInformation)) {
+        throw std::runtime_error("Could not parse Allocation Authority Info from message");
     }
+    std::cout << "+++ Received allocation authority information" << std::endl;
+
+    rapidjson::Document doc(rapidjson::kObjectType);
+    rapidjson::Value val;
+
+    val.SetInt64(allocationAuthorityInformation.getParentState());
+    doc.AddMember("parentState", val, doc.GetAllocator());
+
+    val.SetInt64(allocationAuthorityInformation.getPlanType());
+    doc.AddMember("planType", val, doc.GetAllocator());
+
+    val.SetInt64(allocationAuthorityInformation.getPlanId());
+    doc.AddMember("planId", val, doc.GetAllocator());
+
+    auto authority = helper::capnzero_id_to_json_value(allocationAuthorityInformation.getAuthority(), doc.GetAllocator());
+    doc.AddMember("authority", authority, doc.GetAllocator());
+
+    auto senderId = helper::capnzero_id_to_json_value(allocationAuthorityInformation.getSenderId(), doc.GetAllocator());
+    doc.AddMember("senderId", senderId, doc.GetAllocator());
+
+    rapidjson::Value entryPointRobots(rapidjson::kArrayType);
+    for(auto entryPointRobot: allocationAuthorityInformation.getEntrypointRobots()) {
+        rapidjson::Value epr(rapidjson::kObjectType);
+        epr.AddMember("entryPoint", entryPointRobot.getEntrypoint(), doc.GetAllocator());
+        rapidjson::Value robots(rapidjson::kArrayType);
+        for(auto robot: entryPointRobot.getRobots()) {
+            auto r = helper::capnzero_id_to_json_value(robot, doc.GetAllocator());
+            robots.PushBack(r, doc.GetAllocator());
+        }
+        epr.AddMember("robots", robots, doc.GetAllocator());
+        entryPointRobots.PushBack(epr, doc.GetAllocator());
+    }
+    doc.AddMember("entryPointRobots", entryPointRobots, doc.GetAllocator());
+
+    rapidjson::StringBuffer buffer;
+    rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
+    doc.Accept(writer);
+
+    return buffer.GetString();
 }
 
 void processing::try_read_plan_tree_information(::capnp::FlatArrayMessageReader &reader) {

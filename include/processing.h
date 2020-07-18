@@ -6,7 +6,7 @@
 namespace processing {
     std::string try_read_alica_engine_info(::capnp::FlatArrayMessageReader& reader);
 
-    void try_read_allocation_authority_information(::capnp::FlatArrayMessageReader &reader);
+    std::string try_read_allocation_authority_information(::capnp::FlatArrayMessageReader &reader);
 
     void try_read_plan_tree_information(::capnp::FlatArrayMessageReader &reader);
 

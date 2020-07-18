@@ -4,14 +4,13 @@
 #include <processing.h>
 #include <rapidjson/document.h>
 #include <AllocationAuthorityInfo.capnp.h>
+#include <test_values_common.h>
 
 auto MASTER_PLAN = "MASTER_PLAN";
 auto PLAN = "PLAN";
 auto STATE = "STATE";
 auto ROLE = "ROLE";
 auto TASK = "TASK";
-auto ID_TYPE = 1;
-auto ID_VALUE = "id";
 auto AGENT_COUNT = 3;
 
 kj::Array<capnp::word> alica_engine_info_message() {
