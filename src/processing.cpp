@@ -21,6 +21,10 @@ bool is_valid(alica_msgs::AllocationAuthorityInfo::Reader& allocationAuthorityIn
     return allocationAuthorityInfo.hasAuthority() && allocationAuthorityInfo.hasSenderId() && allocationAuthorityInfo.hasEntrypointRobots();
 }
 
+bool is_valid(alica_msgs::PlanTreeInfo::Reader& planTreeInfo) {
+    return planTreeInfo.hasSenderId() && planTreeInfo.hasStateIds() && planTreeInfo.hasSucceededEps();
+}
+
 std::string processing::try_read_alica_engine_info(::capnp::FlatArrayMessageReader& reader) {
     auto alicaEngineInfo = reader.getRoot<alica_msgs::AlicaEngineInfo>();
     if(!is_valid(alicaEngineInfo)) {
@@ -109,13 +113,34 @@ std::string processing::try_read_allocation_authority_information(::capnp::FlatA
     return buffer.GetString();
 }
 
-void processing::try_read_plan_tree_information(::capnp::FlatArrayMessageReader &reader) {
-    try {
-        reader.getRoot<alica_msgs::PlanTreeInfo>();
-        std::cout << "+++ Received plan tree information" << std::endl;
-    } catch (std::exception& e) {
-        std::cout << "--- Could not read plan tree information from received message" << std::endl;
+std::string processing::try_read_plan_tree_information(::capnp::FlatArrayMessageReader &reader) {
+    auto planTreeInfo = reader.getRoot<alica_msgs::PlanTreeInfo>();
+    if(!is_valid(planTreeInfo)) {
+        throw std::runtime_error("Could not parse Plan Tree Info from message");
     }
+    std::cout << "+++ Received plan tree information" << std::endl;
+
+    rapidjson::Document doc(rapidjson::kObjectType);
+    auto senderId = helper::capnzero_id_to_json_value(planTreeInfo.getSenderId(), doc.GetAllocator());
+    doc.AddMember("senderId", senderId, doc.GetAllocator());
+
+    rapidjson::Value stateIds(rapidjson::kArrayType);
+    for(auto stateId: planTreeInfo.getStateIds()) {
+        stateIds.PushBack(stateId, doc.GetAllocator());
+    }
+    doc.AddMember("stateIds", stateIds, doc.GetAllocator());
+
+    rapidjson::Value succeededEps(rapidjson::kArrayType);
+    for(auto ep: planTreeInfo.getSucceededEps()) {
+        succeededEps.PushBack(ep, doc.GetAllocator());
+    }
+    doc.AddMember("succeededEps", succeededEps, doc.GetAllocator());
+
+    rapidjson::StringBuffer buffer;
+    rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
+    doc.Accept(writer);
+
+    return buffer.GetString();
 }
 
 void processing::try_read_role_switch(::capnp::FlatArrayMessageReader &reader) {
