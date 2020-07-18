@@ -3,131 +3,134 @@
 #include <capnp/serialize.h>
 #include <processing.h>
 #include <rapidjson/document.h>
+#include <AllocationAuthorityInfo.capnp.h>
 
-TEST(CapnprotoToJson, alica_engine_info_can_be_parsed) {
+auto MASTER_PLAN = "MASTER_PLAN";
+auto PLAN = "PLAN";
+auto STATE = "STATE";
+auto ROLE = "ROLE";
+auto TASK = "TASK";
+auto ID_TYPE = 1;
+auto ID_VALUE = "id";
+auto AGENT_COUNT = 3;
+
+kj::Array<capnp::word> alica_engine_info_message() {
     capnp::MallocMessageBuilder builder;
     auto engineInfo = builder.initRoot<alica_msgs::AlicaEngineInfo>();
-    auto message = capnp::messageToFlatArray(builder);
+    engineInfo.setMasterPlan(MASTER_PLAN);
+    engineInfo.setCurrentPlan(PLAN);
+    engineInfo.setCurrentState(STATE);
+    engineInfo.setCurrentRole(ROLE);
+    engineInfo.setCurrentTask(TASK);
+    auto senderId = engineInfo.initSenderId();
+    senderId.setType(ID_TYPE);
+    senderId.setValue(kj::StringPtr(ID_VALUE).asBytes());
+    auto agentsWithMe = engineInfo.initAgentIdsWithMe(AGENT_COUNT);
+    for(int i = 0; i < AGENT_COUNT; i++) {
+        agentsWithMe[i].setType(ID_TYPE);
+        agentsWithMe[i].setValue(kj::StringPtr(ID_VALUE).asBytes());
+    }
+
+    return capnp::messageToFlatArray(builder);
+}
+
+TEST(AlicaEngineInfoCapnprotoToJson, it_can_be_parsed) {
+    auto message = alica_engine_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
     EXPECT_NO_THROW(processing::try_read_alica_engine_info(reader));
 }
 
-TEST(CapnprotoToJson, alica_engine_info_contains_master_plan ) {
-    auto masterPlan = "MASTER_PLAN";
-
+TEST(AlicaEngineInfoCapnprotoToJson, with_missing_fields_can_not_be_parsed) {
     capnp::MallocMessageBuilder builder;
     auto engineInfo = builder.initRoot<alica_msgs::AlicaEngineInfo>();
-    engineInfo.setMasterPlan(masterPlan);
     auto message = capnp::messageToFlatArray(builder);
+    auto reader = capnp::FlatArrayMessageReader(message);
+
+    EXPECT_THROW(processing::try_read_alica_engine_info(reader), std::runtime_error);
+}
+
+TEST(AlicaEngineInfoCapnprotoToJson, other_messages_can_not_be_parsed) {
+    capnp::MallocMessageBuilder builder;
+    auto engineInfo = builder.initRoot<alica_msgs::AllocationAuthorityInfo>();
+    auto message = capnp::messageToFlatArray(builder);
+    auto reader = capnp::FlatArrayMessageReader(message);
+
+    EXPECT_THROW(processing::try_read_alica_engine_info(reader), std::runtime_error);
+}
+
+TEST(AlicaEngineInfoCapnprotoToJson, it_contains_master_plan ) {
+    auto message = alica_engine_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
     const std::string json = processing::try_read_alica_engine_info(reader);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
-    EXPECT_STREQ(doc["masterPlan"].GetString(), masterPlan);
+    EXPECT_STREQ(doc["masterPlan"].GetString(), MASTER_PLAN);
 }
 
-TEST(CapnprotoToJson, alica_engine_info_contains_current_plan ) {
-    auto plan = "PLAN";
-
-    capnp::MallocMessageBuilder builder;
-    auto engineInfo = builder.initRoot<alica_msgs::AlicaEngineInfo>();
-    engineInfo.setCurrentPlan(plan);
-    auto message = capnp::messageToFlatArray(builder);
+TEST(AlicaEngineInfoCapnprotoToJson, it_contains_current_plan ) {
+    auto message = alica_engine_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
     const std::string json = processing::try_read_alica_engine_info(reader);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
-    EXPECT_STREQ(doc["currentPlan"].GetString(), plan);
+    EXPECT_STREQ(doc["currentPlan"].GetString(), PLAN);
 }
 
-TEST(CapnprotoToJson, alica_engine_info_contains_current_state ) {
-    auto state = "STATE";
-
-    capnp::MallocMessageBuilder builder;
-    auto engineInfo = builder.initRoot<alica_msgs::AlicaEngineInfo>();
-    engineInfo.setCurrentState(state);
-    auto message = capnp::messageToFlatArray(builder);
+TEST(AlicaEngineInfoCapnprotoToJson, it_contains_current_state ) {
+    auto message = alica_engine_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
     const std::string json = processing::try_read_alica_engine_info(reader);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
-    EXPECT_STREQ(doc["currentState"].GetString(), state);
+    EXPECT_STREQ(doc["currentState"].GetString(), STATE);
 }
 
-TEST(CapnprotoToJson, alica_engine_info_contains_current_role ) {
-    auto role = "ROLE";
-
-    capnp::MallocMessageBuilder builder;
-    auto engineInfo = builder.initRoot<alica_msgs::AlicaEngineInfo>();
-    engineInfo.setCurrentRole(role);
-    auto message = capnp::messageToFlatArray(builder);
+TEST(AlicaEngineInfoCapnprotoToJson, it_contains_current_role ) {
+    auto message = alica_engine_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
     const std::string json = processing::try_read_alica_engine_info(reader);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
-    EXPECT_STREQ(doc["currentRole"].GetString(), role);
+    EXPECT_STREQ(doc["currentRole"].GetString(), ROLE);
 }
 
-TEST(CapnprotoToJson, alica_engine_info_contains_current_task ) {
-    auto task = "TASK";
-
-    capnp::MallocMessageBuilder builder;
-    auto engineInfo = builder.initRoot<alica_msgs::AlicaEngineInfo>();
-    engineInfo.setCurrentTask(task);
-    auto message = capnp::messageToFlatArray(builder);
+TEST(AlicaEngineInfoCapnprotoToJson, it_contains_current_task ) {
+    auto message = alica_engine_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
     const std::string json = processing::try_read_alica_engine_info(reader);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
-    EXPECT_STREQ(doc["currentTask"].GetString(), task);
+    EXPECT_STREQ(doc["currentTask"].GetString(), TASK);
 }
 
-TEST(CapnprotoToJson, alica_engine_info_contains_sender_id ) {
-    auto type = 1;
-    auto value = "id";
-
-    capnp::MallocMessageBuilder builder;
-    auto engineInfo = builder.initRoot<alica_msgs::AlicaEngineInfo>();
-    auto senderId = engineInfo.initSenderId();
-    senderId.setType(type);
-    senderId.setValue(kj::StringPtr(value).asBytes());
-    auto message = capnp::messageToFlatArray(builder);
+TEST(AlicaEngineInfoCapnprotoToJson, it_contains_sender_id ) {
+    auto message = alica_engine_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
+
 
     const std::string json = processing::try_read_alica_engine_info(reader);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
     EXPECT_TRUE(doc["senderId"].IsObject());
-    EXPECT_EQ(doc["senderId"]["type"].GetInt(), type);
-    EXPECT_STREQ(doc["senderId"]["value"].GetString(), value);
+    EXPECT_EQ(doc["senderId"]["type"].GetInt(), ID_TYPE);
+    EXPECT_STREQ(doc["senderId"]["value"].GetString(), ID_VALUE);
 }
 
 
-TEST(CapnprotoToJson, alica_engine_info_contains_additional_agents ) {
-    auto type = 1;
-    auto value = "id";
-    auto agentCount = 3;
-
-    capnp::MallocMessageBuilder builder;
-    auto engineInfo = builder.initRoot<alica_msgs::AlicaEngineInfo>();
-    auto agentsWithMe = engineInfo.initAgentIdsWithMe(agentCount);
-    for(int i = 0; i < agentCount; i++) {
-        agentsWithMe[i].setType(type);
-        agentsWithMe[i].setValue(kj::StringPtr(value).asBytes());
-    }
-    auto message = capnp::messageToFlatArray(builder);
+TEST(AlicaEngineInfoCapnprotoToJson, it_contains_additional_agents ) {
+    auto message = alica_engine_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
     const std::string json = processing::try_read_alica_engine_info(reader);
@@ -135,9 +138,9 @@ TEST(CapnprotoToJson, alica_engine_info_contains_additional_agents ) {
     doc.Parse(json.c_str());
 
     EXPECT_TRUE(doc["agentsWithMe"].IsArray());
-    EXPECT_EQ(doc["agentsWithMe"].Size(), 3);
-    for(int i = 0; i < agentCount; i++) {
-        EXPECT_EQ(doc["agentsWithMe"][i]["type"].GetInt(), type);
-        EXPECT_STREQ(doc["agentsWithMe"][i]["value"].GetString(), value);
+    EXPECT_EQ(doc["agentsWithMe"].Size(), AGENT_COUNT);
+    for(int i = 0; i < AGENT_COUNT; i++) {
+        EXPECT_EQ(doc["agentsWithMe"][i]["type"].GetInt(), ID_TYPE);
+        EXPECT_STREQ(doc["agentsWithMe"][i]["value"].GetString(), ID_VALUE);
     }
 }
