@@ -10,7 +10,7 @@ namespace processing {
 
     std::string try_read_plan_tree_information(::capnp::FlatArrayMessageReader &reader);
 
-    void try_read_role_switch(::capnp::FlatArrayMessageReader &reader);
+    std::string try_read_role_switch(::capnp::FlatArrayMessageReader &reader);
 
     void try_read_solver_result(::capnp::FlatArrayMessageReader &reader);
 

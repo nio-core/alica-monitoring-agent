@@ -25,6 +25,10 @@ bool is_valid(alica_msgs::PlanTreeInfo::Reader& planTreeInfo) {
     return planTreeInfo.hasSenderId() && planTreeInfo.hasStateIds() && planTreeInfo.hasSucceededEps();
 }
 
+bool is_valid(alica_msgs::RoleSwitch::Reader& roleSwitch) {
+    return roleSwitch.hasSenderId();
+}
+
 std::string processing::try_read_alica_engine_info(::capnp::FlatArrayMessageReader& reader) {
     auto alicaEngineInfo = reader.getRoot<alica_msgs::AlicaEngineInfo>();
     if(!is_valid(alicaEngineInfo)) {
@@ -143,13 +147,23 @@ std::string processing::try_read_plan_tree_information(::capnp::FlatArrayMessage
     return buffer.GetString();
 }
 
-void processing::try_read_role_switch(::capnp::FlatArrayMessageReader &reader) {
-    try {
-        reader.getRoot<alica_msgs::RoleSwitch>();
-        std::cout << "+++ Received role switch" << std::endl;
-    } catch (std::exception& e) {
-        std::cout << "--- Could not read role switch from received message" << std::endl;
+std::string processing::try_read_role_switch(::capnp::FlatArrayMessageReader &reader) {
+    auto roleSwitch = reader.getRoot<alica_msgs::RoleSwitch>();
+    if(!is_valid(roleSwitch)) {
+        throw std::runtime_error("Could not parse Role Switch from message");
     }
+    std::cout << "+++ Received role switch" << std::endl;
+
+    rapidjson::Document doc(rapidjson::kObjectType);
+    auto senderId = helper::capnzero_id_to_json_value(roleSwitch.getSenderId(), doc.GetAllocator());
+    doc.AddMember("senderId", senderId, doc.GetAllocator());
+    doc.AddMember("roleId", roleSwitch.getRoleId(), doc.GetAllocator());
+
+    rapidjson::StringBuffer buffer;
+    rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
+    doc.Accept(writer);
+
+    return buffer.GetString();
 }
 
 void processing::try_read_solver_result(::capnp::FlatArrayMessageReader &reader) {
