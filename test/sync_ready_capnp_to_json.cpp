@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 #include <capnp/common.h>
 #include <capnp/message.h>
-#include <SolverResult.capnp.h>
 #include <SyncReady.capnp.h>
 #include <test_values_common.h>
 #include <capnp/serialize.h>
