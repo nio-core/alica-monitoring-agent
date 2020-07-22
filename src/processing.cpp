@@ -37,6 +37,10 @@ bool is_valid(alica_msgs::SolverResult::Reader& solverResult) {
     return solverResult.hasSenderId() && solverResult.hasVars() && varsAreValid;
 }
 
+bool is_valid(alica_msgs::SyncReady::Reader& syncReady) {
+    return syncReady.hasSenderId();
+}
+
 std::string processing::try_read_alica_engine_info(::capnp::FlatArrayMessageReader& reader) {
     auto alicaEngineInfo = reader.getRoot<alica_msgs::AlicaEngineInfo>();
     if(!is_valid(alicaEngineInfo)) {
@@ -205,13 +209,23 @@ std::string processing::try_read_solver_result(::capnp::FlatArrayMessageReader &
     return buffer.GetString();
 }
 
-void processing::try_read_sync_ready(::capnp::FlatArrayMessageReader &reader) {
-    try {
-        reader.getRoot<alica_msgs::SyncReady>();
-        std::cout << "+++ Received sync ready" << std::endl;
-    } catch (std::exception& e) {
-        std::cout << "--- Could not read sync ready from received message" << std::endl;
+std::string processing::try_read_sync_ready(::capnp::FlatArrayMessageReader &reader) {
+    auto syncReady = reader.getRoot<alica_msgs::SyncReady>();
+    std::cout << "+++ Received sync ready" << std::endl;
+    if(!is_valid(syncReady)) {
+        throw std::runtime_error("Could not parse Sync Ready from message");
     }
+
+    rapidjson::Document doc(rapidjson::kObjectType);
+    auto senderId = helper::capnzero_id_to_json_value(syncReady.getSenderId(), doc.GetAllocator());
+    doc.AddMember("senderId", senderId, doc.GetAllocator());
+    doc.AddMember("synchronisationId", syncReady.getSynchronisationId(), doc.GetAllocator());
+
+    rapidjson::StringBuffer buffer;
+    rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
+    doc.Accept(writer);
+
+    return buffer.GetString();
 }
 
 void processing::try_read_sync_talk(::capnp::FlatArrayMessageReader &reader) {
