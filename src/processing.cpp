@@ -29,6 +29,14 @@ bool is_valid(alica_msgs::RoleSwitch::Reader& roleSwitch) {
     return roleSwitch.hasSenderId();
 }
 
+bool is_valid(alica_msgs::SolverResult::Reader& solverResult) {
+    bool varsAreValid = true;
+    for(auto var: solverResult.getVars()) {
+        varsAreValid = varsAreValid && var.hasValue();
+    }
+    return solverResult.hasSenderId() && solverResult.hasVars() && varsAreValid;
+}
+
 std::string processing::try_read_alica_engine_info(::capnp::FlatArrayMessageReader& reader) {
     auto alicaEngineInfo = reader.getRoot<alica_msgs::AlicaEngineInfo>();
     if(!is_valid(alicaEngineInfo)) {
@@ -166,13 +174,35 @@ std::string processing::try_read_role_switch(::capnp::FlatArrayMessageReader &re
     return buffer.GetString();
 }
 
-void processing::try_read_solver_result(::capnp::FlatArrayMessageReader &reader) {
-    try {
-        reader.getRoot<alica_msgs::SolverResult>();
-        std::cout << "+++ Received solver result" << std::endl;
-    } catch (std::exception& e) {
-        std::cout << "--- Could not read solver result from received message" << std::endl;
+std::string processing::try_read_solver_result(::capnp::FlatArrayMessageReader &reader) {
+    auto solverResult = reader.getRoot<alica_msgs::SolverResult>();
+    if(!is_valid(solverResult)) {
+        throw std::runtime_error("Could not parse Solver Result from message");
     }
+
+    rapidjson::Document doc(rapidjson::kObjectType);
+    auto senderId = helper::capnzero_id_to_json_value(solverResult.getSenderId(), doc.GetAllocator());
+    doc.AddMember("senderId", senderId, doc.GetAllocator());
+
+    rapidjson::Value vars(rapidjson::kArrayType);
+    for(auto v: solverResult.getVars()) {
+        rapidjson::Value var(rapidjson::kObjectType);
+        var.AddMember("id", v.getId(), doc.GetAllocator());
+
+        rapidjson::Value value(rapidjson::kArrayType);
+        for(auto val: v.getValue()) {
+            value.PushBack(val, doc.GetAllocator());
+        }
+        var.AddMember("value", value, doc.GetAllocator());
+        vars.PushBack(var, doc.GetAllocator());
+    }
+    doc.AddMember("vars", vars, doc.GetAllocator());
+
+    rapidjson::StringBuffer buffer;
+    rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
+    doc.Accept(writer);
+
+    return buffer.GetString();
 }
 
 void processing::try_read_sync_ready(::capnp::FlatArrayMessageReader &reader) {
