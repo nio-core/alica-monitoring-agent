@@ -37,7 +37,7 @@ TEST(AlicaEngineInfoCapnprotoToJson, it_can_be_parsed) {
     auto message = alica_engine_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_NO_THROW(processing::try_read_alica_engine_info(reader));
+    EXPECT_NO_THROW(processing::alica_engine_info_capnproto_to_json(reader));
 }
 
 TEST(AlicaEngineInfoCapnprotoToJson, with_missing_fields_can_not_be_parsed) {
@@ -46,7 +46,7 @@ TEST(AlicaEngineInfoCapnprotoToJson, with_missing_fields_can_not_be_parsed) {
     auto message = capnp::messageToFlatArray(builder);
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_THROW(processing::try_read_alica_engine_info(reader), std::runtime_error);
+    EXPECT_THROW(processing::alica_engine_info_capnproto_to_json(reader), std::runtime_error);
 }
 
 TEST(AlicaEngineInfoCapnprotoToJson, other_messages_can_not_be_parsed) {
@@ -55,14 +55,14 @@ TEST(AlicaEngineInfoCapnprotoToJson, other_messages_can_not_be_parsed) {
     auto message = capnp::messageToFlatArray(builder);
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_THROW(processing::try_read_alica_engine_info(reader), std::runtime_error);
+    EXPECT_THROW(processing::alica_engine_info_capnproto_to_json(reader), std::runtime_error);
 }
 
 TEST(AlicaEngineInfoCapnprotoToJson, it_contains_master_plan ) {
     auto message = alica_engine_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    const std::string json = processing::try_read_alica_engine_info(reader);
+    const std::string json = processing::alica_engine_info_capnproto_to_json(reader);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -73,7 +73,7 @@ TEST(AlicaEngineInfoCapnprotoToJson, it_contains_current_plan ) {
     auto message = alica_engine_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    const std::string json = processing::try_read_alica_engine_info(reader);
+    const std::string json = processing::alica_engine_info_capnproto_to_json(reader);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -84,7 +84,7 @@ TEST(AlicaEngineInfoCapnprotoToJson, it_contains_current_state ) {
     auto message = alica_engine_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    const std::string json = processing::try_read_alica_engine_info(reader);
+    const std::string json = processing::alica_engine_info_capnproto_to_json(reader);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -95,7 +95,7 @@ TEST(AlicaEngineInfoCapnprotoToJson, it_contains_current_role ) {
     auto message = alica_engine_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    const std::string json = processing::try_read_alica_engine_info(reader);
+    const std::string json = processing::alica_engine_info_capnproto_to_json(reader);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -106,7 +106,7 @@ TEST(AlicaEngineInfoCapnprotoToJson, it_contains_current_task ) {
     auto message = alica_engine_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    const std::string json = processing::try_read_alica_engine_info(reader);
+    const std::string json = processing::alica_engine_info_capnproto_to_json(reader);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -118,7 +118,7 @@ TEST(AlicaEngineInfoCapnprotoToJson, it_contains_sender_id ) {
     auto reader = capnp::FlatArrayMessageReader(message);
 
 
-    const std::string json = processing::try_read_alica_engine_info(reader);
+    const std::string json = processing::alica_engine_info_capnproto_to_json(reader);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -132,7 +132,7 @@ TEST(AlicaEngineInfoCapnprotoToJson, it_contains_additional_agents ) {
     auto message = alica_engine_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    const std::string json = processing::try_read_alica_engine_info(reader);
+    const std::string json = processing::alica_engine_info_capnproto_to_json(reader);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 

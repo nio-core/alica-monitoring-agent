@@ -13,12 +13,14 @@
 #include <json_helper.h>
 
 bool is_valid(alica_msgs::AlicaEngineInfo::Reader& engineInfo) {
-    return engineInfo.hasSenderId() && engineInfo.hasMasterPlan() && engineInfo.hasCurrentPlan() && engineInfo.hasCurrentTask()
-           && engineInfo.hasCurrentState() && engineInfo.hasCurrentRole() && engineInfo.hasAgentIdsWithMe();
+    return engineInfo.hasSenderId() && engineInfo.hasMasterPlan() && engineInfo.hasCurrentPlan()
+        && engineInfo.hasCurrentTask() && engineInfo.hasCurrentState() && engineInfo.hasCurrentRole()
+        && engineInfo.hasAgentIdsWithMe();
 }
 
 bool is_valid(alica_msgs::AllocationAuthorityInfo::Reader& allocationAuthorityInfo) {
-    return allocationAuthorityInfo.hasAuthority() && allocationAuthorityInfo.hasSenderId() && allocationAuthorityInfo.hasEntrypointRobots();
+    return allocationAuthorityInfo.hasAuthority() && allocationAuthorityInfo.hasSenderId()
+        && allocationAuthorityInfo.hasEntrypointRobots();
 }
 
 bool is_valid(alica_msgs::PlanTreeInfo::Reader& planTreeInfo) {
@@ -49,7 +51,7 @@ bool is_valid(alica_msgs::SyncTalk::Reader& syncTalk) {
     return syncTalk.hasSenderId() && syncTalk.hasSyncData() && syncDataIsValid;
 }
 
-std::string processing::try_read_alica_engine_info(::capnp::FlatArrayMessageReader& reader) {
+std::string processing::alica_engine_info_capnproto_to_json(::capnp::FlatArrayMessageReader& reader) {
     auto alicaEngineInfo = reader.getRoot<alica_msgs::AlicaEngineInfo>();
     if(!is_valid(alicaEngineInfo)) {
         throw std::runtime_error("Could not read Alica Engine Info from message");
@@ -91,7 +93,7 @@ std::string processing::try_read_alica_engine_info(::capnp::FlatArrayMessageRead
     return buffer.GetString();
 }
 
-std::string processing::try_read_allocation_authority_information(::capnp::FlatArrayMessageReader &reader) {
+std::string processing::allocation_authority_info_capnproto_to_json(::capnp::FlatArrayMessageReader &reader) {
     auto allocationAuthorityInformation = reader.getRoot<alica_msgs::AllocationAuthorityInfo>();
     if(!is_valid(allocationAuthorityInformation)) {
         throw std::runtime_error("Could not parse Allocation Authority Info from message");
@@ -137,7 +139,7 @@ std::string processing::try_read_allocation_authority_information(::capnp::FlatA
     return buffer.GetString();
 }
 
-std::string processing::try_read_plan_tree_information(::capnp::FlatArrayMessageReader &reader) {
+std::string processing::plan_tree_info_capnproto_to_json(::capnp::FlatArrayMessageReader &reader) {
     auto planTreeInfo = reader.getRoot<alica_msgs::PlanTreeInfo>();
     if(!is_valid(planTreeInfo)) {
         throw std::runtime_error("Could not parse Plan Tree Info from message");
@@ -167,7 +169,7 @@ std::string processing::try_read_plan_tree_information(::capnp::FlatArrayMessage
     return buffer.GetString();
 }
 
-std::string processing::try_read_role_switch(::capnp::FlatArrayMessageReader &reader) {
+std::string processing::role_switch_capnproto_to_json(::capnp::FlatArrayMessageReader &reader) {
     auto roleSwitch = reader.getRoot<alica_msgs::RoleSwitch>();
     if(!is_valid(roleSwitch)) {
         throw std::runtime_error("Could not parse Role Switch from message");
@@ -186,7 +188,7 @@ std::string processing::try_read_role_switch(::capnp::FlatArrayMessageReader &re
     return buffer.GetString();
 }
 
-std::string processing::try_read_solver_result(::capnp::FlatArrayMessageReader &reader) {
+std::string processing::solver_result_canproto_to_json(::capnp::FlatArrayMessageReader &reader) {
     auto solverResult = reader.getRoot<alica_msgs::SolverResult>();
     if(!is_valid(solverResult)) {
         throw std::runtime_error("Could not parse Solver Result from message");
@@ -217,7 +219,7 @@ std::string processing::try_read_solver_result(::capnp::FlatArrayMessageReader &
     return buffer.GetString();
 }
 
-std::string processing::try_read_sync_ready(::capnp::FlatArrayMessageReader &reader) {
+std::string processing::sync_ready_capnproto_to_json(::capnp::FlatArrayMessageReader &reader) {
     auto syncReady = reader.getRoot<alica_msgs::SyncReady>();
     std::cout << "+++ Received sync ready" << std::endl;
     if(!is_valid(syncReady)) {
@@ -236,7 +238,7 @@ std::string processing::try_read_sync_ready(::capnp::FlatArrayMessageReader &rea
     return buffer.GetString();
 }
 
-std::string processing::try_read_sync_talk(::capnp::FlatArrayMessageReader &reader) {
+std::string processing::sync_talk_capnproto_to_json(::capnp::FlatArrayMessageReader &reader) {
     auto syncTalk = reader.getRoot<alica_msgs::SyncTalk>();
     std::cout << "+++ Received sync talk" << std::endl;
     if(!is_valid(syncTalk)) {

@@ -5,16 +5,55 @@
 #include "../modules/capnzero/capnzero/include/capnzero/Subscriber.h"
 
 void callback(::capnp::FlatArrayMessageReader& reader) {
-    auto json = processing::try_read_alica_engine_info(reader);
-    processing::try_read_allocation_authority_information(reader);
-    processing::try_read_plan_tree_information(reader);
-    processing::try_read_role_switch(reader);
-    processing::try_read_solver_result(reader);
-    processing::try_read_sync_ready(reader);
-    processing::try_read_sync_talk(reader);
+    const std::string json;
 
-    std::cout << "Generating JSON:" << std::endl
-              << json << std::endl;
+    try {
+        processing::alica_engine_info_capnproto_to_json(reader);
+    } catch (std::runtime_error& e) {
+        std::cout << e.what() << std::endl;
+    }
+
+    try {
+        processing::allocation_authority_info_capnproto_to_json(reader);
+    } catch (std::runtime_error& e) {
+        std::cout << e.what() << std::endl;
+    }
+
+    try {
+        processing::plan_tree_info_capnproto_to_json(reader);
+    } catch (std::runtime_error& e) {
+        std::cout << e.what() << std::endl;
+    }
+
+    try {
+        processing::role_switch_capnproto_to_json(reader);
+    } catch (std::runtime_error& e) {
+        std::cout << e.what() << std::endl;
+    }
+
+    try {
+        processing::solver_result_canproto_to_json(reader);
+    } catch (std::runtime_error& e) {
+        std::cout << e.what() << std::endl;
+    }
+
+    try {
+        processing::sync_ready_capnproto_to_json(reader);
+    } catch (std::runtime_error& e) {
+        std::cout << e.what() << std::endl;
+    }
+
+    try {
+        processing::sync_talk_capnproto_to_json(reader);
+    } catch (std::runtime_error& e) {
+        std::cout << e.what() << std::endl;
+    }
+
+    if(json.empty()) {
+        std::cout << "Could not parse message into available message types, skipping" << std::endl;
+    } else {
+        std::cout << std::endl << json << std::endl << std::endl;
+    }
 }
 
 void usage() {

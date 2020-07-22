@@ -4,17 +4,17 @@
 #include <string>
 
 namespace processing {
-    std::string try_read_alica_engine_info(::capnp::FlatArrayMessageReader& reader);
+    std::string alica_engine_info_capnproto_to_json(::capnp::FlatArrayMessageReader& reader);
 
-    std::string try_read_allocation_authority_information(::capnp::FlatArrayMessageReader &reader);
+    std::string allocation_authority_info_capnproto_to_json(::capnp::FlatArrayMessageReader &reader);
 
-    std::string try_read_plan_tree_information(::capnp::FlatArrayMessageReader &reader);
+    std::string plan_tree_info_capnproto_to_json(::capnp::FlatArrayMessageReader &reader);
 
-    std::string try_read_role_switch(::capnp::FlatArrayMessageReader &reader);
+    std::string role_switch_capnproto_to_json(::capnp::FlatArrayMessageReader &reader);
 
-    std::string try_read_solver_result(::capnp::FlatArrayMessageReader &reader);
+    std::string solver_result_canproto_to_json(::capnp::FlatArrayMessageReader &reader);
 
-    std::string try_read_sync_ready(::capnp::FlatArrayMessageReader &reader);
+    std::string sync_ready_capnproto_to_json(::capnp::FlatArrayMessageReader &reader);
 
-    std::string try_read_sync_talk(::capnp::FlatArrayMessageReader &reader);
+    std::string sync_talk_capnproto_to_json(::capnp::FlatArrayMessageReader &reader);
 }

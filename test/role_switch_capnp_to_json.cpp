@@ -25,21 +25,21 @@ TEST(RoleSwtichCapnprotoToJson, with_missing_fields_can_not_be_parsed) {
     auto message = capnp::messageToFlatArray(builder);
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_THROW(processing::try_read_role_switch(reader), std::runtime_error);
+    EXPECT_THROW(processing::role_switch_capnproto_to_json(reader), std::runtime_error);
 }
 
 TEST(RoleSwtichCapnprotoToJson, it_can_be_parsed) {
     auto message = role_switch_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_NO_THROW(processing::try_read_role_switch(reader));
+    EXPECT_NO_THROW(processing::role_switch_capnproto_to_json(reader));
 }
 
 TEST(RoleSwtichCapnprotoToJson, it_contains_sender_id) {
     auto message = role_switch_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    const std::string json = processing::try_read_role_switch(reader);
+    const std::string json = processing::role_switch_capnproto_to_json(reader);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -53,7 +53,7 @@ TEST(RoleSwtichCapnprotoToJson, it_role_id) {
     auto message = role_switch_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    const std::string json = processing::try_read_role_switch(reader);
+    const std::string json = processing::role_switch_capnproto_to_json(reader);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 

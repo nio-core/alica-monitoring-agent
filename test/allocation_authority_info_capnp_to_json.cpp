@@ -40,7 +40,7 @@ TEST(AllocationAuthorityInfoCapnprotoToJson, it_can_be_parsed) {
     auto message = prepare_allocation_authority_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_NO_THROW(processing::try_read_allocation_authority_information(reader));
+    EXPECT_NO_THROW(processing::allocation_authority_info_capnproto_to_json(reader));
 }
 
 TEST(AllocationAuthorityInfoCapnprotoToJson, other_messages_can_not_be_parsed) {
@@ -49,7 +49,7 @@ TEST(AllocationAuthorityInfoCapnprotoToJson, other_messages_can_not_be_parsed) {
     auto message = capnp::messageToFlatArray(builder);
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_THROW(processing::try_read_allocation_authority_information(reader), std::runtime_error);
+    EXPECT_THROW(processing::allocation_authority_info_capnproto_to_json(reader), std::runtime_error);
 }
 
 TEST(AllocationAuthorityInfoCapnprotoToJson, with_missing_fields_can_not_be_Parsed) {
@@ -58,14 +58,14 @@ TEST(AllocationAuthorityInfoCapnprotoToJson, with_missing_fields_can_not_be_Pars
     auto message = capnp::messageToFlatArray(builder);
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_THROW(processing::try_read_allocation_authority_information(reader), std::runtime_error);
+    EXPECT_THROW(processing::allocation_authority_info_capnproto_to_json(reader), std::runtime_error);
 }
 
 TEST(AllocationAuthorityInfoCapnprotoToJson, it_contains_parent_state) {
     auto message = prepare_allocation_authority_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    const std::string json = processing::try_read_allocation_authority_information(reader);
+    const std::string json = processing::allocation_authority_info_capnproto_to_json(reader);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
     EXPECT_TRUE(doc.IsObject());
@@ -76,7 +76,7 @@ TEST(AllocationAuthorityInfoCapnprotoToJson, it_contains_plan_type) {
     auto message = prepare_allocation_authority_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    const std::string json = processing::try_read_allocation_authority_information(reader);
+    const std::string json = processing::allocation_authority_info_capnproto_to_json(reader);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
     EXPECT_TRUE(doc.IsObject());
@@ -87,7 +87,7 @@ TEST(AllocationAuthorityInfoCapnprotoToJson, it_contains_plan_id) {
     auto message = prepare_allocation_authority_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    const std::string json = processing::try_read_allocation_authority_information(reader);
+    const std::string json = processing::allocation_authority_info_capnproto_to_json(reader);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
     EXPECT_TRUE(doc.IsObject());
@@ -98,7 +98,7 @@ TEST(AllocationAuthorityInfoCapnprotoToJson, it_contains_authority) {
     auto message = prepare_allocation_authority_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    const std::string json = processing::try_read_allocation_authority_information(reader);
+    const std::string json = processing::allocation_authority_info_capnproto_to_json(reader);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
     EXPECT_TRUE(doc.IsObject());
@@ -111,7 +111,7 @@ TEST(AllocationAuthorityInfoCapnprotoToJson, it_contains_sender_id) {
     auto message = prepare_allocation_authority_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    const std::string json = processing::try_read_allocation_authority_information(reader);
+    const std::string json = processing::allocation_authority_info_capnproto_to_json(reader);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
     EXPECT_TRUE(doc.IsObject());
@@ -124,7 +124,7 @@ TEST(AllocationAuthorityInfoCapnprotoToJson, it_contains_entry_point_robots) {
     auto message = prepare_allocation_authority_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    const std::string json = processing::try_read_allocation_authority_information(reader);
+    const std::string json = processing::allocation_authority_info_capnproto_to_json(reader);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
     EXPECT_TRUE(doc.IsObject());
