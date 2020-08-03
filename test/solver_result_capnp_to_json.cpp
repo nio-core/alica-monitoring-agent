@@ -32,21 +32,21 @@ TEST(SolverResultCapnprotoToJson, with_missing_fields_can_not_be_parsed) {
     auto message = capnp::messageToFlatArray(builder);
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_THROW(processing::solver_result_canproto_to_json(reader), std::runtime_error);
+    EXPECT_THROW(processing::solver_result_capnproto_to_json(reader), std::runtime_error);
 }
 
 TEST(SolverResultCapnprotoToJson, it_can_be_parsed) {
     auto message = solver_result_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_NO_THROW(processing::solver_result_canproto_to_json(reader));
+    EXPECT_NO_THROW(processing::solver_result_capnproto_to_json(reader));
 }
 
 TEST(SolverResultCapnprotoToJson, it_contains_sender_id) {
     auto message = solver_result_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    const std::string json = processing::solver_result_canproto_to_json(reader);
+    const std::string json = processing::solver_result_capnproto_to_json(reader);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -60,7 +60,7 @@ TEST(SolverResultCapnprotoToJson, it_contains_solver_vars) {
     auto message = solver_result_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    const std::string json = processing::solver_result_canproto_to_json(reader);
+    const std::string json = processing::solver_result_capnproto_to_json(reader);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 

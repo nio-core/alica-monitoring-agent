@@ -32,7 +32,7 @@ void callback(::capnp::FlatArrayMessageReader& reader) {
     }
 
     try {
-        processing::solver_result_canproto_to_json(reader);
+        processing::solver_result_capnproto_to_json(reader);
     } catch (std::runtime_error& e) {
         std::cout << e.what() << std::endl;
     }

@@ -188,7 +188,7 @@ std::string processing::role_switch_capnproto_to_json(::capnp::FlatArrayMessageR
     return buffer.GetString();
 }
 
-std::string processing::solver_result_canproto_to_json(::capnp::FlatArrayMessageReader &reader) {
+std::string processing::solver_result_capnproto_to_json(::capnp::FlatArrayMessageReader &reader) {
     auto solverResult = reader.getRoot<alica_msgs::SolverResult>();
     if(!is_valid(solverResult)) {
         throw std::runtime_error("Could not parse Solver Result from message");
