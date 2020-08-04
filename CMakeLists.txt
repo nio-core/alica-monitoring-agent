@@ -46,7 +46,7 @@ target_link_libraries(${PROJECT_NAME}
         alica_message_processor
         )
 
-file(GLOB_RECURSE UNIT_TESTS "${CMAKE_CURRENT_SOURCE_DIR}/test/*.cpp")
+file(GLOB_RECURSE UNIT_TESTS "${CMAKE_CURRENT_SOURCE_DIR}/test/src/*.cpp")
 add_executable(unit_tests ${UNIT_TESTS})
 target_include_directories(unit_tests
         PRIVATE
