@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 #include <processing.h>
-#include "../modules/capnzero/capnzero/include/capnzero/Subscriber.h"
+#include <capnzero/Subscriber.h>
 
 void callback(::capnp::FlatArrayMessageReader& reader) {
     const std::string json;
