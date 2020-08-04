@@ -5,11 +5,11 @@ execute_process(COMMAND bash -c "conan install .. -if ${CMAKE_CURRENT_BINARY_DIR
 include("${CMAKE_CURRENT_BINARY_DIR}/conan_paths.cmake")
 
 find_package(rapidjson REQUIRED)
-find_package(gtest REQUIRED)
 
 add_subdirectory(modules/alica-message-protos)
 add_subdirectory(modules/capnzero/capnzero)
 add_subdirectory(modules/sawtooth-sdk-cxx)
+add_subdirectory(test)
 
 file(GLOB_RECURSE SRCS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 list(REMOVE_ITEM SRCS "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
@@ -44,20 +44,4 @@ target_link_libraries(${PROJECT_NAME}
         capnzero
         alica-message-protos
         alica_message_processor
-        )
-
-file(GLOB_RECURSE UNIT_TESTS "${CMAKE_CURRENT_SOURCE_DIR}/test/src/*.cpp")
-add_executable(unit_tests ${UNIT_TESTS})
-target_include_directories(unit_tests
-        PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/modules/alica-message-protos/src
-        ${CMAKE_CURRENT_SOURCE_DIR}/test/include
-        )
-target_link_libraries(unit_tests
-        PRIVATE
-        alica_message_processor
-        alica-message-protos
-        rapidjson::rapidjson
-        gtest::gtest
-        kj
         )
