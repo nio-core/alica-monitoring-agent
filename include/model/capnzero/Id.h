@@ -18,7 +18,7 @@ namespace capnzero {
 
         std::vector<uint8_t>& getValue();
 
-        std::string toJson();
+        std::string toJson() const;
 
     private:
         uint8_t type_;
