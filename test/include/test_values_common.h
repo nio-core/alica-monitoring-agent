@@ -23,3 +23,6 @@ constexpr const int  ROBOT_COUNT = 2;
 // Plan Tree Info
 constexpr const int STATE_ID_COUNT = 3;
 constexpr const int SUCCEEDED_EPS_COUNT = 3;
+
+// Role Switch
+constexpr const int ROLE_ID = 1;
