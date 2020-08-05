@@ -18,8 +18,8 @@ target_compile_definitions(alica_message_processor PRIVATE std_cxx_17)
 target_include_directories(alica_message_processor
         PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
-        PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/modules/alica-message-protos/src
+        PRIVATE
         )
 target_link_libraries(alica_message_processor
         PRIVATE

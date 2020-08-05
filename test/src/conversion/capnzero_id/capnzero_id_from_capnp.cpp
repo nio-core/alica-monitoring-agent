@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-#include <capnp/ez-rpc.h>
 #include <capnzero/ID.capnp.h>
 #include <capnp/serialize.h>
 #include <model/capnzero/Id.h>

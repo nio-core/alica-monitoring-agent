@@ -57,7 +57,7 @@ TEST(SyncTalkCapnprotoToJson, it_contains_sender_id ) {
     EXPECT_TRUE(doc.IsObject());
     EXPECT_TRUE(doc["senderId"].IsObject());
     EXPECT_EQ(doc["senderId"]["type"].GetInt(), ID_TYPE);
-    EXPECT_STREQ(doc["senderId"]["value"].GetString(), ID_VALUE);
+    EXPECT_EQ(doc["senderId"]["value"].GetString(), ID_VALUE);
 }
 
 TEST(SyncTalkCapnprotoToJson, it_contains_sync_data ) {
@@ -75,7 +75,7 @@ TEST(SyncTalkCapnprotoToJson, it_contains_sync_data ) {
         EXPECT_TRUE(entry.IsObject());
         EXPECT_TRUE(entry["robotId"].IsObject());
         EXPECT_EQ(entry["robotId"]["type"].GetInt(), ID_TYPE);
-        EXPECT_STREQ(entry["robotId"]["value"].GetString(), ID_VALUE);
+        EXPECT_EQ(entry["robotId"]["value"].GetString(), ID_VALUE);
         EXPECT_EQ(entry["transitionId"].GetInt(), TRANSITION_ID);
         EXPECT_EQ(entry["transitionHolds"].GetBool(), TRANSITION_HOLDS);
         EXPECT_EQ(entry["ack"].GetBool(), ACK);

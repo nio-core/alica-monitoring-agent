@@ -1,7 +1,5 @@
 #include <processing.h>
 #include <iostream>
-#include <AlicaEngineInfo.capnp.h>
-#include <AllocationAuthorityInfo.capnp.h>
 #include <PlanTreeInfo.capnp.h>
 #include <RoleSwitch.capnp.h>
 #include <SolverResult.capnp.h>
@@ -9,13 +7,8 @@
 #include <SyncTalk.capnp.h>
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
-#include <rapidjson/prettywriter.h>
 #include <json_helper.h>
-
-bool is_valid(alica_msgs::AllocationAuthorityInfo::Reader& allocationAuthorityInfo) {
-    return allocationAuthorityInfo.hasAuthority() && allocationAuthorityInfo.hasSenderId()
-        && allocationAuthorityInfo.hasEntrypointRobots();
-}
+#include <rapidjson/writer.h>
 
 bool is_valid(alica_msgs::PlanTreeInfo::Reader& planTreeInfo) {
     return planTreeInfo.hasSenderId() && planTreeInfo.hasStateIds() && planTreeInfo.hasSucceededEps();
@@ -45,52 +38,6 @@ bool is_valid(alica_msgs::SyncTalk::Reader& syncTalk) {
     return syncTalk.hasSenderId() && syncTalk.hasSyncData() && syncDataIsValid;
 }
 
-std::string processing::allocation_authority_info_capnproto_to_json(::capnp::FlatArrayMessageReader &reader) {
-    auto allocationAuthorityInformation = reader.getRoot<alica_msgs::AllocationAuthorityInfo>();
-    if(!is_valid(allocationAuthorityInformation)) {
-        throw std::runtime_error("Could not parse Allocation Authority Info from message");
-    }
-    std::cout << "+++ Received allocation authority information" << std::endl;
-
-    rapidjson::Document doc(rapidjson::kObjectType);
-    rapidjson::Value val;
-
-    val.SetInt64(allocationAuthorityInformation.getParentState());
-    doc.AddMember("parentState", val, doc.GetAllocator());
-
-    val.SetInt64(allocationAuthorityInformation.getPlanType());
-    doc.AddMember("planType", val, doc.GetAllocator());
-
-    val.SetInt64(allocationAuthorityInformation.getPlanId());
-    doc.AddMember("planId", val, doc.GetAllocator());
-
-    auto authority = helper::capnzero_id_to_json_value(allocationAuthorityInformation.getAuthority(), doc.GetAllocator());
-    doc.AddMember("authority", authority, doc.GetAllocator());
-
-    auto senderId = helper::capnzero_id_to_json_value(allocationAuthorityInformation.getSenderId(), doc.GetAllocator());
-    doc.AddMember("senderId", senderId, doc.GetAllocator());
-
-    rapidjson::Value entryPointRobots(rapidjson::kArrayType);
-    for(auto entryPointRobot: allocationAuthorityInformation.getEntrypointRobots()) {
-        rapidjson::Value epr(rapidjson::kObjectType);
-        epr.AddMember("entryPoint", entryPointRobot.getEntrypoint(), doc.GetAllocator());
-        rapidjson::Value robots(rapidjson::kArrayType);
-        for(auto robot: entryPointRobot.getRobots()) {
-            auto r = helper::capnzero_id_to_json_value(robot, doc.GetAllocator());
-            robots.PushBack(r, doc.GetAllocator());
-        }
-        epr.AddMember("robots", robots, doc.GetAllocator());
-        entryPointRobots.PushBack(epr, doc.GetAllocator());
-    }
-    doc.AddMember("entryPointRobots", entryPointRobots, doc.GetAllocator());
-
-    rapidjson::StringBuffer buffer;
-    rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
-    doc.Accept(writer);
-
-    return buffer.GetString();
-}
-
 std::string processing::plan_tree_info_capnproto_to_json(::capnp::FlatArrayMessageReader &reader) {
     auto planTreeInfo = reader.getRoot<alica_msgs::PlanTreeInfo>();
     if(!is_valid(planTreeInfo)) {
@@ -115,7 +62,7 @@ std::string processing::plan_tree_info_capnproto_to_json(::capnp::FlatArrayMessa
     doc.AddMember("succeededEps", succeededEps, doc.GetAllocator());
 
     rapidjson::StringBuffer buffer;
-    rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
+    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
     doc.Accept(writer);
 
     return buffer.GetString();
@@ -134,7 +81,7 @@ std::string processing::role_switch_capnproto_to_json(::capnp::FlatArrayMessageR
     doc.AddMember("roleId", roleSwitch.getRoleId(), doc.GetAllocator());
 
     rapidjson::StringBuffer buffer;
-    rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
+    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
     doc.Accept(writer);
 
     return buffer.GetString();
@@ -165,7 +112,7 @@ std::string processing::solver_result_capnproto_to_json(::capnp::FlatArrayMessag
     doc.AddMember("vars", vars, doc.GetAllocator());
 
     rapidjson::StringBuffer buffer;
-    rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
+    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
     doc.Accept(writer);
 
     return buffer.GetString();
@@ -184,7 +131,7 @@ std::string processing::sync_ready_capnproto_to_json(::capnp::FlatArrayMessageRe
     doc.AddMember("synchronisationId", syncReady.getSynchronisationId(), doc.GetAllocator());
 
     rapidjson::StringBuffer buffer;
-    rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
+    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
     doc.Accept(writer);
 
     return buffer.GetString();
@@ -213,7 +160,7 @@ std::string processing::sync_talk_capnproto_to_json(::capnp::FlatArrayMessageRea
     doc.AddMember("syncData", syncData, doc.GetAllocator());
 
     rapidjson::StringBuffer buffer;
-    rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
+    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
     doc.Accept(writer);
 
     return buffer.GetString();
