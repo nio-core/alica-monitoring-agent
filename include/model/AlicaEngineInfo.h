@@ -1,8 +1,9 @@
 #pragma once
 
 #include <capnp/serialize.h>
-#include <AlicaEngineInfo.capnp.h>
 #include <model/capnzero/Id.h>
+#include <AlicaEngineInfo.capnp.h>
+
 
 class AlicaEngineInfo {
 
@@ -29,7 +30,7 @@ public:
 
     std::vector<capnzero::Id> getAgentIdsWithMe();
 
-    const std::string toJson();
+    const std::string toJson() const;
 
 private:
     capnzero::Id senderId_;

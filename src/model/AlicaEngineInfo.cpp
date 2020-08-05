@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
-#include <rapidjson/prettywriter.h>
+#include <rapidjson/writer.h>
 
 AlicaEngineInfo::AlicaEngineInfo(const capnzero::Id &senderId, const std::string &masterPlan, const std::string &currentPlan,
                                  const std::string &currentState, const std::string &currentRole, const std::string &currentTask,
@@ -69,14 +69,14 @@ std::vector<capnzero::Id> AlicaEngineInfo::getAgentIdsWithMe() {
     return agentIdsWithMe_;
 }
 
-const std::string AlicaEngineInfo::toJson() {
+const std::string AlicaEngineInfo::toJson() const {
     rapidjson::Document engineInfo(rapidjson::kObjectType);
     rapidjson::Value array(rapidjson::kArrayType);
     rapidjson::Value val;
 
     rapidjson::Document senderId;
     senderId.Parse(senderId_.toJson().c_str());
-    engineInfo.AddMember("senderId", senderId, engineInfo.GetAllocator());
+    engineInfo.AddMember("senderId", senderId.GetObject(), engineInfo.GetAllocator());
 
     val.SetString(currentPlan_.c_str(), currentPlan_.size());
     engineInfo.AddMember("currentPlan", val, engineInfo.GetAllocator());
@@ -93,15 +93,15 @@ const std::string AlicaEngineInfo::toJson() {
     val.SetString(currentTask_.c_str(), currentTask_.size());
     engineInfo.AddMember("currentTask", val, engineInfo.GetAllocator());
 
-    for(auto agent: agentIdsWithMe_) {
+    for(const auto& agent: agentIdsWithMe_) {
         rapidjson::Document a;
         a.Parse(agent.toJson().c_str());
-        array.PushBack(a, engineInfo.GetAllocator());
+        array.PushBack(a.GetObject(), engineInfo.GetAllocator());
     }
     engineInfo.AddMember("agentIdsWithMe", array, engineInfo.GetAllocator());
 
     rapidjson::StringBuffer buffer;
-    rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
+    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
     engineInfo.Accept(writer);
 
     return buffer.GetString();
