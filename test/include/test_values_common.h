@@ -19,3 +19,7 @@ constexpr const int  PLAN_ID = 1;
 constexpr const int  ENTRY_POINT_COUNT = 3;
 constexpr const int  ENTRY_POINT = 1;
 constexpr const int  ROBOT_COUNT = 2;
+
+// Plan Tree Info
+constexpr const int STATE_ID_COUNT = 3;
+constexpr const int SUCCEEDED_EPS_COUNT = 3;

@@ -5,6 +5,7 @@
 #include <capnzero/Subscriber.h>
 #include <model/AlicaEngineInfo.h>
 #include <model/AllocationAuthorityInfo.h>
+#include <model/PlanTreeInfo.h>
 
 void callback(::capnp::FlatArrayMessageReader& reader) {
     std::string json;
@@ -22,7 +23,7 @@ void callback(::capnp::FlatArrayMessageReader& reader) {
     }
 
     try {
-        processing::plan_tree_info_capnproto_to_json(reader);
+        json = PlanTreeInfo::from(reader).toJson();
     } catch (std::runtime_error& e) {
         std::cout << e.what() << std::endl;
     }
