@@ -4,10 +4,6 @@
 #include <string>
 
 namespace processing {
-    std::string allocation_authority_info_capnproto_to_json(::capnp::FlatArrayMessageReader &reader);
-
-    std::string plan_tree_info_capnproto_to_json(::capnp::FlatArrayMessageReader &reader);
-
     std::string role_switch_capnproto_to_json(::capnp::FlatArrayMessageReader &reader);
 
     std::string solver_result_capnproto_to_json(::capnp::FlatArrayMessageReader &reader);

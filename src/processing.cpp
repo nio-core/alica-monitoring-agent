@@ -1,6 +1,5 @@
 #include <processing.h>
 #include <iostream>
-#include <PlanTreeInfo.capnp.h>
 #include <RoleSwitch.capnp.h>
 #include <SolverResult.capnp.h>
 #include <SyncReady.capnp.h>
@@ -9,10 +8,6 @@
 #include <rapidjson/stringbuffer.h>
 #include <json_helper.h>
 #include <rapidjson/writer.h>
-
-bool is_valid(alica_msgs::PlanTreeInfo::Reader& planTreeInfo) {
-    return planTreeInfo.hasSenderId() && planTreeInfo.hasStateIds() && planTreeInfo.hasSucceededEps();
-}
 
 bool is_valid(alica_msgs::RoleSwitch::Reader& roleSwitch) {
     return roleSwitch.hasSenderId();
@@ -36,36 +31,6 @@ bool is_valid(alica_msgs::SyncTalk::Reader& syncTalk) {
         syncDataIsValid = syncDataIsValid && entry.hasRobotId();
     }
     return syncTalk.hasSenderId() && syncTalk.hasSyncData() && syncDataIsValid;
-}
-
-std::string processing::plan_tree_info_capnproto_to_json(::capnp::FlatArrayMessageReader &reader) {
-    auto planTreeInfo = reader.getRoot<alica_msgs::PlanTreeInfo>();
-    if(!is_valid(planTreeInfo)) {
-        throw std::runtime_error("Could not parse Plan Tree Info from message");
-    }
-    std::cout << "+++ Received plan tree information" << std::endl;
-
-    rapidjson::Document doc(rapidjson::kObjectType);
-    auto senderId = helper::capnzero_id_to_json_value(planTreeInfo.getSenderId(), doc.GetAllocator());
-    doc.AddMember("senderId", senderId, doc.GetAllocator());
-
-    rapidjson::Value stateIds(rapidjson::kArrayType);
-    for(auto stateId: planTreeInfo.getStateIds()) {
-        stateIds.PushBack(stateId, doc.GetAllocator());
-    }
-    doc.AddMember("stateIds", stateIds, doc.GetAllocator());
-
-    rapidjson::Value succeededEps(rapidjson::kArrayType);
-    for(auto ep: planTreeInfo.getSucceededEps()) {
-        succeededEps.PushBack(ep, doc.GetAllocator());
-    }
-    doc.AddMember("succeededEps", succeededEps, doc.GetAllocator());
-
-    rapidjson::StringBuffer buffer;
-    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-    doc.Accept(writer);
-
-    return buffer.GetString();
 }
 
 std::string processing::role_switch_capnproto_to_json(::capnp::FlatArrayMessageReader &reader) {
