@@ -12,12 +12,6 @@
 #include <rapidjson/prettywriter.h>
 #include <json_helper.h>
 
-bool is_valid(alica_msgs::AlicaEngineInfo::Reader& engineInfo) {
-    return engineInfo.hasSenderId() && engineInfo.hasMasterPlan() && engineInfo.hasCurrentPlan()
-        && engineInfo.hasCurrentTask() && engineInfo.hasCurrentState() && engineInfo.hasCurrentRole()
-        && engineInfo.hasAgentIdsWithMe();
-}
-
 bool is_valid(alica_msgs::AllocationAuthorityInfo::Reader& allocationAuthorityInfo) {
     return allocationAuthorityInfo.hasAuthority() && allocationAuthorityInfo.hasSenderId()
         && allocationAuthorityInfo.hasEntrypointRobots();
@@ -49,48 +43,6 @@ bool is_valid(alica_msgs::SyncTalk::Reader& syncTalk) {
         syncDataIsValid = syncDataIsValid && entry.hasRobotId();
     }
     return syncTalk.hasSenderId() && syncTalk.hasSyncData() && syncDataIsValid;
-}
-
-std::string processing::alica_engine_info_capnproto_to_json(::capnp::FlatArrayMessageReader& reader) {
-    auto alicaEngineInfo = reader.getRoot<alica_msgs::AlicaEngineInfo>();
-    if(!is_valid(alicaEngineInfo)) {
-        throw std::runtime_error("Could not read Alica Engine Info from message");
-    }
-    std::cout << "+++ Received alica engine information" << std::endl;
-
-    rapidjson::Document doc(rapidjson::kObjectType);
-    rapidjson::Value array(rapidjson::kArrayType);
-    rapidjson::Value val;
-
-    auto senderId = helper::capnzero_id_to_json_value(alicaEngineInfo.getSenderId(), doc.GetAllocator());
-    doc.AddMember("senderId", senderId, doc.GetAllocator());
-
-    val.SetString(alicaEngineInfo.getCurrentPlan().cStr(), static_cast<rapidjson::SizeType>(alicaEngineInfo.getCurrentPlan().size()));
-    doc.AddMember("currentPlan", val, doc.GetAllocator());
-
-    val.SetString(alicaEngineInfo.getMasterPlan().cStr(), static_cast<rapidjson::SizeType>(alicaEngineInfo.getMasterPlan().size()));
-    doc.AddMember("masterPlan", val, doc.GetAllocator());
-
-    val.SetString(alicaEngineInfo.getCurrentState().cStr(), static_cast<rapidjson::SizeType>(alicaEngineInfo.getCurrentState().size()));
-    doc.AddMember("currentState", val, doc.GetAllocator());
-
-    val.SetString(alicaEngineInfo.getCurrentRole().cStr(), static_cast<rapidjson::SizeType>(alicaEngineInfo.getCurrentRole().size()));
-    doc.AddMember("currentRole", val, doc.GetAllocator());
-
-    val.SetString(alicaEngineInfo.getCurrentTask().cStr(), static_cast<rapidjson::SizeType>(alicaEngineInfo.getCurrentTask().size()));
-    doc.AddMember("currentTask", val, doc.GetAllocator());
-
-    for(auto agent: alicaEngineInfo.getAgentIdsWithMe()) {
-        rapidjson::Value entry = helper::capnzero_id_to_json_value(agent, doc.GetAllocator());
-        array.PushBack(entry, doc.GetAllocator());
-    }
-    doc.AddMember("agentsWithMe", array, doc.GetAllocator());
-
-    rapidjson::StringBuffer buffer;
-    rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
-    doc.Accept(writer);
-
-    return buffer.GetString();
 }
 
 std::string processing::allocation_authority_info_capnproto_to_json(::capnp::FlatArrayMessageReader &reader) {

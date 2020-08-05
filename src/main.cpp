@@ -3,12 +3,14 @@
 #include <string>
 #include <processing.h>
 #include <capnzero/Subscriber.h>
+#include <model/AlicaEngineInfo.h>
 
 void callback(::capnp::FlatArrayMessageReader& reader) {
-    const std::string json;
+    std::string json;
 
     try {
-        processing::alica_engine_info_capnproto_to_json(reader);
+        auto engineInfo = AlicaEngineInfo::from(reader);
+        json = engineInfo.toJson();
     } catch (std::runtime_error& e) {
         std::cout << e.what() << std::endl;
     }
