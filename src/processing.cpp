@@ -1,6 +1,5 @@
 #include <processing.h>
 #include <iostream>
-#include <RoleSwitch.capnp.h>
 #include <SolverResult.capnp.h>
 #include <SyncReady.capnp.h>
 #include <SyncTalk.capnp.h>
@@ -8,10 +7,6 @@
 #include <rapidjson/stringbuffer.h>
 #include <json_helper.h>
 #include <rapidjson/writer.h>
-
-bool is_valid(alica_msgs::RoleSwitch::Reader& roleSwitch) {
-    return roleSwitch.hasSenderId();
-}
 
 bool is_valid(alica_msgs::SolverResult::Reader& solverResult) {
     bool varsAreValid = true;
@@ -31,25 +26,6 @@ bool is_valid(alica_msgs::SyncTalk::Reader& syncTalk) {
         syncDataIsValid = syncDataIsValid && entry.hasRobotId();
     }
     return syncTalk.hasSenderId() && syncTalk.hasSyncData() && syncDataIsValid;
-}
-
-std::string processing::role_switch_capnproto_to_json(::capnp::FlatArrayMessageReader &reader) {
-    auto roleSwitch = reader.getRoot<alica_msgs::RoleSwitch>();
-    if(!is_valid(roleSwitch)) {
-        throw std::runtime_error("Could not parse Role Switch from message");
-    }
-    std::cout << "+++ Received role switch" << std::endl;
-
-    rapidjson::Document doc(rapidjson::kObjectType);
-    auto senderId = helper::capnzero_id_to_json_value(roleSwitch.getSenderId(), doc.GetAllocator());
-    doc.AddMember("senderId", senderId, doc.GetAllocator());
-    doc.AddMember("roleId", roleSwitch.getRoleId(), doc.GetAllocator());
-
-    rapidjson::StringBuffer buffer;
-    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-    doc.Accept(writer);
-
-    return buffer.GetString();
 }
 
 std::string processing::solver_result_capnproto_to_json(::capnp::FlatArrayMessageReader &reader) {
