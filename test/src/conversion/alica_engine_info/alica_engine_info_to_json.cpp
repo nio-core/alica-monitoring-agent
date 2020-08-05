@@ -18,7 +18,7 @@ AlicaEngineInfo alica_engine_info() {
     return AlicaEngineInfo(senderId, MASTER_PLAN, PLAN, STATE, ROLE, TASK, agentIdsWithMe);
 }
 
-TEST(AlicaEngineInfoCapnprotoToJson, it_contains_master_plan ) {
+TEST(AlicaEngineInfoToJson, it_contains_master_plan ) {
     const std::string json = alica_engine_info().toJson();
     rapidjson::Document doc;
     doc.Parse(json.c_str());
@@ -26,15 +26,15 @@ TEST(AlicaEngineInfoCapnprotoToJson, it_contains_master_plan ) {
     EXPECT_EQ(doc["masterPlan"].GetString(), MASTER_PLAN);
 }
 
-TEST(AlicaEngineInfoCapnprotoToJson, it_contains_current_plan ) {
-    const std::string json = alica_engine_info().toJson();;
+TEST(AlicaEngineInfoToJson, it_contains_current_plan ) {
+    const std::string json = alica_engine_info().toJson();
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
     EXPECT_EQ(doc["currentPlan"].GetString(), PLAN);
 }
 
-TEST(AlicaEngineInfoCapnprotoToJson, it_contains_current_state ) {
+TEST(AlicaEngineInfoToJson, it_contains_current_state ) {
     const std::string json = alica_engine_info().toJson();
     rapidjson::Document doc;
     doc.Parse(json.c_str());
@@ -42,7 +42,7 @@ TEST(AlicaEngineInfoCapnprotoToJson, it_contains_current_state ) {
     EXPECT_EQ(doc["currentState"].GetString(), STATE);
 }
 
-TEST(AlicaEngineInfoCapnprotoToJson, it_contains_current_role ) {
+TEST(AlicaEngineInfoToJson, it_contains_current_role ) {
     const std::string json = alica_engine_info().toJson();
     rapidjson::Document doc;
     doc.Parse(json.c_str());
@@ -50,7 +50,7 @@ TEST(AlicaEngineInfoCapnprotoToJson, it_contains_current_role ) {
     EXPECT_EQ(doc["currentRole"].GetString(), ROLE);
 }
 
-TEST(AlicaEngineInfoCapnprotoToJson, it_contains_current_task ) {
+TEST(AlicaEngineInfoToJson, it_contains_current_task ) {
     const std::string json = alica_engine_info().toJson();
     rapidjson::Document doc;
     doc.Parse(json.c_str());
@@ -58,18 +58,18 @@ TEST(AlicaEngineInfoCapnprotoToJson, it_contains_current_task ) {
     EXPECT_EQ(doc["currentTask"].GetString(), TASK);
 }
 
-TEST(AlicaEngineInfoCapnprotoToJson, it_contains_sender_id ) {
+TEST(AlicaEngineInfoToJson, it_contains_sender_id ) {
     const std::string json = alica_engine_info().toJson();
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
     EXPECT_TRUE(doc["senderId"].IsObject());
     EXPECT_EQ(doc["senderId"]["type"].GetInt(), ID_TYPE);
-    EXPECT_STREQ(doc["senderId"]["value"].GetString(), ID_VALUE);
+    EXPECT_EQ(doc["senderId"]["value"].GetString(), ID_VALUE);
 }
 
 
-TEST(AlicaEngineInfoCapnprotoToJson, it_contains_additional_agents ) {
+TEST(AlicaEngineInfoToJson, it_contains_additional_agents ) {
     const std::string json = alica_engine_info().toJson();
     rapidjson::Document doc;
     doc.Parse(json.c_str());
@@ -78,6 +78,6 @@ TEST(AlicaEngineInfoCapnprotoToJson, it_contains_additional_agents ) {
     EXPECT_EQ(doc["agentIdsWithMe"].Size(), AGENT_COUNT);
     for(int i = 0; i < AGENT_COUNT; i++) {
         EXPECT_EQ(doc["agentIdsWithMe"][i]["type"].GetInt(), ID_TYPE);
-        EXPECT_STREQ(doc["agentIdsWithMe"][i]["value"].GetString(), ID_VALUE);
+        EXPECT_EQ(doc["agentIdsWithMe"][i]["value"].GetString(), ID_VALUE);
     }
 }

@@ -46,7 +46,7 @@ TEST(RoleSwtichCapnprotoToJson, it_contains_sender_id) {
     EXPECT_TRUE(doc.IsObject());
     EXPECT_TRUE(doc["senderId"].IsObject());
     EXPECT_EQ(doc["senderId"]["type"].GetInt(), ID_TYPE);
-    EXPECT_STREQ(doc["senderId"]["value"].GetString(), ID_VALUE);
+    EXPECT_EQ(doc["senderId"]["value"].GetString(), ID_VALUE);
 }
 
 TEST(RoleSwtichCapnprotoToJson, it_role_id) {

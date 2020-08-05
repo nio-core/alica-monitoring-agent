@@ -4,19 +4,19 @@
 #include <processing.h>
 #include <capnzero/Subscriber.h>
 #include <model/AlicaEngineInfo.h>
+#include <model/AllocationAuthorityInfo.h>
 
 void callback(::capnp::FlatArrayMessageReader& reader) {
     std::string json;
 
     try {
-        auto engineInfo = AlicaEngineInfo::from(reader);
-        json = engineInfo.toJson();
+        json = AlicaEngineInfo::from(reader).toJson();
     } catch (std::runtime_error& e) {
         std::cout << e.what() << std::endl;
     }
 
     try {
-        processing::allocation_authority_info_capnproto_to_json(reader);
+        json = AllocationAuthorityInfo::from(reader).toJson();
     } catch (std::runtime_error& e) {
         std::cout << e.what() << std::endl;
     }
