@@ -30,3 +30,6 @@ constexpr const int ROLE_ID = 1;
 // Solver Var
 constexpr const int SOLVER_VAR_ID = 1;
 constexpr const int SOLVER_VAR_VALUE_SIZE = 4;
+
+// Solver Result
+constexpr const int SOLVER_VAR_COUNT = 3;

@@ -8,14 +8,6 @@
 #include <json_helper.h>
 #include <rapidjson/writer.h>
 
-bool is_valid(alica_msgs::SolverResult::Reader& solverResult) {
-    bool varsAreValid = true;
-    for(auto var: solverResult.getVars()) {
-        varsAreValid = varsAreValid && var.hasValue();
-    }
-    return solverResult.hasSenderId() && solverResult.hasVars() && varsAreValid;
-}
-
 bool is_valid(alica_msgs::SyncReady::Reader& syncReady) {
     return syncReady.hasSenderId();
 }
@@ -26,37 +18,6 @@ bool is_valid(alica_msgs::SyncTalk::Reader& syncTalk) {
         syncDataIsValid = syncDataIsValid && entry.hasRobotId();
     }
     return syncTalk.hasSenderId() && syncTalk.hasSyncData() && syncDataIsValid;
-}
-
-std::string processing::solver_result_capnproto_to_json(::capnp::FlatArrayMessageReader &reader) {
-    auto solverResult = reader.getRoot<alica_msgs::SolverResult>();
-    if(!is_valid(solverResult)) {
-        throw std::runtime_error("Could not parse Solver Result from message");
-    }
-
-    rapidjson::Document doc(rapidjson::kObjectType);
-    auto senderId = helper::capnzero_id_to_json_value(solverResult.getSenderId(), doc.GetAllocator());
-    doc.AddMember("senderId", senderId, doc.GetAllocator());
-
-    rapidjson::Value vars(rapidjson::kArrayType);
-    for(auto v: solverResult.getVars()) {
-        rapidjson::Value var(rapidjson::kObjectType);
-        var.AddMember("id", v.getId(), doc.GetAllocator());
-
-        rapidjson::Value value(rapidjson::kArrayType);
-        for(auto val: v.getValue()) {
-            value.PushBack(val, doc.GetAllocator());
-        }
-        var.AddMember("value", value, doc.GetAllocator());
-        vars.PushBack(var, doc.GetAllocator());
-    }
-    doc.AddMember("vars", vars, doc.GetAllocator());
-
-    rapidjson::StringBuffer buffer;
-    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-    doc.Accept(writer);
-
-    return buffer.GetString();
 }
 
 std::string processing::sync_ready_capnproto_to_json(::capnp::FlatArrayMessageReader &reader) {

@@ -9,6 +9,10 @@ SolverVar::SolverVar(int64_t id, std::vector<uint8_t> &value) : id_(id), value_(
 
 SolverVar SolverVar::from(capnp::MessageReader &reader) {
     auto solverVar = reader.getRoot<alica_msgs::SolverVar>();
+    return from(solverVar);
+}
+
+SolverVar SolverVar::from(alica_msgs::SolverVar::Reader &solverVar) {
     if(!solverVar.hasValue()) {
         throw std::runtime_error("Invalid Solver Var");
     }
@@ -21,8 +25,8 @@ SolverVar SolverVar::from(capnp::MessageReader &reader) {
     }
 
     return {
-        solverVar.getId(),
-        value
+            solverVar.getId(),
+            value
     };
 }
 

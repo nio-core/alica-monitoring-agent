@@ -7,6 +7,7 @@
 #include <model/AllocationAuthorityInfo.h>
 #include <model/PlanTreeInfo.h>
 #include <model/RoleSwitch.h>
+#include <model/SolverResult.h>
 
 void callback(::capnp::FlatArrayMessageReader& reader) {
     std::string json;
@@ -36,7 +37,7 @@ void callback(::capnp::FlatArrayMessageReader& reader) {
     }
 
     try {
-        processing::solver_result_capnproto_to_json(reader);
+        json = SolverResult::from(reader).toJson();
     } catch (std::runtime_error& e) {
         std::cout << e.what() << std::endl;
     }
