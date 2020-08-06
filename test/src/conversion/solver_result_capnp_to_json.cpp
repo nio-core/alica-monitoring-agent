@@ -8,8 +8,6 @@
 #include <rapidjson/document.h>
 
 auto VAR_COUNT = 3;
-auto SOLVER_VAR_ID = 1;
-auto SOLVER_VAR_VALUE_COUNT = 3;
 
 kj::Array<capnp::word> solver_result_message() {
     capnp::MallocMessageBuilder builder;
@@ -20,7 +18,7 @@ kj::Array<capnp::word> solver_result_message() {
     auto vars = solverResult.initVars(VAR_COUNT);
     for(auto var: vars) {
         var.setId(SOLVER_VAR_ID);
-        var.setValue({1, 2, 3});
+        var.setValue({1, 2, 3, 4});
     }
 
     return capnp::messageToFlatArray(builder);
@@ -71,6 +69,6 @@ TEST(SolverResultCapnprotoToJson, it_contains_solver_vars) {
         EXPECT_TRUE(var.IsObject());
         EXPECT_EQ(var["id"], SOLVER_VAR_ID);
         EXPECT_TRUE(var["value"].IsArray());
-        EXPECT_EQ(var["value"].Size(), SOLVER_VAR_VALUE_COUNT);
+        EXPECT_EQ(var["value"].Size(), SOLVER_VAR_VALUE_SIZE);
     }
 }
