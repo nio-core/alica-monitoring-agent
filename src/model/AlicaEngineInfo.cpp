@@ -1,18 +1,8 @@
-#include <model/AlicaEngineInfo.h>
-#include <AlicaEngineInfo.capnp.h>
+#include <conversion/AlicaEngineInfo.h>
 #include <stdexcept>
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
-
-AlicaEngineInfo::AlicaEngineInfo(const capnzero::Id &senderId, const std::string &masterPlan, const std::string &currentPlan,
-                                 const std::string &currentState, const std::string &currentRole, const std::string &currentTask,
-                                 const std::vector<capnzero::Id> &agentIdsWithMe)
-        : senderId_(senderId), masterPlan_(masterPlan), currentPlan_(currentPlan),
-          currentState_(currentState), currentRole_(currentRole), currentTask_(currentTask),
-          agentIdsWithMe_(agentIdsWithMe) {
-
-}
 
 AlicaEngineInfo AlicaEngineInfo::from(capnp::MessageReader &reader) {
     auto engineInfo = reader.getRoot<alica_msgs::AlicaEngineInfo>();
@@ -35,37 +25,47 @@ AlicaEngineInfo AlicaEngineInfo::from(capnp::MessageReader &reader) {
     return AlicaEngineInfo(senderId, masterPlan, currentPlan, currentState, currentRole, currentTask, agentIdsWithMe);
 }
 
-bool AlicaEngineInfo::isValid(alica_msgs::AlicaEngineInfo::Reader engineInfo) {
-    return engineInfo.hasSenderId() && engineInfo.hasAgentIdsWithMe() && engineInfo.hasCurrentPlan()
-        && engineInfo.hasCurrentRole() && engineInfo.hasCurrentState() && engineInfo.hasCurrentTask()
-        && engineInfo.hasMasterPlan();
+bool AlicaEngineInfo::isValid(alica_msgs::AlicaEngineInfo::Reader reader) {
+    return reader.hasSenderId() && reader.hasAgentIdsWithMe() && reader.hasCurrentPlan()
+        && reader.hasCurrentRole() && reader.hasCurrentState() && reader.hasCurrentTask()
+        && reader.hasMasterPlan();
 }
 
-capnzero::Id AlicaEngineInfo::getSenderId() {
+AlicaEngineInfo::AlicaEngineInfo(const capnzero::Id &senderId, const std::string &masterPlan, const std::string &currentPlan,
+                                 const std::string &currentState, const std::string &currentRole, const std::string &currentTask,
+                                 const std::vector<capnzero::Id> &agentIdsWithMe)
+        : senderId_(senderId), masterPlan_(masterPlan), currentPlan_(currentPlan),
+          currentState_(currentState), currentRole_(currentRole), currentTask_(currentTask),
+          agentIdsWithMe_(agentIdsWithMe) {
+
+}
+
+
+capnzero::Id AlicaEngineInfo::getSenderId() const {
     return senderId_;
 }
 
-std::string AlicaEngineInfo::getMasterPlan() {
+std::string AlicaEngineInfo::getMasterPlan() const {
     return masterPlan_;
 }
 
-std::string AlicaEngineInfo::getCurrentPlan() {
+std::string AlicaEngineInfo::getCurrentPlan() const {
     return currentPlan_;
 }
 
-std::string AlicaEngineInfo::getCurrentState() {
+std::string AlicaEngineInfo::getCurrentState() const {
     return currentState_;
 }
 
-std::string AlicaEngineInfo::getCurrentRole() {
+std::string AlicaEngineInfo::getCurrentRole() const {
     return currentRole_;
 }
 
-std::string AlicaEngineInfo::getCurrentTask() {
+std::string AlicaEngineInfo::getCurrentTask() const {
     return currentTask_;
 }
 
-std::vector<capnzero::Id> AlicaEngineInfo::getAgentIdsWithMe() {
+std::vector<capnzero::Id> AlicaEngineInfo::getAgentIdsWithMe() const {
     return agentIdsWithMe_;
 }
 

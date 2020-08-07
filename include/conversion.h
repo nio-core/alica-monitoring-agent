@@ -1,9 +1,10 @@
 #pragma once
 
-#include <model/AlicaEngineInfo.h>
-#include <model/AllocationAuthorityInfo.h>
-#include <model/PlanTreeInfo.h>
-#include <model/RoleSwitch.h>
-#include <model/SolverResult.h>
-#include <model/SyncReady.h>
-#include <model/SyncTalk.h>
+#include <conversion/capnzero/Id.h>
+#include <conversion/AlicaEngineInfo.h>
+#include <conversion/AllocationAuthorityInfo.h>
+#include <conversion/PlanTreeInfo.h>
+#include <conversion/RoleSwitch.h>
+#include <conversion/SolverResult.h>
+#include <conversion/SyncReady.h>
+#include <conversion/SyncTalk.h>
