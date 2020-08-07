@@ -33,3 +33,6 @@ constexpr const int SOLVER_VAR_VALUE_SIZE = 4;
 
 // Solver Result
 constexpr const int SOLVER_VAR_COUNT = 3;
+
+// Sync Ready
+constexpr const int SYNC_ID = 1;

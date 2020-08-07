@@ -8,6 +8,7 @@
 #include <model/PlanTreeInfo.h>
 #include <model/RoleSwitch.h>
 #include <model/SolverResult.h>
+#include <model/SyncReady.h>
 
 void callback(::capnp::FlatArrayMessageReader& reader) {
     std::string json;
@@ -43,7 +44,7 @@ void callback(::capnp::FlatArrayMessageReader& reader) {
     }
 
     try {
-        processing::sync_ready_capnproto_to_json(reader);
+        json = SyncReady::from(reader).toJson();
     } catch (std::runtime_error& e) {
         std::cout << e.what() << std::endl;
     }

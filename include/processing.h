@@ -4,8 +4,6 @@
 #include <string>
 
 namespace processing {
-    std::string solver_result_capnproto_to_json(::capnp::FlatArrayMessageReader &reader);
-
     std::string sync_ready_capnproto_to_json(::capnp::FlatArrayMessageReader &reader);
 
     std::string sync_talk_capnproto_to_json(::capnp::FlatArrayMessageReader &reader);

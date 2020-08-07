@@ -1,16 +1,10 @@
 #include <processing.h>
 #include <iostream>
-#include <SolverResult.capnp.h>
-#include <SyncReady.capnp.h>
 #include <SyncTalk.capnp.h>
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
 #include <json_helper.h>
 #include <rapidjson/writer.h>
-
-bool is_valid(alica_msgs::SyncReady::Reader& syncReady) {
-    return syncReady.hasSenderId();
-}
 
 bool is_valid(alica_msgs::SyncTalk::Reader& syncTalk) {
     auto syncDataIsValid = true;
@@ -18,25 +12,6 @@ bool is_valid(alica_msgs::SyncTalk::Reader& syncTalk) {
         syncDataIsValid = syncDataIsValid && entry.hasRobotId();
     }
     return syncTalk.hasSenderId() && syncTalk.hasSyncData() && syncDataIsValid;
-}
-
-std::string processing::sync_ready_capnproto_to_json(::capnp::FlatArrayMessageReader &reader) {
-    auto syncReady = reader.getRoot<alica_msgs::SyncReady>();
-    std::cout << "+++ Received sync ready" << std::endl;
-    if(!is_valid(syncReady)) {
-        throw std::runtime_error("Could not parse Sync Ready from message");
-    }
-
-    rapidjson::Document doc(rapidjson::kObjectType);
-    auto senderId = helper::capnzero_id_to_json_value(syncReady.getSenderId(), doc.GetAllocator());
-    doc.AddMember("senderId", senderId, doc.GetAllocator());
-    doc.AddMember("synchronisationId", syncReady.getSynchronisationId(), doc.GetAllocator());
-
-    rapidjson::StringBuffer buffer;
-    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-    doc.Accept(writer);
-
-    return buffer.GetString();
 }
 
 std::string processing::sync_talk_capnproto_to_json(::capnp::FlatArrayMessageReader &reader) {
