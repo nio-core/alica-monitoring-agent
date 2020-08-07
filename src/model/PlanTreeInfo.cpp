@@ -1,4 +1,4 @@
-#include <model/PlanTreeInfo.h>
+#include <conversion/PlanTreeInfo.h>
 #include <stdexcept>
 #include <rapidjson/rapidjson.h>
 #include <rapidjson/document.h>
@@ -38,7 +38,7 @@ bool PlanTreeInfo::isValid(alica_msgs::PlanTreeInfo::Reader &planTreeInfo) {
     return planTreeInfo.hasSenderId() && planTreeInfo.hasStateIds() && planTreeInfo.hasSucceededEps();
 }
 
-capnzero::Id PlanTreeInfo::getSenderId() {
+capnzero::Id PlanTreeInfo::getSenderId() const {
     return senderId_;
 }
 
@@ -46,11 +46,11 @@ PlanTreeInfo::PlanTreeInfo(capnzero::Id &senderId, std::vector<int64_t> &stateId
                            std::vector<int64_t> &succeededEps)
         : senderId_(senderId), stateIds_(stateIds), succeededEps_(succeededEps) {}
 
-std::vector<int64_t> PlanTreeInfo::getStateIds() {
+std::vector<int64_t> PlanTreeInfo::getStateIds() const {
     return stateIds_;
 }
 
-std::vector<int64_t> PlanTreeInfo::getSucceededEps() {
+std::vector<int64_t> PlanTreeInfo::getSucceededEps() const {
     return succeededEps_;
 }
 

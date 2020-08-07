@@ -1,29 +1,23 @@
-#include <model/SolverResult.h>
-#include <SolverResult.capnp.h>
+#include <conversion/SolverResult.h>
 #include <stdexcept>
-#include <model/SolverVar.h>
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
-
-SolverResult::SolverResult(const capnzero::Id &senderId, std::vector<SolverVar> &vars)
-        : senderId_(senderId), vars_(vars) {}
-
 
 SolverResult SolverResult::from(capnp::MessageReader &reader) {
     auto solverResult = reader.getRoot<alica_msgs::SolverResult>();
     return from(solverResult);
 }
 
-SolverResult SolverResult::from(alica_msgs::SolverResult::Reader &solverResult) {
-    if(!isValid(solverResult)) {
+SolverResult SolverResult::from(alica_msgs::SolverResult::Reader &reader) {
+    if(!isValid(reader)) {
         throw std::runtime_error("Invalid Solver Result");
     }
 
-    auto senderIdReader = solverResult.getSenderId();
+    auto senderIdReader = reader.getSenderId();
     capnzero::Id senderId = capnzero::Id::from(senderIdReader);
 
-    auto varsReader = solverResult.getVars();
+    auto varsReader = reader.getVars();
     std::vector<SolverVar> vars;
     for(auto var: varsReader) {
         vars.emplace_back(SolverVar::from(var));
@@ -35,9 +29,13 @@ SolverResult SolverResult::from(alica_msgs::SolverResult::Reader &solverResult) 
     };
 }
 
-bool SolverResult::isValid(alica_msgs::SolverResult::Reader &solverResult) {
-    return solverResult.hasSenderId() && solverResult.hasVars();
+bool SolverResult::isValid(alica_msgs::SolverResult::Reader &reader) {
+    return reader.hasSenderId() && reader.hasVars();
 }
+
+SolverResult::SolverResult(const capnzero::Id &senderId, std::vector<SolverVar> &vars)
+        : senderId_(senderId), vars_(vars) {}
+
 
 capnzero::Id SolverResult::getSenderId() const {
     return senderId_;

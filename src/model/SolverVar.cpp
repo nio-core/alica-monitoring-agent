@@ -1,23 +1,20 @@
-#include <model/SolverVar.h>
-#include <SolverResult.capnp.h>
+#include <conversion/SolverVar.h>
 #include <stdexcept>
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
-
-SolverVar::SolverVar(int64_t id, std::vector<uint8_t> &value) : id_(id), value_(value) {}
 
 SolverVar SolverVar::from(capnp::MessageReader &reader) {
     auto solverVar = reader.getRoot<alica_msgs::SolverVar>();
     return from(solverVar);
 }
 
-SolverVar SolverVar::from(alica_msgs::SolverVar::Reader &solverVar) {
-    if(!solverVar.hasValue()) {
+SolverVar SolverVar::from(alica_msgs::SolverVar::Reader &reader) {
+    if(!isValid(reader)) {
         throw std::runtime_error("Invalid Solver Var");
     }
 
-    auto valueReader = solverVar.getValue();
+    auto valueReader = reader.getValue();
     std::vector<uint8_t> value;
     value.reserve(valueReader.size());
     for(auto v: valueReader) {
@@ -25,10 +22,16 @@ SolverVar SolverVar::from(alica_msgs::SolverVar::Reader &solverVar) {
     }
 
     return {
-            solverVar.getId(),
+            reader.getId(),
             value
     };
 }
+
+bool SolverVar::isValid(alica_msgs::SolverVar::Reader &reader) {
+    return reader.hasValue();
+}
+
+SolverVar::SolverVar(int64_t id, std::vector<uint8_t> &value) : id_(id), value_(value) {}
 
 int64_t SolverVar::getId() const {
     return id_;

@@ -1,36 +1,36 @@
-#include <AllocationAuthorityInfo.capnp.h>
+#include <conversion/EntrypointRobots.h>
 #include <stdexcept>
-#include <model/EntrypointRobots.h>
-#include <rapidjson/rapidjson.h>
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
-#include <iostream>
 #include <rapidjson/writer.h>
-
-EntrypointRobots::EntrypointRobots(int64_t entrypoint, std::vector<capnzero::Id> &robots)
-        : entrypoint_(entrypoint), robots_(robots) {}
-
 
 EntrypointRobots EntrypointRobots::from(capnp::MessageReader &reader) {
     auto entrypointRobots = reader.getRoot<alica_msgs::EntrypointRobots>();
     return from(entrypointRobots);
 }
 
-EntrypointRobots EntrypointRobots::from(alica_msgs::EntrypointRobots::Reader &entrypointRobots) {
-    if(!entrypointRobots.hasRobots()) {
+EntrypointRobots EntrypointRobots::from(alica_msgs::EntrypointRobots::Reader &reader) {
+    if(!isValid(reader)) {
         throw std::runtime_error("Invalid entrypoint Robots");
     }
 
     std::vector<capnzero::Id> robots;
-    for(auto robot: entrypointRobots.getRobots()) {
+    for(auto robot: reader.getRobots()) {
         robots.emplace_back(capnzero::Id::from(robot));
     }
 
     return {
-            entrypointRobots.getEntrypoint(),
+            reader.getEntrypoint(),
             robots
     };
 }
+
+bool EntrypointRobots::isValid(alica_msgs::EntrypointRobots::Reader &reader) {
+    return reader.hasRobots();
+}
+
+EntrypointRobots::EntrypointRobots(int64_t entrypoint, std::vector<capnzero::Id> &robots)
+        : entrypoint_(entrypoint), robots_(robots) {}
 
 int64_t EntrypointRobots::getEntrypoint() const {
     return entrypoint_;

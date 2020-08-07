@@ -1,19 +1,8 @@
-#include <AllocationAuthorityInfo.capnp.h>
+#include <conversion/AllocationAuthorityInfo.h>
 #include <stdexcept>
-#include <model/EntrypointRobots.h>
-#include <model/AllocationAuthorityInfo.h>
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
-#include <iostream>
 #include <rapidjson/writer.h>
-
-AllocationAuthorityInfo::AllocationAuthorityInfo(capnzero::Id &senderId, int64_t planId, int64_t parentState,
-                                                 int64_t planType, capnzero::Id &authority,
-                                                 std::vector<EntrypointRobots> &entrypointRobots)
-        : senderId_(senderId), planId_(planId), parentState_(parentState), planType_(planType), authority_(authority),
-          entrypointRobots_(entrypointRobots) {
-
-}
 
 AllocationAuthorityInfo AllocationAuthorityInfo::from(capnp::MessageReader &reader) {
     auto allocationAuthorityInfo = reader.getRoot<alica_msgs::AllocationAuthorityInfo>();
@@ -40,8 +29,16 @@ AllocationAuthorityInfo AllocationAuthorityInfo::from(capnp::MessageReader &read
     };
 }
 
-bool AllocationAuthorityInfo::isValid(alica_msgs::AllocationAuthorityInfo::Reader& allocationAuthorityInfo) {
-    return allocationAuthorityInfo.hasAuthority() && allocationAuthorityInfo.hasSenderId() && allocationAuthorityInfo.hasEntrypointRobots();
+bool AllocationAuthorityInfo::isValid(alica_msgs::AllocationAuthorityInfo::Reader& reader) {
+    return reader.hasAuthority() && reader.hasSenderId() && reader.hasEntrypointRobots();
+}
+
+AllocationAuthorityInfo::AllocationAuthorityInfo(capnzero::Id &senderId, int64_t planId, int64_t parentState,
+                                                 int64_t planType, capnzero::Id &authority,
+                                                 std::vector<EntrypointRobots> &entrypointRobots)
+        : senderId_(senderId), planId_(planId), parentState_(parentState), planType_(planType), authority_(authority),
+          entrypointRobots_(entrypointRobots) {
+
 }
 
 capnzero::Id AllocationAuthorityInfo::getSenderId() const {
@@ -64,7 +61,7 @@ capnzero::Id AllocationAuthorityInfo::getAuthority() const {
     return authority_;
 }
 
-std::vector<EntrypointRobots> &AllocationAuthorityInfo::getEntrypointRobots() {
+std::vector<EntrypointRobots> AllocationAuthorityInfo::getEntrypointRobots() const {
     return entrypointRobots_;
 }
 

@@ -1,15 +1,12 @@
-#include <model/RoleSwitch.h>
+#include <conversion/RoleSwitch.h>
 #include <stdexcept>
-#include <RoleSwitch.capnp.h>
 #include <rapidjson/rapidjson.h>
 #include <rapidjson/document.h>
 #include <rapidjson/writer.h>
 
-RoleSwitch::RoleSwitch(const capnzero::Id &senderId, int64_t roleId) : senderId_(senderId), roleId_(roleId) {}
-
 RoleSwitch RoleSwitch::from(capnp::MessageReader &reader) {
     auto roleSwitch = reader.getRoot<alica_msgs::RoleSwitch>();
-    if(!roleSwitch.hasSenderId()) {
+    if(!isValid(roleSwitch)) {
         throw std::runtime_error("Invalid Role Switch");
     }
 
@@ -21,6 +18,12 @@ RoleSwitch RoleSwitch::from(capnp::MessageReader &reader) {
         roleSwitch.getRoleId()
     };
 }
+
+bool RoleSwitch::isValid(alica_msgs::RoleSwitch::Reader &reader) {
+    return reader.hasSenderId();
+}
+
+RoleSwitch::RoleSwitch(const capnzero::Id &senderId, int64_t roleId) : senderId_(senderId), roleId_(roleId) {}
 
 capnzero::Id RoleSwitch::getSenderId() const {
     return senderId_;
