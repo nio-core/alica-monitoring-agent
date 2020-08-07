@@ -36,3 +36,8 @@ constexpr const int SOLVER_VAR_COUNT = 3;
 
 // Sync Ready
 constexpr const int SYNC_ID = 1;
+
+// Sync Talk
+constexpr const int TRANSITION_ID = 1;
+constexpr const bool TRANSITION_HOLDS = true;
+constexpr const bool ACK = true;

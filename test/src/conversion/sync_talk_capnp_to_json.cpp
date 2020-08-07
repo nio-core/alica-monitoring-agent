@@ -7,10 +7,8 @@
 #include <processing.h>
 #include <rapidjson/document.h>
 
-auto TRANSITION_ID = 1;
 auto SYNC_DATA_COUNT = 3;
-auto TRANSITION_HOLDS = true;
-auto ACK = true;
+
 
 kj::Array<capnp::word> sync_talk_message() {
     capnp::MallocMessageBuilder builder;
