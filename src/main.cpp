@@ -1,7 +1,6 @@
 #include <vector>
 #include <iostream>
 #include <string>
-#include <processing.h>
 #include <capnzero/Subscriber.h>
 #include <model/AlicaEngineInfo.h>
 #include <model/AllocationAuthorityInfo.h>
@@ -9,6 +8,7 @@
 #include <model/RoleSwitch.h>
 #include <model/SolverResult.h>
 #include <model/SyncReady.h>
+#include <model/SyncTalk.h>
 
 void callback(::capnp::FlatArrayMessageReader& reader) {
     std::string json;
@@ -50,7 +50,7 @@ void callback(::capnp::FlatArrayMessageReader& reader) {
     }
 
     try {
-        processing::sync_talk_capnproto_to_json(reader);
+        SyncTalk::from(reader).toJson();
     } catch (std::runtime_error& e) {
         std::cout << e.what() << std::endl;
     }

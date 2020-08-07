@@ -4,7 +4,6 @@
 #include <test_values_common.h>
 #include <RoleSwitch.capnp.h>
 #include <capnp/serialize.h>
-#include <processing.h>
 #include <model/RoleSwitch.h>
 #include <AllocationAuthorityInfo.capnp.h>
 #include <search.h>

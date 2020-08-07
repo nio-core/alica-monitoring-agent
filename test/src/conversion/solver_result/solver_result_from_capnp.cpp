@@ -4,7 +4,6 @@
 #include <capnp/serialize.h>
 #include <SolverResult.capnp.h>
 #include <test_values_common.h>
-#include <processing.h>
 #include <rapidjson/document.h>
 #include <model/SolverResult.h>
 

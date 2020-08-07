@@ -15,6 +15,14 @@ public:
 
     static SyncData from(alica_msgs::SyncData::Reader& syncData);
 
+    capnzero::Id getRobotId() const;
+
+    int64_t getTransitionId() const;
+
+    bool transition_holds() const;
+
+    bool ack() const;
+
 private:
     capnzero::Id robotId_;
     int64_t transitionId_;

@@ -2,7 +2,6 @@
 #include <gtest/gtest.h>
 #include <capnp/common.h>
 #include <capnp/serialize.h>
-#include <processing.h>
 #include <PlanTreeInfo.capnp.h>
 #include <model/PlanTreeInfo.h>
 #include <test_values_common.h>
