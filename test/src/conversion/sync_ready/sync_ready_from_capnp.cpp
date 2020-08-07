@@ -6,8 +6,8 @@
 #include <capnp/serialize.h>
 #include <processing.h>
 #include <rapidjson/document.h>
-
-auto SYNC_ID = 1;
+#include <SyncTalk.capnp.h>
+#include <model/SyncReady.h>
 
 kj::Array<capnp::word> sync_ready_message() {
     capnp::MallocMessageBuilder builder;
@@ -20,44 +20,48 @@ kj::Array<capnp::word> sync_ready_message() {
     return capnp::messageToFlatArray(builder);
 }
 
-TEST(SyncReadyCapnprotoToJson, with_missing_fields_can_not_be_parsed) {
+TEST(SyncReadyFromCapnp, with_missing_fields_can_not_be_parsed) {
     capnp::MallocMessageBuilder builder;
     builder.initRoot<alica_msgs::SyncReady>();
     auto message = capnp::messageToFlatArray(builder);
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_THROW(processing::sync_ready_capnproto_to_json(reader), std::runtime_error);
+    EXPECT_THROW(SyncReady::from(reader), std::runtime_error);
 }
 
-TEST(SyncReadyCapnprotoToJson, it_can_be_parsed) {
+TEST(SyncReadyFromCapnp, it_can_not_parse_other_messages) {
+    capnp::MallocMessageBuilder builder;
+    builder.initRoot<alica_msgs::SyncTalk>();
+    auto message = capnp::messageToFlatArray(builder);
+    auto reader = capnp::FlatArrayMessageReader(message);
+
+    EXPECT_THROW(SyncReady::from(reader), std::runtime_error);
+}
+
+TEST(SyncReadyFromCapnp, it_can_be_parsed) {
     auto message = sync_ready_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_NO_THROW(processing::sync_ready_capnproto_to_json(reader));
+    EXPECT_NO_THROW(SyncReady::from(reader));
 }
 
-TEST(SyncReadyCapnprotoToJson, it_contains_sender_id) {
+TEST(SyncReadyFromCapnp, it_contains_the_sender_id) {
     auto message = sync_ready_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    const std::string json = processing::sync_ready_capnproto_to_json(reader);
-    rapidjson::Document doc;
-    doc.Parse(json.c_str());
+    auto syncReady = SyncReady::from(reader);
+    auto senderIdType = syncReady.getSenderId().getType();
+    auto senderIdValue = syncReady.getSenderId().getValue();
 
-    EXPECT_TRUE(doc.IsObject());
-    EXPECT_TRUE(doc["senderId"].IsObject());
-    EXPECT_EQ(doc["senderId"]["type"].GetInt(), ID_TYPE);
-    EXPECT_EQ(doc["senderId"]["value"].GetString(), ID_VALUE);
+    EXPECT_EQ(senderIdType, ID_TYPE);
+    EXPECT_EQ(senderIdValue, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
 }
 
-TEST(SyncReadyCapnprotoToJson, it_contains_sync_id) {
+TEST(SyncReadyFromCapnp, it_contains_the_sync_id) {
     auto message = sync_ready_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    const std::string json = processing::sync_ready_capnproto_to_json(reader);
-    rapidjson::Document doc;
-    doc.Parse(json.c_str());
+    auto syncReady = SyncReady::from(reader);
 
-    EXPECT_TRUE(doc.IsObject());
-    EXPECT_EQ(doc["synchronisationId"].GetInt(), SYNC_ID);
+    EXPECT_EQ(syncReady.getSyncId(), SYNC_ID);
 }
