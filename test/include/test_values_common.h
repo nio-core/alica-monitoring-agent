@@ -41,3 +41,6 @@ constexpr const int SYNC_ID = 1;
 constexpr const int TRANSITION_ID = 1;
 constexpr const bool TRANSITION_HOLDS = true;
 constexpr const bool ACK = true;
+
+// Sync Data
+constexpr const int SYNC_DATA_COUNT = 3;

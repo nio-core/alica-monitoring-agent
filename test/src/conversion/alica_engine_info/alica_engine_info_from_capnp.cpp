@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 #include <AlicaEngineInfo.capnp.h>
 #include <capnp/serialize.h>
-#include <processing.h>
 #include <rapidjson/document.h>
 #include <AllocationAuthorityInfo.capnp.h>
 #include <test_values_common.h>

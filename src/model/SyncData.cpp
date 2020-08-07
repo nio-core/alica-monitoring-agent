@@ -44,3 +44,19 @@ SyncData SyncData::from(alica_msgs::SyncData::Reader& syncData) {
             syncData.getAck()
     };
 }
+
+capnzero::Id SyncData::getRobotId() const {
+    return robotId_;
+}
+
+int64_t SyncData::getTransitionId() const {
+    return transitionId_;
+}
+
+bool SyncData::transition_holds() const {
+    return transitionHolds_;
+}
+
+bool SyncData::ack() const {
+    return ack_;
+}
