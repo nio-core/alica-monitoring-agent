@@ -36,14 +36,14 @@ TEST(SyncTalkCapnprotoToJson, with_missing_fields_can_not_be_parsed) {
     auto message = capnp::messageToFlatArray(builder);
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_THROW(processing::sync_ready_capnproto_to_json(reader), std::runtime_error);
+    EXPECT_THROW(processing::sync_talk_capnproto_to_json(reader), std::runtime_error);
 }
 
 TEST(SyncTalkCapnprotoToJson, it_can_be_parsed) {
     auto message = sync_talk_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_NO_THROW(processing::sync_ready_capnproto_to_json(reader));
+    EXPECT_NO_THROW(processing::sync_talk_capnproto_to_json(reader));
 }
 
 TEST(SyncTalkCapnprotoToJson, it_contains_sender_id ) {
