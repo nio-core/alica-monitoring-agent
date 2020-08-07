@@ -2,13 +2,7 @@
 #include <iostream>
 #include <string>
 #include <capnzero/Subscriber.h>
-#include <model/AlicaEngineInfo.h>
-#include <model/AllocationAuthorityInfo.h>
-#include <model/PlanTreeInfo.h>
-#include <model/RoleSwitch.h>
-#include <model/SolverResult.h>
-#include <model/SyncReady.h>
-#include <model/SyncTalk.h>
+#include <conversion.h>
 
 void callback(::capnp::FlatArrayMessageReader& reader) {
     std::string json;
