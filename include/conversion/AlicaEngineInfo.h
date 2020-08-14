@@ -8,7 +8,7 @@ class AlicaEngineInfo {
 public:
     static AlicaEngineInfo from(capnp::MessageReader& reader);
 
-    static bool isValid(alica_msgs::AlicaEngineInfo::Reader reader);
+    static bool isValid(alica_msgs::AlicaEngineInfo::Reader &reader);
 
 public:
     AlicaEngineInfo(const capnzero::Id &senderId, const std::string &masterPlan, const std::string &currentPlan,

@@ -25,7 +25,7 @@ AlicaEngineInfo AlicaEngineInfo::from(capnp::MessageReader &reader) {
     return AlicaEngineInfo(senderId, masterPlan, currentPlan, currentState, currentRole, currentTask, agentIdsWithMe);
 }
 
-bool AlicaEngineInfo::isValid(alica_msgs::AlicaEngineInfo::Reader reader) {
+bool AlicaEngineInfo::isValid(alica_msgs::AlicaEngineInfo::Reader& reader) {
     return reader.hasSenderId() && reader.hasAgentIdsWithMe() && reader.hasCurrentPlan()
         && reader.hasCurrentRole() && reader.hasCurrentState() && reader.hasCurrentTask()
         && reader.hasMasterPlan();
