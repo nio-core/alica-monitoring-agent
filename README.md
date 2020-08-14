@@ -6,13 +6,6 @@ The setup requires the package manager Conan to be installed and set up for use 
 Please refer to Conan's [installation page](https://docs.conan.io/en/1.7/installation.html), as well as the setup page for [bincrafters](https://bintray.com/bincrafters/public-conan) for questions on the installation.
 Once conan is set up properly, the Cmake build will set up the project properly.
 
-The sawtooth sdk needs to be set up separately.
-The following packages need to be installed on the system to complete the installation successfully:
-
-`libcrypto++-dev`
-`liblog4cxx-dev`
-`protobuf`
-
 ### Debugging
 
 On some machines, conan might not configure its settings correctly.
