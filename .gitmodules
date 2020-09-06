@@ -1,6 +1,6 @@
 [submodule "modules/alica-message-protos"]
 	path = modules/alica-message-protos
-	url = git@gitlab.com:uni-sst/alica-message-protos.git
+	url = git@github.com:DiCoreSystems/alica-message-capnps.git
 	branch = master-c++
 [submodule "modules/capnzero"]
 	path = modules/capnzero
