@@ -12,6 +12,8 @@ void callback(::capnp::FlatArrayMessageReader& reader) {
         return;
     } catch (std::runtime_error& e) {
         std::cout << e.what() << std::endl;
+    } catch (kj::Exception&) {
+        std::cout << "Error reading Engine Info" << std::endl;
     }
 
     try {
@@ -19,6 +21,8 @@ void callback(::capnp::FlatArrayMessageReader& reader) {
         return;
     } catch (std::runtime_error& e) {
         std::cout << e.what() << std::endl;
+    } catch (kj::Exception&) {
+        std::cout << "Error reading Allocation Authority Info" << std::endl;
     }
 
     try {
@@ -26,13 +30,8 @@ void callback(::capnp::FlatArrayMessageReader& reader) {
         return;
     } catch (std::runtime_error& e) {
         std::cout << e.what() << std::endl;
-    }
-
-    try {
-        std::cout << std::endl << RoleSwitch::from(reader).toJson() << std::endl << std::endl;
-        return;
-    } catch (std::runtime_error& e) {
-        std::cout << e.what() << std::endl;
+    } catch (kj::Exception&) {
+        std::cout << "Error reading Plan Tree Info" << std::endl;
     }
 
     try {
@@ -40,13 +39,8 @@ void callback(::capnp::FlatArrayMessageReader& reader) {
         return;
     } catch (std::runtime_error& e) {
         std::cout << e.what() << std::endl;
-    }
-
-    try {
-        std::cout << std::endl << SyncReady::from(reader).toJson() << std::endl << std::endl;
-        return;
-    } catch (std::runtime_error& e) {
-        std::cout << e.what() << std::endl;
+    } catch (kj::Exception&) {
+        std::cout << "Error reading Solver Result" << std::endl;
     }
 
     try {
@@ -54,6 +48,26 @@ void callback(::capnp::FlatArrayMessageReader& reader) {
         return;
     } catch (std::runtime_error& e) {
         std::cout << e.what() << std::endl;
+    } catch (kj::Exception&) {
+        std::cout << "Error reading Sync Talk" << std::endl;
+    }
+
+    try {
+        std::cout << std::endl << RoleSwitch::from(reader).toJson() << std::endl << std::endl;
+        return;
+    } catch (std::runtime_error& e) {
+        std::cout << e.what() << std::endl;
+    } catch (kj::Exception&) {
+        std::cout << "Error reading Role Switch" << std::endl;
+    }
+
+    try {
+        std::cout << std::endl << SyncReady::from(reader).toJson() << std::endl << std::endl;
+        return;
+    } catch (std::runtime_error& e) {
+        std::cout << e.what() << std::endl;
+    } catch (kj::Exception&) {
+        std::cout << "Error reading Sync Talk" << std::endl;
     }
 
     if(json.empty()) {
