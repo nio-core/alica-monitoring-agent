@@ -26,6 +26,7 @@ constexpr const int SUCCEEDED_EPS_COUNT = 3;
 
 // Role Switch
 constexpr const int ROLE_ID = 1;
+const std::string TYPE = "type";
 
 // Solver Var
 constexpr const int SOLVER_VAR_ID = 1;

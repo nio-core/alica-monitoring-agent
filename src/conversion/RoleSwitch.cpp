@@ -15,15 +15,17 @@ RoleSwitch RoleSwitch::from(capnp::MessageReader &reader) {
 
     return {
         senderId,
-        roleSwitch.getRoleId()
+        roleSwitch.getRoleId(),
+        roleSwitch.getType()
     };
 }
 
 bool RoleSwitch::isValid(alica_msgs::RoleSwitch::Reader &reader) {
-    return reader.hasSenderId();
+    return reader.hasSenderId() && reader.hasType();
 }
 
-RoleSwitch::RoleSwitch(const capnzero::Id &senderId, int64_t roleId) : senderId_(senderId), roleId_(roleId) {}
+RoleSwitch::RoleSwitch(const capnzero::Id &senderId, int64_t roleId, const std::string& type)
+    : senderId_(senderId), roleId_(roleId), type_(type) {}
 
 capnzero::Id RoleSwitch::getSenderId() const {
     return senderId_;
@@ -39,7 +41,12 @@ const std::string RoleSwitch::toJson() const {
     rapidjson::Document senderId;
     senderId.Parse(senderId_.toJson().c_str());
     roleSwitch.AddMember("senderId", senderId.GetObject(), roleSwitch.GetAllocator());
+
     roleSwitch.AddMember("roleId", roleId_, roleSwitch.GetAllocator());
+
+    rapidjson::Value type;
+    type.SetString(type_.c_str(), type_.size());
+    roleSwitch.AddMember("type", type, roleSwitch.GetAllocator());
 
     rapidjson::StringBuffer buffer;
     rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);

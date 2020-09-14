@@ -15,6 +15,7 @@ kj::Array<capnp::word> role_switch_message() {
     senderId.setType(ID_TYPE);
     senderId.setValue(kj::StringPtr(ID_VALUE).asBytes());
     roleSwitch.setRoleId(ROLE_ID);
+    roleSwitch.setType(TYPE);
     return capnp::messageToFlatArray(builder);
 }
 

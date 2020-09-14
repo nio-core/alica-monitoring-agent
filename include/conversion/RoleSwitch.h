@@ -11,7 +11,7 @@ public:
     static bool isValid(alica_msgs::RoleSwitch::Reader& reader);
 
 public:
-    RoleSwitch(const capnzero::Id &senderId, int64_t roleId);
+    RoleSwitch(const capnzero::Id &senderId, int64_t roleId, const std::string& type);
 
     capnzero::Id getSenderId() const;
 
@@ -22,4 +22,5 @@ public:
 private:
     capnzero::Id senderId_;
     int64_t roleId_;
+    std::string type_;
 };

@@ -6,7 +6,7 @@
 RoleSwitch role_switch() {
     capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
 
-    return RoleSwitch(senderId, ROLE_ID);
+    return RoleSwitch(senderId, ROLE_ID, TYPE);
 }
 
 TEST(RoleSwtichToJson, it_is_an_object) {
