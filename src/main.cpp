@@ -1,79 +1,5 @@
-#include <vector>
-#include <iostream>
-#include <string>
 #include <capnzero/Subscriber.h>
-#include <conversion.h>
-
-void callback(::capnp::FlatArrayMessageReader& reader) {
-    std::string json;
-
-    try {
-        std::cout << std::endl << AlicaEngineInfo::from(reader).toJson() << std::endl << std::endl;
-        return;
-    } catch (std::runtime_error& e) {
-        std::cout << e.what() << std::endl;
-    } catch (kj::Exception&) {
-        std::cout << "Error reading Engine Info" << std::endl;
-    }
-
-    try {
-        std::cout << std::endl << AllocationAuthorityInfo::from(reader).toJson() << std::endl << std::endl;
-        return;
-    } catch (std::runtime_error& e) {
-        std::cout << e.what() << std::endl;
-    } catch (kj::Exception&) {
-        std::cout << "Error reading Allocation Authority Info" << std::endl;
-    }
-
-    try {
-        std::cout << std::endl << PlanTreeInfo::from(reader).toJson() << std::endl << std::endl;
-        return;
-    } catch (std::runtime_error& e) {
-        std::cout << e.what() << std::endl;
-    } catch (kj::Exception&) {
-        std::cout << "Error reading Plan Tree Info" << std::endl;
-    }
-
-    try {
-        std::cout << std::endl << SolverResult::from(reader).toJson() << std::endl << std::endl;
-        return;
-    } catch (std::runtime_error& e) {
-        std::cout << e.what() << std::endl;
-    } catch (kj::Exception&) {
-        std::cout << "Error reading Solver Result" << std::endl;
-    }
-
-    try {
-        std::cout << std::endl << SyncTalk::from(reader).toJson() << std::endl << std::endl;
-        return;
-    } catch (std::runtime_error& e) {
-        std::cout << e.what() << std::endl;
-    } catch (kj::Exception&) {
-        std::cout << "Error reading Sync Talk" << std::endl;
-    }
-
-    try {
-        std::cout << std::endl << RoleSwitch::from(reader).toJson() << std::endl << std::endl;
-        return;
-    } catch (std::runtime_error& e) {
-        std::cout << e.what() << std::endl;
-    } catch (kj::Exception&) {
-        std::cout << "Error reading Role Switch" << std::endl;
-    }
-
-    try {
-        std::cout << std::endl << SyncReady::from(reader).toJson() << std::endl << std::endl;
-        return;
-    } catch (std::runtime_error& e) {
-        std::cout << e.what() << std::endl;
-    } catch (kj::Exception&) {
-        std::cout << "Error reading Sync Talk" << std::endl;
-    }
-
-    if(json.empty()) {
-        std::cout << "Could not parse message into available message types, skipping" << std::endl;
-    }
-}
+#include <CapnprotoMessageHandler.h>
 
 void usage() {
     std::cout << "task-allocation-monitor <options>" << std::endl
@@ -102,6 +28,8 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    auto handler = new CapnprotoMessageHandler();
+
     void* ctx = zmq_ctx_new();
     capnzero::Subscriber subscriber(ctx, capnzero::UDP);
     subscriber.addAddress(address);
@@ -109,9 +37,7 @@ int main(int argc, char* argv[]) {
         subscriber.setTopic(topic);
     }
 
-    subscriber.subscribe(&callback);
+    subscriber.subscribe(&CapnprotoMessageHandler::handle, handler);
 
     while(true);
-
-    return 0;
 }
