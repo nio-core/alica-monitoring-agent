@@ -8,51 +8,56 @@ void callback(::capnp::FlatArrayMessageReader& reader) {
     std::string json;
 
     try {
-        json = AlicaEngineInfo::from(reader).toJson();
+        std::cout << std::endl << AlicaEngineInfo::from(reader).toJson() << std::endl << std::endl;
+        return;
     } catch (std::runtime_error& e) {
         std::cout << e.what() << std::endl;
     }
 
     try {
-        json = AllocationAuthorityInfo::from(reader).toJson();
+        std::cout << std::endl << AllocationAuthorityInfo::from(reader).toJson() << std::endl << std::endl;
+        return;
     } catch (std::runtime_error& e) {
         std::cout << e.what() << std::endl;
     }
 
     try {
-        json = PlanTreeInfo::from(reader).toJson();
+        std::cout << std::endl << PlanTreeInfo::from(reader).toJson() << std::endl << std::endl;
+        return;
     } catch (std::runtime_error& e) {
         std::cout << e.what() << std::endl;
     }
 
     try {
-        json = RoleSwitch::from(reader).toJson();
+        std::cout << std::endl << RoleSwitch::from(reader).toJson() << std::endl << std::endl;
+        return;
     } catch (std::runtime_error& e) {
         std::cout << e.what() << std::endl;
     }
 
     try {
-        json = SolverResult::from(reader).toJson();
+        std::cout << std::endl << SolverResult::from(reader).toJson() << std::endl << std::endl;
+        return;
     } catch (std::runtime_error& e) {
         std::cout << e.what() << std::endl;
     }
 
     try {
-        json = SyncReady::from(reader).toJson();
+        std::cout << std::endl << SyncReady::from(reader).toJson() << std::endl << std::endl;
+        return;
     } catch (std::runtime_error& e) {
         std::cout << e.what() << std::endl;
     }
 
     try {
-        SyncTalk::from(reader).toJson();
+        std::cout << std::endl << SyncTalk::from(reader).toJson() << std::endl << std::endl;
+        return;
     } catch (std::runtime_error& e) {
         std::cout << e.what() << std::endl;
     }
 
     if(json.empty()) {
         std::cout << "Could not parse message into available message types, skipping" << std::endl;
-    } else {
-        std::cout << std::endl << json << std::endl << std::endl;
     }
 }
 
