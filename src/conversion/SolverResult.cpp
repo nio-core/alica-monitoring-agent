@@ -53,10 +53,10 @@ const std::string SolverResult::toJson() const {
     solverResult.AddMember("senderId", senderId.GetObject(), senderId.GetAllocator());
 
     rapidjson::Value vars(rapidjson::kArrayType);
+    rapidjson::Document v;
     for(const auto& var: vars_) {
-        rapidjson::Document v;
         v.Parse(var.toJson().c_str());
-        vars.PushBack(v.GetObject(), solverResult.GetAllocator());
+        vars.PushBack(v, solverResult.GetAllocator());
     }
     solverResult.AddMember("vars", vars, solverResult.GetAllocator());
 
