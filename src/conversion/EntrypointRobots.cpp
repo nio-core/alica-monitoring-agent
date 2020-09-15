@@ -3,6 +3,7 @@
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
+#include <iostream>
 
 EntrypointRobots EntrypointRobots::from(capnp::MessageReader &reader) {
     auto entrypointRobots = reader.getRoot<alica_msgs::EntrypointRobots>();
@@ -44,10 +45,11 @@ std::string EntrypointRobots::toJson() const {
     rapidjson::Document entrypointRobots(rapidjson::kObjectType);
     entrypointRobots.AddMember("entrypoint", entrypoint_, entrypointRobots.GetAllocator());
     rapidjson::Value robots(rapidjson::kArrayType);
+    robots.GetArray().Reserve(robots_.size(), entrypointRobots.GetAllocator());
+    rapidjson::Document r;
     for(const auto& robot: robots_) {
-        rapidjson::Document r;
         r.Parse(robot.toJson().c_str());
-        robots.PushBack(r.GetObject(), entrypointRobots.GetAllocator());
+        robots.PushBack(r, entrypointRobots.GetAllocator());
     }
     entrypointRobots.AddMember("robots", robots, entrypointRobots.GetAllocator());
 

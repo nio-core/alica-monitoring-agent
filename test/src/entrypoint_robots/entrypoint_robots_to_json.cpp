@@ -5,6 +5,7 @@
 
 EntrypointRobots entrypoint_robots() {
     std::vector<capnzero::Id> robots;
+    robots.reserve(ROBOT_COUNT);
     for(int i = 0; i < ROBOT_COUNT; i++) {
         robots.emplace_back(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
     }
@@ -35,10 +36,12 @@ TEST(EntrypointRobotsToJson, it_contains_the_robots) {
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
+    std::cout << json << std::endl;
+
     EXPECT_TRUE(doc["robots"].IsArray());
     EXPECT_EQ(doc["robots"].Size(), ROBOT_COUNT);
     for(int i = 0; i < ROBOT_COUNT; i++) {
-        EXPECT_EQ(doc["robots"][i]["type"].GetInt(), ID_TYPE);
+        EXPECT_EQ(doc["robots"][i]["type"].GetUint(), ID_TYPE);
         EXPECT_EQ(doc["robots"][i]["value"].GetString(), ID_VALUE);
     }
 }
