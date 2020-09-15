@@ -36,8 +36,6 @@ TEST(EntrypointRobotsToJson, it_contains_the_robots) {
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
-    std::cout << json << std::endl;
-
     EXPECT_TRUE(doc["robots"].IsArray());
     EXPECT_EQ(doc["robots"].Size(), ROBOT_COUNT);
     for(int i = 0; i < ROBOT_COUNT; i++) {

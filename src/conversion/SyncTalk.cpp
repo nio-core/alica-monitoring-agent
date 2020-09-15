@@ -50,10 +50,10 @@ const std::string SyncTalk::toJson() const {
 
     rapidjson::Value syncData(rapidjson::kArrayType);
     syncData.Reserve(syncData_.size(), syncTalk.GetAllocator());
+    rapidjson::Document d;
     for(const auto& data: syncData_) {
-        rapidjson::Document d;
         d.Parse(data.toJson().c_str());
-        syncData.PushBack(d.GetObject(), syncTalk.GetAllocator());
+        syncData.PushBack(d, syncTalk.GetAllocator());
     }
     syncTalk.AddMember("syncData", syncData, syncTalk.GetAllocator());
 
