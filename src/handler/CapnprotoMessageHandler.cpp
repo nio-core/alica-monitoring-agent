@@ -1,4 +1,4 @@
-#include <CapnprotoMessageHandler.h>
+#include <handler/CapnprotoMessageHandler.h>
 #include <conversion.h>
 #include <iostream>
 

@@ -84,7 +84,7 @@ const std::string AlicaEngineInfo::toJson() const {
     val.SetString(masterPlan_.c_str(), masterPlan_.size());
     engineInfo.AddMember("masterPlan", val, engineInfo.GetAllocator());
 
-    val.SetString(currentState_.c_str(), masterPlan_.size());
+    val.SetString(currentState_.c_str(), currentState_.size());
     engineInfo.AddMember("currentState", val, engineInfo.GetAllocator());
 
     val.SetString(currentRole_.c_str(), currentRole_.size());
@@ -93,10 +93,10 @@ const std::string AlicaEngineInfo::toJson() const {
     val.SetString(currentTask_.c_str(), currentTask_.size());
     engineInfo.AddMember("currentTask", val, engineInfo.GetAllocator());
 
+    rapidjson::Document a;
     for(const auto& agent: agentIdsWithMe_) {
-        rapidjson::Document a;
         a.Parse(agent.toJson().c_str());
-        array.PushBack(a.GetObject(), engineInfo.GetAllocator());
+        array.PushBack(a, engineInfo.GetAllocator());
     }
     engineInfo.AddMember("agentIdsWithMe", array, engineInfo.GetAllocator());
 
