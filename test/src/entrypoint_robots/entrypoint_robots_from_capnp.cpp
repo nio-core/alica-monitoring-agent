@@ -3,19 +3,8 @@
 #include <test_values_common.h>
 #include <AllocationAuthorityInfo.capnp.h>
 #include <conversion.h>
+#include <test_messages_common.h>
 
-kj::Array<capnp::word> entrypoint_robots_message() {
-    capnp::MallocMessageBuilder builder;
-    auto entryPointRobots = builder.initRoot<alica_msgs::EntrypointRobots>();
-    entryPointRobots.setEntrypoint(ENTRY_POINT);
-    auto robots = entryPointRobots.initRobots(ROBOT_COUNT);
-    for(auto robot: robots) {
-        robot.setType(ID_TYPE);
-        robot.setValue(kj::StringPtr(ID_VALUE).asBytes());
-    }
-
-    return capnp::messageToFlatArray(builder);
-}
 
 TEST(EntryPointRobotsFromCapnp, it_can_not_be_parsed_if_robots_are_missing) {
     capnp::MallocMessageBuilder builder;

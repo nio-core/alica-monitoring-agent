@@ -6,24 +6,8 @@
 #include <test_values_common.h>
 #include <rapidjson/document.h>
 #include <conversion.h>
+#include <test_messages_common.h>
 
-kj::Array<capnp::word> solver_result_message() {
-    capnp::MallocMessageBuilder builder;
-    auto solverResult = builder.initRoot<alica_msgs::SolverResult>();
-    auto senderId = solverResult.initSenderId();
-    senderId.setType(ID_TYPE);
-    senderId.setValue(kj::StringPtr(ID_VALUE).asBytes());
-    auto vars = solverResult.initVars(SOLVER_VAR_COUNT);
-    for(auto var: vars) {
-        var.setId(SOLVER_VAR_ID);
-        auto solverVarReader = var.initValue(SOLVER_VAR_VALUE_SIZE);
-        for(int i = 0; i < SOLVER_VAR_VALUE_SIZE; i++) {
-            solverVarReader.set(i, i);
-        }
-    }
-
-    return capnp::messageToFlatArray(builder);
-}
 
 TEST(SolverResultFromCapnp, with_missing_fields_can_not_be_parsed) {
     capnp::MallocMessageBuilder builder;

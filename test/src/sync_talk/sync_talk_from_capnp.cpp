@@ -6,24 +6,8 @@
 #include <capnp/serialize.h>
 #include <rapidjson/document.h>
 #include <conversion.h>
+#include <test_messages_common.h>
 
-kj::Array<capnp::word> sync_talk_message() {
-    capnp::MallocMessageBuilder builder;
-    auto syncTalk = builder.initRoot<alica_msgs::SyncTalk>();
-    auto senderId = syncTalk.initSenderId();
-    senderId.setType(ID_TYPE);
-    senderId.setValue(kj::StringPtr(ID_VALUE).asBytes());
-    auto syncData = syncTalk.initSyncData(SYNC_DATA_COUNT);
-    for(auto entry: syncData) {
-        auto robotId = entry.initRobotId();
-        robotId.setValue(kj::StringPtr(ID_VALUE).asBytes());
-        robotId.setType(ID_TYPE);
-        entry.setAck(ACK);
-        entry.setTransitionHolds(TRANSITION_HOLDS);
-        entry.setTransitionId(TRANSITION_ID);
-    }
-    return capnp::messageToFlatArray(builder);
-}
 
 TEST(SyncTalkFromCapnp, with_missing_fields_can_not_be_parsed) {
     capnp::MallocMessageBuilder builder;

@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <conversion.h>
-#include <test_values_common.h>
+#include "../../helper/include/test_values_common.h"
 #include <rapidjson/document.h>
 
 AlicaEngineInfo alica_engine_info() {

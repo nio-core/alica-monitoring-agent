@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <rapidjson/document.h>
 #include <conversion.h>
-#include <test_values_common.h>
+#include "../../helper/include/test_values_common.h"
 
 SolverVar solver_var() {
     std::vector<uint8_t> value;

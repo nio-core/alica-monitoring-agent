@@ -5,26 +5,8 @@
 #include <AllocationAuthorityInfo.capnp.h>
 #include <test_values_common.h>
 #include <conversion.h>
+#include <test_messages_common.h>
 
-kj::Array<capnp::word> alica_engine_info_message() {
-    capnp::MallocMessageBuilder builder;
-    auto engineInfo = builder.initRoot<alica_msgs::AlicaEngineInfo>();
-    engineInfo.setMasterPlan(MASTER_PLAN);
-    engineInfo.setCurrentPlan(PLAN);
-    engineInfo.setCurrentState(STATE);
-    engineInfo.setCurrentRole(ROLE);
-    engineInfo.setCurrentTask(TASK);
-    auto senderId = engineInfo.initSenderId();
-    senderId.setType(ID_TYPE);
-    senderId.setValue(kj::StringPtr(ID_VALUE).asBytes());
-    auto agentsWithMe = engineInfo.initAgentIdsWithMe(AGENT_COUNT);
-    for(int i = 0; i < AGENT_COUNT; i++) {
-        agentsWithMe[i].setType(ID_TYPE);
-        agentsWithMe[i].setValue(kj::StringPtr(ID_VALUE).asBytes());
-    }
-
-    return capnp::messageToFlatArray(builder);
-}
 
 TEST(AlicaEngineInfoFromCapnp, it_can_be_parsed_if_valid) {
     auto message = alica_engine_info_message();

@@ -2,31 +2,8 @@
 #include <AllocationAuthorityInfo.capnp.h>
 #include <AlicaEngineInfo.capnp.h>
 #include <test_values_common.h>
+#include <test_messages_common.h>
 #include <conversion.h>
-
-kj::Array<capnp::word> prepare_allocation_authority_info_message() {
-    capnp::MallocMessageBuilder builder;
-    auto allocationAuthorityInformation = builder.initRoot<alica_msgs::AllocationAuthorityInfo>();
-    allocationAuthorityInformation.setParentState(PARENT_STATE);
-    allocationAuthorityInformation.setPlanType(PLAN_TYPE);
-    allocationAuthorityInformation.setPlanId(PLAN_ID);
-    auto authority = allocationAuthorityInformation.initAuthority();
-    authority.setType(ID_TYPE);
-    authority.setValue(kj::StringPtr(ID_VALUE).asBytes());
-    auto senderId = allocationAuthorityInformation.initSenderId();
-    senderId.setType(ID_TYPE);
-    senderId.setValue(kj::StringPtr(ID_VALUE).asBytes());
-    auto entryPoints = allocationAuthorityInformation.initEntrypointRobots(ENTRY_POINT_COUNT);
-    for(auto entryPoint: entryPoints) {
-        entryPoint.setEntrypoint(ENTRY_POINT);
-        auto robots = entryPoint.initRobots(ROBOT_COUNT);
-        for(auto robot: robots) {
-            robot.setType(ID_TYPE);
-            robot.setValue(kj::StringPtr(ID_VALUE).asBytes());
-        }
-    }
-    return capnp::messageToFlatArray(builder);
-}
 
 TEST(AllocationAuthorityInfoFromCapnp, it_can_be_parsed_if_valid) {
     auto message = prepare_allocation_authority_info_message();
@@ -122,4 +99,3 @@ TEST(AllocationAuthorityInfoFromCapnp, entrypoint_robots_is_set_properly) {
         }
     }
 }
-

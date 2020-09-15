@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 // capnzero::ID
 constexpr const int ID_TYPE = 1;
 const std::string ID_VALUE = "id";

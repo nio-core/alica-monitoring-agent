@@ -6,18 +6,8 @@
 #include <capnp/serialize.h>
 #include <conversion.h>
 #include <AllocationAuthorityInfo.capnp.h>
-#include <search.h>
+#include <test_messages_common.h>
 
-kj::Array<capnp::word> role_switch_message() {
-    capnp::MallocMessageBuilder builder;
-    auto roleSwitch = builder.initRoot<alica_msgs::RoleSwitch>();
-    auto senderId = roleSwitch.initSenderId();
-    senderId.setType(ID_TYPE);
-    senderId.setValue(kj::StringPtr(ID_VALUE).asBytes());
-    roleSwitch.setRoleId(ROLE_ID);
-    roleSwitch.setType(TYPE);
-    return capnp::messageToFlatArray(builder);
-}
 
 TEST(RoleSwtichFromCapnp, with_missing_fields_can_not_be_parsed) {
     capnp::MallocMessageBuilder builder;

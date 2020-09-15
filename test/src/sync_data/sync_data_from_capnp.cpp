@@ -4,19 +4,8 @@
 #include <test_values_common.h>
 #include <capnp/serialize.h>
 #include <conversion.h>
+#include <test_messages_common.h>
 
-kj::Array<capnp::word> sync_data_message() {
-    capnp::MallocMessageBuilder builder;
-    auto syncData = builder.initRoot<alica_msgs::SyncData>();
-    auto robotId = syncData.initRobotId();
-    robotId.setType(ID_TYPE);
-    robotId.setValue(kj::StringPtr(ID_VALUE).asBytes());
-    syncData.setTransitionId(TRANSITION_ID);
-    syncData.setTransitionHolds(TRANSITION_HOLDS);
-    syncData.setAck(ACK);
-
-    return capnp::messageToFlatArray(builder);
-}
 
 TEST(SyncDataFromCapnp, it_can_be_parsed) {
     auto message = sync_data_message();

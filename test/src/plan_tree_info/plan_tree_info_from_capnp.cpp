@@ -6,23 +6,8 @@
 #include <conversion.h>
 #include <test_values_common.h>
 #include <rapidjson/document.h>
+#include <test_messages_common.h>
 
-kj::Array<capnp::word> plan_tree_info_message() {
-    capnp::MallocMessageBuilder builder;
-    auto planTreeInfo = builder.initRoot<alica_msgs::PlanTreeInfo>();
-    auto senderId = planTreeInfo.initSenderId();
-    senderId.setType(ID_TYPE);
-    senderId.setValue(kj::StringPtr(ID_VALUE).asBytes());
-    auto stateIds = planTreeInfo.initStateIds(STATE_ID_COUNT);
-    for(int i = 0; i < STATE_ID_COUNT; i++) {
-        stateIds.set(i, i);
-    }
-    auto succeededEps = planTreeInfo.initSucceededEps(SUCCEEDED_EPS_COUNT);
-    for(int i = 0; i < SUCCEEDED_EPS_COUNT; i++) {
-        succeededEps.set(i, i);
-    }
-    return capnp::messageToFlatArray(builder);
-}
 
 TEST(PlanTreeInfoFromCapnp, with_missing_fields_can_not_be_parsed) {
     capnp::MallocMessageBuilder builder;

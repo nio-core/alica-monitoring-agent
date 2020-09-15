@@ -3,15 +3,8 @@
 #include <capnp/serialize.h>
 #include <test_values_common.h>
 #include <conversion.h>
+#include <test_messages_common.h>
 
-kj::Array<capnp::word> capnzero_id_message() {
-    capnp::MallocMessageBuilder builder;
-    auto id = builder.initRoot<capnzero::ID>();
-    id.setValue(kj::StringPtr(ID_VALUE).asBytes());
-    id.setType(ID_TYPE);
-
-    return capnp::messageToFlatArray(builder);
-}
 
 TEST(CapnzeroIDFromCapnp, it_can_not_be_parsed_if_value_is_missing) {
     capnp::MallocMessageBuilder builder;

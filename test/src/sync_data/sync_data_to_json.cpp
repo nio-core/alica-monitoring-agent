@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <rapidjson/document.h>
 #include <conversion.h>
-#include <test_values_common.h>
+#include "../../helper/include/test_values_common.h"
 
 SyncData sync_data() {
     capnzero::Id robotId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));

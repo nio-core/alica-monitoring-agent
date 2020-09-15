@@ -4,18 +4,8 @@
 #include <capnp/serialize.h>
 #include <conversion.h>
 #include <test_values_common.h>
+#include <test_messages_common.h>
 
-kj::Array<capnp::word> solver_var_message() {
-    capnp::MallocMessageBuilder builder;
-    auto solverVar = builder.initRoot<alica_msgs::SolverVar>();
-    solverVar.setId(SOLVER_VAR_ID);
-    auto value = solverVar.initValue(SOLVER_VAR_VALUE_SIZE);
-    for(int i = 0; i < SOLVER_VAR_VALUE_SIZE; i++) {
-        value.set(i, i);
-    }
-
-    return capnp::messageToFlatArray(builder);
-}
 
 TEST(SolverVarFromCapnp, it_can_be_parsed) {
     auto message = solver_var_message();

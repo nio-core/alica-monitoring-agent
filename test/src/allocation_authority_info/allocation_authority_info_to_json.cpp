@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <rapidjson/document.h>
 #include <conversion.h>
-#include <test_values_common.h>
+#include "../../helper/include/test_values_common.h"
 
 AllocationAuthorityInfo allocation_authority_info() {
     capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
