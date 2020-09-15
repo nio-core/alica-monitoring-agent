@@ -1,9 +1,16 @@
 #include <gtest/gtest.h>
-#include <CapnprotoMessageHandler.h>
+#include <handler/CapnprotoMessageHandler.h>
 #include <test_messages_common.h>
+#include <handler/AlicaEngineInfoHandler.h>
+#include <handler/AllocationAuthorityInfoHandler.h>
+#include <handler/PlanTreeInfoHandler.h>
+#include <handler/RoleSwitchHandler.h>
+#include <handler/SolverResultHandler.h>
+#include <handler/SyncReadyHandler.h>
+#include <handler/SyncTalkHandler.h>
 
 TEST(HandlingAllocationAuthorityInformation, it_emits_allocation_authority_information_json) {
-    CapnprotoMessageHandler handler;
+    AllocationAuthorityInfoHandler handler(nullptr);
 
     auto message = prepare_allocation_authority_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
@@ -12,7 +19,7 @@ TEST(HandlingAllocationAuthorityInformation, it_emits_allocation_authority_infor
 }
 
 TEST(HandlingEngineInformation, it_emits_alica_engine_information_json) {
-    CapnprotoMessageHandler handler;
+    AlicaEngineInfoHandler handler(nullptr);
 
     auto message = alica_engine_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
@@ -21,7 +28,7 @@ TEST(HandlingEngineInformation, it_emits_alica_engine_information_json) {
 }
 
 TEST(HandlingPlanTreeInfo, it_emits_plan_tree_info_json) {
-    CapnprotoMessageHandler handler;
+    PlanTreeInfoHandler handler(nullptr);
 
     auto message = plan_tree_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
@@ -30,7 +37,7 @@ TEST(HandlingPlanTreeInfo, it_emits_plan_tree_info_json) {
 }
 
 TEST(HandlingRoleSwitch, it_emits_role_switch_json) {
-    CapnprotoMessageHandler handler;
+    RoleSwitchHandler handler(nullptr);
 
     auto message = role_switch_message();
     auto reader = capnp::FlatArrayMessageReader(message);
@@ -39,7 +46,7 @@ TEST(HandlingRoleSwitch, it_emits_role_switch_json) {
 }
 
 TEST(HandlingSolverResult, it_emits_solver_result_json) {
-    CapnprotoMessageHandler handler;
+    SolverResultHandler handler(nullptr);
 
     auto message = solver_result_message();
     auto reader = capnp::FlatArrayMessageReader(message);
@@ -48,7 +55,7 @@ TEST(HandlingSolverResult, it_emits_solver_result_json) {
 }
 
 TEST(HandlingSyncReady, it_emits_sync_ready_json) {
-    CapnprotoMessageHandler handler;
+    SyncReadyHandler handler(nullptr);
 
     auto message = sync_ready_message();
     auto reader = capnp::FlatArrayMessageReader(message);
@@ -57,7 +64,7 @@ TEST(HandlingSyncReady, it_emits_sync_ready_json) {
 }
 
 TEST(HandlingSyncTalk, it_emits_sync_talk_json) {
-    CapnprotoMessageHandler handler;
+    SyncTalkHandler handler(nullptr);
 
     auto message = sync_talk_message();
     auto reader = capnp::FlatArrayMessageReader(message);

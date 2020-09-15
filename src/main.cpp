@@ -1,5 +1,5 @@
 #include <capnzero/Subscriber.h>
-#include <CapnprotoMessageHandler.h>
+#include <handler/CapnprotoMessageHandler.h>
 
 void usage() {
     std::cout << "task-allocation-monitor <options>" << std::endl
