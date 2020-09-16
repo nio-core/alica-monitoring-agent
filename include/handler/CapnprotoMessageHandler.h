@@ -8,8 +8,10 @@ public:
 
     virtual ~CapnprotoMessageHandler() = default;
 
-    virtual void handle(capnp::FlatArrayMessageReader& reader) = 0;
+    void handle(capnp::FlatArrayMessageReader& reader);
 
 protected:
     CapnprotoMessageHandler* successor_;
+
+    virtual bool doHandle(capnp::FlatArrayMessageReader &reader) = 0;
 };

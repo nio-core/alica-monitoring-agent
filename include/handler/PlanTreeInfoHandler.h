@@ -6,5 +6,6 @@ class PlanTreeInfoHandler : public CapnprotoMessageHandler {
 public:
     explicit PlanTreeInfoHandler(CapnprotoMessageHandler *successor);
 
-    void handle(capnp::FlatArrayMessageReader &reader) override;
+private:
+    bool doHandle(capnp::FlatArrayMessageReader &reader) override;
 };

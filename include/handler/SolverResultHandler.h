@@ -6,5 +6,6 @@ class SolverResultHandler : public CapnprotoMessageHandler {
 public:
     explicit SolverResultHandler(CapnprotoMessageHandler *successor);
 
-    void handle(capnp::FlatArrayMessageReader &reader) override;
+private:
+    bool doHandle(capnp::FlatArrayMessageReader &reader) override;
 };

@@ -6,5 +6,6 @@ class AllocationAuthorityInfoHandler : public CapnprotoMessageHandler {
 public:
     explicit AllocationAuthorityInfoHandler(CapnprotoMessageHandler *successor);
 
-    void handle(capnp::FlatArrayMessageReader &reader) override;
+private:
+    bool doHandle(capnp::FlatArrayMessageReader &reader) override;
 };

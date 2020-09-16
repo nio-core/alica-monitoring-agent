@@ -5,16 +5,13 @@
 AllocationAuthorityInfoHandler::AllocationAuthorityInfoHandler(CapnprotoMessageHandler *successor)
         : CapnprotoMessageHandler(successor) {}
 
-void AllocationAuthorityInfoHandler::handle(capnp::FlatArrayMessageReader &reader) {
+bool AllocationAuthorityInfoHandler::doHandle(capnp::FlatArrayMessageReader &reader) {
     try {
         std::cout << AllocationAuthorityInfo::from(reader).toJson() << std::endl;
-        return;
-    } catch (std::runtime_error& e) {}
-    catch (kj::Exception&) {}
-
-    if(successor_ != nullptr) {
-        successor_->handle(reader);
-    } else {
-        std::cout << "No matching handler available" << std::endl;
+        return true;
+    } catch (std::runtime_error&) {
+        return false;
+    } catch (kj::Exception&) {
+        return false;
     }
 }

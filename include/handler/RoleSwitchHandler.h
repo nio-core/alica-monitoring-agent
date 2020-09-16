@@ -6,5 +6,6 @@ class RoleSwitchHandler : public CapnprotoMessageHandler {
 public:
     explicit RoleSwitchHandler(CapnprotoMessageHandler *successor);
 
-    void handle(capnp::FlatArrayMessageReader &reader) override;
+private:
+    bool doHandle(capnp::FlatArrayMessageReader &reader) override;
 };
