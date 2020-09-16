@@ -2,15 +2,18 @@
 #include <iostream>
 #include <conversion.h>
 
+SyncTalkHandler::SyncTalkHandler(CapnprotoMessageHandler *successor) : CapnprotoMessageHandler(successor) {}
+
 void SyncTalkHandler::handle(capnp::FlatArrayMessageReader &reader) {
     try {
-        std::cout << std::endl << SyncTalk::from(reader).toJson() << std::endl << std::endl;
+        std::cout << SyncTalk::from(reader).toJson() << std::endl;
         return;
-    } catch (std::runtime_error& e) {
-        std::cout << e.what() << std::endl;
-    } catch (kj::Exception&) {
-        std::cout << "Error reading Sync Talk" << std::endl;
+    } catch (std::runtime_error& e) {}
+    catch (kj::Exception&) {}
+
+    if(successor_ != nullptr) {
+        successor_->handle(reader);
+    } else {
+        std::cout << "No matching handler available" << std::endl;
     }
 }
-
-SyncTalkHandler::SyncTalkHandler(CapnprotoMessageHandler *successor) : CapnprotoMessageHandler(successor) {}

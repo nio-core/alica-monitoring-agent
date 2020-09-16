@@ -1,5 +1,5 @@
 #include <capnzero/Subscriber.h>
-#include <handler/CapnprotoMessageHandler.h>
+#include <handler.h>
 
 void usage() {
     std::cout << "task-allocation-monitor <options>" << std::endl
@@ -28,7 +28,19 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    auto handler = new CapnprotoMessageHandler();
+    CapnprotoMessageHandler* handler = new AlicaEngineInfoHandler(
+            new AllocationAuthorityInfoHandler(
+                    new PlanTreeInfoHandler(
+                            new SolverResultHandler(
+                                new SyncTalkHandler(
+                                        new RoleSwitchHandler(
+                                                new SyncReadyHandler(nullptr)
+                                                )
+                                        )
+                                    )
+                            )
+                    )
+            );
 
     void* ctx = zmq_ctx_new();
     capnzero::Subscriber subscriber(ctx, capnzero::UDP);
