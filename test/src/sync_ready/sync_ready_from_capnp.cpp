@@ -16,7 +16,7 @@ TEST(SyncReadyFromCapnp, with_missing_fields_can_not_be_parsed) {
     auto message = capnp::messageToFlatArray(builder);
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_THROW(SyncReady::from(reader), std::runtime_error);
+    EXPECT_THROW(conversion::SyncReady::from(reader), std::runtime_error);
 }
 
 TEST(SyncReadyFromCapnp, it_can_not_parse_other_messages) {
@@ -25,21 +25,21 @@ TEST(SyncReadyFromCapnp, it_can_not_parse_other_messages) {
     auto message = capnp::messageToFlatArray(builder);
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_THROW(SyncReady::from(reader), std::runtime_error);
+    EXPECT_THROW(conversion::SyncReady::from(reader), std::runtime_error);
 }
 
 TEST(SyncReadyFromCapnp, it_can_be_parsed) {
     auto message = sync_ready_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_NO_THROW(SyncReady::from(reader));
+    EXPECT_NO_THROW(conversion::SyncReady::from(reader));
 }
 
 TEST(SyncReadyFromCapnp, it_contains_the_sender_id) {
     auto message = sync_ready_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    auto syncReady = SyncReady::from(reader);
+    auto syncReady = conversion::SyncReady::from(reader);
     auto senderId = syncReady.getSenderId();
 
     EXPECT_EQ(senderId.getType(), ID_TYPE);
@@ -50,7 +50,7 @@ TEST(SyncReadyFromCapnp, it_contains_the_sync_id) {
     auto message = sync_ready_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    auto syncReady = SyncReady::from(reader);
+    auto syncReady = conversion::SyncReady::from(reader);
 
     EXPECT_EQ(syncReady.getSyncId(), SYNC_ID);
 }

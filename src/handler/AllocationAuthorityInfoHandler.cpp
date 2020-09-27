@@ -7,7 +7,7 @@ AllocationAuthorityInfoHandler::AllocationAuthorityInfoHandler(CapnprotoMessageH
 
 bool AllocationAuthorityInfoHandler::doHandle(capnp::FlatArrayMessageReader &reader) {
     try {
-        std::cout << AllocationAuthorityInfo::from(reader).toJson() << std::endl;
+        std::cout << conversion::AllocationAuthorityInfo::from(reader).toJson() << std::endl;
         return true;
     } catch (std::runtime_error&) {
         return false;

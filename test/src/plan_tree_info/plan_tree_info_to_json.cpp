@@ -3,8 +3,8 @@
 #include <conversion.h>
 #include <rapidjson/document.h>
 
-PlanTreeInfo plan_tree_info() {
-    capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
+conversion::PlanTreeInfo plan_tree_info() {
+     conversion::capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
     std::vector<int64_t> stateIds;
     stateIds.reserve(STATE_ID_COUNT);
     for(int i = 0; i < STATE_ID_COUNT; i++) {
@@ -16,7 +16,7 @@ PlanTreeInfo plan_tree_info() {
         succeededEps.emplace_back(i);
     }
 
-    return PlanTreeInfo(senderId, stateIds, succeededEps);
+    return { senderId, stateIds, succeededEps };
 }
 
 TEST(PlanTreeInfoToJson, it_is_an_object) {

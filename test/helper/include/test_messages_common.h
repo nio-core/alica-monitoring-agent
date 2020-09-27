@@ -4,7 +4,7 @@
 
 kj::Array<capnp::word> capnzero_id_message();
 
-kj::Array<capnp::word> prepare_allocation_authority_info_message();
+kj::Array<capnp::word> allocation_authority_info_message();
 
 kj::Array<capnp::word> entrypoint_robots_message();
 

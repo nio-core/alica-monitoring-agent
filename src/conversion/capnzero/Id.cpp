@@ -5,44 +5,46 @@
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
 
-capnzero::Id capnzero::Id::from(capnp::MessageReader& reader) {
-    auto idReader = reader.getRoot<capnzero::ID>();
-    return from(idReader);
-}
-
-capnzero::Id capnzero::Id::from(capnzero::ID::Reader& reader) {
-    if(!isValid(reader)) {
-        throw std::runtime_error("Invalid Capnzero ID");
+namespace conversion {
+    capnzero::Id capnzero::Id::from(capnp::MessageReader& reader) {
+        auto idReader = reader.getRoot<::capnzero::ID>();
+        return from(idReader);
     }
 
-    auto type = reader.getType();
-    auto value = reader.getValue();
+    capnzero::Id capnzero::Id::from(::capnzero::ID::Reader& reader) {
+        if(!isValid(reader)) {
+            throw std::runtime_error("Invalid Capnzero ID");
+        }
 
-    return capnzero::Id(type, std::vector<uint8_t>(value.begin(), value.end()));
-}
+        auto type = reader.getType();
+        auto value = reader.getValue();
 
-bool capnzero::Id::isValid(capnzero::ID::Reader &reader) {
-    return reader.hasValue();
-}
+        return capnzero::Id(type, std::vector<uint8_t>(value.begin(), value.end()));
+    }
 
-capnzero::Id::Id(uint8_t type, std::vector<uint8_t> value): type_ {type}, value_ {std::move(value)} {}
+    bool capnzero::Id::isValid(::capnzero::ID::Reader &reader) {
+        return reader.hasValue();
+    }
 
-uint8_t capnzero::Id::getType() const {
-    return type_;
-}
+    capnzero::Id::Id(uint8_t type, std::vector<uint8_t> value): type_ {type}, value_ {std::move(value)} {}
 
-std::vector<uint8_t> capnzero::Id::getValue() const {
-    return value_;
-}
+    uint8_t capnzero::Id::getType() const {
+        return type_;
+    }
 
-std::string capnzero::Id::toJson() const {
-    rapidjson::Document id(rapidjson::kObjectType);
-    id.AddMember("type", type_, id.GetAllocator());
-    auto stringValue = std::string(value_.begin(), value_.end());
-    id.AddMember("value", rapidjson::Value(stringValue.c_str(), stringValue.size(), id.GetAllocator()), id.GetAllocator());
+    std::vector<uint8_t> capnzero::Id::getValue() const {
+        return value_;
+    }
 
-    rapidjson::StringBuffer buffer;
-    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-    id.Accept(writer);
-    return buffer.GetString();
+    std::string capnzero::Id::toJson() const {
+        rapidjson::Document id(rapidjson::kObjectType);
+        id.AddMember("type", type_, id.GetAllocator());
+        auto stringValue = std::string(value_.begin(), value_.end());
+        id.AddMember("value", rapidjson::Value(stringValue.c_str(), stringValue.size(), id.GetAllocator()), id.GetAllocator());
+
+        rapidjson::StringBuffer buffer;
+        rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+        id.Accept(writer);
+        return buffer.GetString();
+    }
 }

@@ -19,7 +19,7 @@ CapnprotoMessageHandler* handler() {
 }
 
 TEST(FullChainTest, it_emits_allocation_authority_information_json) {
-    auto message = prepare_allocation_authority_info_message();
+    auto message = allocation_authority_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
     auto messageHandler = handler();

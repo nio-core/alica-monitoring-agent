@@ -3,10 +3,10 @@
 #include "../../helper/include/test_values_common.h"
 #include <rapidjson/document.h>
 
-RoleSwitch role_switch() {
-    capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
+conversion::RoleSwitch role_switch() {
+     conversion::capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
 
-    return RoleSwitch(senderId, ROLE_ID, TYPE);
+    return { senderId, ROLE_ID, TYPE };
 }
 
 TEST(RoleSwtichToJson, it_is_an_object) {

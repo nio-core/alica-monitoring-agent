@@ -3,14 +3,9 @@
 #include <conversion.h>
 #include "../../helper/include/test_values_common.h"
 
-SyncData sync_data() {
-    capnzero::Id robotId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
-    return {
-        robotId,
-        TRANSITION_ID,
-        TRANSITION_HOLDS,
-        ACK
-    };
+conversion::SyncData sync_data() {
+     conversion::capnzero::Id robotId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
+    return { robotId, TRANSITION_ID, TRANSITION_HOLDS, ACK };
 }
 
 TEST(SyncDataToJson, it_is_an_object)

@@ -6,7 +6,7 @@ RoleSwitchHandler::RoleSwitchHandler(CapnprotoMessageHandler *successor) : Capnp
 
 bool RoleSwitchHandler::doHandle(capnp::FlatArrayMessageReader &reader) {
     try {
-        std::cout << RoleSwitch::from(reader).toJson() << std::endl;
+        std::cout << conversion::RoleSwitch::from(reader).toJson() << std::endl;
         return true;
     } catch (std::runtime_error&) {
         return false;

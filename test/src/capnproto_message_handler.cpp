@@ -6,7 +6,7 @@
 TEST(HandlingAllocationAuthorityInformation, it_emits_allocation_authority_information_json) {
     AllocationAuthorityInfoHandler handler(nullptr);
 
-    auto message = prepare_allocation_authority_info_message();
+    auto message = allocation_authority_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
     handler.handle(reader);

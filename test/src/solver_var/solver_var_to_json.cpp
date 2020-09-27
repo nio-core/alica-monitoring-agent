@@ -3,13 +3,13 @@
 #include <conversion.h>
 #include "../../helper/include/test_values_common.h"
 
-SolverVar solver_var() {
+conversion::SolverVar solver_var() {
     std::vector<uint8_t> value;
     value.reserve(SOLVER_VAR_VALUE_SIZE);
     for(int i = 0; i < SOLVER_VAR_VALUE_SIZE; i++) {
         value.emplace_back(i);
     }
-    return SolverVar(SOLVER_VAR_ID, value);
+    return { SOLVER_VAR_ID, value };
 }
 
 TEST(SolverVarToJson, it_is_an_object) {

@@ -3,19 +3,16 @@
 #include <rapidjson/document.h>
 #include <conversion.h>
 
-SyncTalk sync_talk() {
-    capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
-    std::vector<SyncData> data;
+conversion::SyncTalk sync_talk() {
+     conversion::capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
+    std::vector<conversion::SyncData> data;
     data.reserve(SYNC_DATA_COUNT);
     for(int i = 0; i < SYNC_DATA_COUNT; i++) {
-        capnzero::Id robotId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
+         conversion::capnzero::Id robotId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
         data.emplace_back(robotId, TRANSITION_ID, TRANSITION_HOLDS, ACK);
     }
 
-    return {
-        senderId,
-        data
-    };
+    return { senderId,data };
 }
 
 TEST(SyncTalkToJson, it_is_an_object ) {

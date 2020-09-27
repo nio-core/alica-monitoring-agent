@@ -3,13 +3,13 @@
 #include <conversion.h>
 #include "../../helper/include/test_values_common.h"
 
-EntrypointRobots entrypoint_robots() {
-    std::vector<capnzero::Id> robots;
+conversion::EntrypointRobots entrypoint_robots() {
+    std::vector< conversion::capnzero::Id> robots;
     robots.reserve(ROBOT_COUNT);
     for(int i = 0; i < ROBOT_COUNT; i++) {
         robots.emplace_back(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
     }
-    return EntrypointRobots(ENTRY_POINT, robots);
+    return { ENTRY_POINT, robots };
 }
 
 TEST(EntrypointRobotsToJson, it_creates_an_object) {

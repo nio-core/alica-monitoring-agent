@@ -15,7 +15,7 @@ TEST(SolverResultFromCapnp, with_missing_fields_can_not_be_parsed) {
     auto message = capnp::messageToFlatArray(builder);
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_THROW(SolverResult::from(reader), std::runtime_error);
+    EXPECT_THROW(conversion::SolverResult::from(reader), std::runtime_error);
 }
 
 TEST(SolverResultFromCapnp, it_can_not_parse_other_messages) {
@@ -24,21 +24,21 @@ TEST(SolverResultFromCapnp, it_can_not_parse_other_messages) {
     auto message = capnp::messageToFlatArray(builder);
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_THROW(SolverResult::from(reader), std::runtime_error);
+    EXPECT_THROW(conversion::SolverResult::from(reader), std::runtime_error);
 }
 
 TEST(SolverResultFromCapnp, it_can_be_parsed) {
     auto message = solver_result_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_NO_THROW(SolverResult::from(reader));
+    EXPECT_NO_THROW(conversion::SolverResult::from(reader));
 }
 
 TEST(SolverResultFromCapnp, it_contains_the_sender_id) {
     auto message = solver_result_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    auto solverResult = SolverResult::from(reader);
+    auto solverResult = conversion::SolverResult::from(reader);
     auto senderId = solverResult.getSenderId();
 
     EXPECT_EQ(senderId.getType(), ID_TYPE);
@@ -49,7 +49,7 @@ TEST(SolverResultFromCapnp, it_contains_the_vars) {
     auto message = solver_result_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    auto solverResult = SolverResult::from(reader);
+    auto solverResult = conversion::SolverResult::from(reader);
     auto vars = solverResult.getVars();
 
     EXPECT_EQ(vars.size(), SOLVER_VAR_COUNT);

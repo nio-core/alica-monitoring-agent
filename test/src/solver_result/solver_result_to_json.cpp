@@ -3,9 +3,9 @@
 #include <conversion.h>
 #include <rapidjson/document.h>
 
-SolverResult solver_result() {
-    capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
-    std::vector<SolverVar> vars;
+conversion::SolverResult solver_result() {
+     conversion::capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
+    std::vector<conversion::SolverVar> vars;
     vars.reserve(SOLVER_VAR_COUNT);
     for(int i = 0; i < SOLVER_VAR_COUNT; i++) {
         std::vector<uint8_t> value;
@@ -15,10 +15,7 @@ SolverResult solver_result() {
         vars.emplace_back(SOLVER_VAR_ID, value);
     }
 
-    return {
-            senderId,
-            vars
-    };
+    return { senderId, vars };
 }
 
 TEST(SolverResultCapnprotoToJson, it_is_an_object) {

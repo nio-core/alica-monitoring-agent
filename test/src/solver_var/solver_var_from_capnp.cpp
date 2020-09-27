@@ -11,7 +11,7 @@ TEST(SolverVarFromCapnp, it_can_be_parsed) {
     auto message = solver_var_message();
     capnp::FlatArrayMessageReader reader(message);
 
-    EXPECT_NO_THROW(SolverVar::from(reader));
+    EXPECT_NO_THROW(conversion::SolverVar::from(reader));
 }
 
 TEST(SolverVarFromCapnp, it_can_no_be_parsed_if_value_is_missing) {
@@ -20,7 +20,7 @@ TEST(SolverVarFromCapnp, it_can_no_be_parsed_if_value_is_missing) {
     auto message = capnp::messageToFlatArray(builder);
     capnp::FlatArrayMessageReader reader(message);
 
-    EXPECT_THROW(SolverVar::from(reader), std::runtime_error);
+    EXPECT_THROW(conversion::SolverVar::from(reader), std::runtime_error);
 }
 
 TEST(SolverVarFromCapnp, it_can_not_parse_other_messages) {
@@ -29,14 +29,14 @@ TEST(SolverVarFromCapnp, it_can_not_parse_other_messages) {
     auto message = capnp::messageToFlatArray(builder);
     capnp::FlatArrayMessageReader reader(message);
 
-    EXPECT_THROW(SolverVar::from(reader), std::runtime_error);
+    EXPECT_THROW(conversion::SolverVar::from(reader), std::runtime_error);
 }
 
 TEST(SolverVarFromCapnp, it_contains_the_id) {
     auto message = solver_var_message();
     capnp::FlatArrayMessageReader reader(message);
 
-    auto solverVar = SolverVar::from(reader);
+    auto solverVar = conversion::SolverVar::from(reader);
 
     EXPECT_EQ(solverVar.getId(), SOLVER_VAR_ID);
 }
@@ -45,7 +45,7 @@ TEST(SolverVarFromCapnp, it_contains_the_value) {
     auto message = solver_var_message();
     capnp::FlatArrayMessageReader reader(message);
 
-    auto solverVar = SolverVar::from(reader);
+    auto solverVar = conversion::SolverVar::from(reader);
     auto solverVarValue = solverVar.getValue();
 
     EXPECT_EQ(solverVarValue.size(), SOLVER_VAR_VALUE_SIZE);

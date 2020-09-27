@@ -13,7 +13,7 @@ TEST(EntryPointRobotsFromCapnp, it_can_not_be_parsed_if_robots_are_missing) {
     auto message = capnp::messageToFlatArray(builder);
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_THROW(EntrypointRobots::from(reader), std::runtime_error);
+    EXPECT_THROW(conversion::EntrypointRobots::from(reader), std::runtime_error);
 }
 
 TEST(EntryPointRobotsFromCapnp, other_messages_can_not_be_parsed) {
@@ -23,21 +23,21 @@ TEST(EntryPointRobotsFromCapnp, other_messages_can_not_be_parsed) {
     auto message = capnp::messageToFlatArray(builder);
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_THROW(EntrypointRobots::from(reader), std::runtime_error);
+    EXPECT_THROW(conversion::EntrypointRobots::from(reader), std::runtime_error);
 }
 
 TEST(EntryPointRobotsFromCapnp, it_can_be_parsed_if_robots_are_set) {
     auto message = entrypoint_robots_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_NO_THROW(EntrypointRobots::from(reader));
+    EXPECT_NO_THROW(conversion::EntrypointRobots::from(reader));
 }
 
 TEST(EntryPointRobotsFromCapnp, entrypoint_is_set) {
     auto message = entrypoint_robots_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    auto entrypointRobots = EntrypointRobots::from(reader);
+    auto entrypointRobots = conversion::EntrypointRobots::from(reader);
 
     EXPECT_EQ(entrypointRobots.getEntrypoint(), ENTRY_POINT);
 }
@@ -46,7 +46,7 @@ TEST(EntryPointRobotsFromCapnp, robots_are_set) {
     auto message = entrypoint_robots_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    auto entrypointRobots = EntrypointRobots::from(reader);
+    auto entrypointRobots = conversion::EntrypointRobots::from(reader);
     auto robots = entrypointRobots.getRobots();
 
     EXPECT_EQ(robots.size(), ROBOT_COUNT);

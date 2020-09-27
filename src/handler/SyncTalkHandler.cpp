@@ -6,7 +6,7 @@ SyncTalkHandler::SyncTalkHandler(CapnprotoMessageHandler *successor) : Capnproto
 
 bool SyncTalkHandler::doHandle(capnp::FlatArrayMessageReader &reader) {
     try {
-        std::cout << SyncTalk::from(reader).toJson() << std::endl;
+        std::cout << conversion::SyncTalk::from(reader).toJson() << std::endl;
         return true;
     } catch (std::runtime_error& e) {
         return false;

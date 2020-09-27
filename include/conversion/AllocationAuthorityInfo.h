@@ -4,36 +4,39 @@
 #include <conversion//capnzero/Id.h>
 #include <conversion/EntrypointRobots.h>
 
-class AllocationAuthorityInfo {
-public:
-    static AllocationAuthorityInfo from(capnp::MessageReader& reader);
+namespace conversion {
 
-    static bool isValid(alica_msgs::AllocationAuthorityInfo::Reader& reader);
+    class AllocationAuthorityInfo {
+    public:
+        static AllocationAuthorityInfo from(capnp::MessageReader &reader);
 
-public:
-    AllocationAuthorityInfo(capnzero::Id &senderId, int64_t planId, int64_t parentState,
-                            int64_t planType, capnzero::Id &authority,
-                            std::vector<EntrypointRobots> &entrypointRobots);
+        static bool isValid(alica_msgs::AllocationAuthorityInfo::Reader &reader);
 
-    capnzero::Id getSenderId() const;
+    public:
+        AllocationAuthorityInfo(capnzero::Id &senderId, int64_t planId, int64_t parentState,
+                                int64_t planType, capnzero::Id &authority,
+                                std::vector<conversion::EntrypointRobots> &entrypointRobots);
 
-    int64_t getPlanId() const;
+        capnzero::Id getSenderId() const;
 
-    int64_t getParentState() const;
+        int64_t getPlanId() const;
 
-    int64_t getPlanType() const;
+        int64_t getParentState() const;
 
-    capnzero::Id getAuthority() const;
+        int64_t getPlanType() const;
 
-    std::vector<EntrypointRobots> getEntrypointRobots() const;
+        capnzero::Id getAuthority() const;
 
-    const std::string toJson() const;
+        std::vector<EntrypointRobots> getEntrypointRobots() const;
 
-private:
-    capnzero::Id senderId_;
-    int64_t planId_;
-    int64_t parentState_;
-    int64_t planType_;
-    capnzero::Id authority_;
-    std::vector<EntrypointRobots> entrypointRobots_;
-};
+        const std::string toJson() const;
+
+    private:
+        capnzero::Id senderId_;
+        int64_t planId_;
+        int64_t parentState_;
+        int64_t planType_;
+        capnzero::Id authority_;
+        std::vector<EntrypointRobots> entrypointRobots_;
+    };
+}

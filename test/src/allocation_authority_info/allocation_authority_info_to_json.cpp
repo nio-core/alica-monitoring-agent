@@ -3,13 +3,13 @@
 #include <conversion.h>
 #include "../../helper/include/test_values_common.h"
 
-AllocationAuthorityInfo allocation_authority_info() {
-    capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
-    capnzero::Id authority(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
-    std::vector<EntrypointRobots> entrypointRobots;
+conversion::AllocationAuthorityInfo allocation_authority_info() {
+    conversion::capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
+    conversion::capnzero::Id authority(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
+    std::vector<conversion::EntrypointRobots> entrypointRobots;
     entrypointRobots.reserve(ENTRY_POINT_COUNT);
     for(int i = 0; i < ENTRY_POINT_COUNT; i++) {
-        std::vector<capnzero::Id> robots;
+        std::vector<conversion::capnzero::Id> robots;
         robots.reserve(ROBOT_COUNT);
         for(int j = 0; j < ROBOT_COUNT; j++) {
             robots.emplace_back(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
@@ -17,7 +17,7 @@ AllocationAuthorityInfo allocation_authority_info() {
         entrypointRobots.emplace_back(ENTRY_POINT, robots);
     }
 
-    return AllocationAuthorityInfo(senderId, PLAN_ID, PARENT_STATE, PLAN_TYPE, authority, entrypointRobots);
+    return {senderId, PLAN_ID, PARENT_STATE, PLAN_TYPE, authority, entrypointRobots };
 }
 
 TEST(AllocationAuthorityInfoToJson, it_is_an_object) {

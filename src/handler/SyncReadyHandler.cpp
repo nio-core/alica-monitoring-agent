@@ -6,7 +6,7 @@ SyncReadyHandler::SyncReadyHandler(CapnprotoMessageHandler *successor) : Capnpro
 
 bool SyncReadyHandler::doHandle(capnp::FlatArrayMessageReader &reader) {
     try {
-        std::cout << SyncReady::from(reader).toJson() << std::endl;
+        std::cout << conversion::SyncReady::from(reader).toJson() << std::endl;
         return true;
     } catch (std::runtime_error& e) {
         return false;

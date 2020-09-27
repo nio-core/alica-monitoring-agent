@@ -5,26 +5,28 @@
 #include <vector>
 #include <string>
 
-namespace capnzero {
-    class Id {
-    public:
-        static Id from(capnp::MessageReader& reader);
+namespace conversion {
+    namespace capnzero {
+        class Id {
+        public:
+            static Id from(capnp::MessageReader &reader);
 
-        static Id from(capnzero::ID::Reader& reader);
+            static Id from(::capnzero::ID::Reader &reader);
 
-        static bool isValid(capnzero::ID::Reader& reader);
+            static bool isValid(::capnzero::ID::Reader &reader);
 
-    public:
-        Id(uint8_t type, std::vector<uint8_t> value);
+        public:
+            Id(uint8_t type, std::vector<uint8_t> value);
 
-        uint8_t getType() const;
+            uint8_t getType() const;
 
-        std::vector<uint8_t> getValue() const;
+            std::vector<uint8_t> getValue() const;
 
-        std::string toJson() const;
+            std::string toJson() const;
 
-    private:
-        uint8_t type_;
-        std::vector<uint8_t> value_;
-    };
+        private:
+            uint8_t type_;
+            std::vector<uint8_t> value_;
+        };
+    }
 }

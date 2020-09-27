@@ -20,7 +20,7 @@ kj::Array<capnp::word> capnzero_id_message() {
     return capnp::messageToFlatArray(builder);
 }
 
-kj::Array<capnp::word> prepare_allocation_authority_info_message() {
+kj::Array<capnp::word> allocation_authority_info_message() {
     capnp::MallocMessageBuilder builder;
     auto allocationAuthorityInformation = builder.initRoot<alica_msgs::AllocationAuthorityInfo>();
     allocationAuthorityInformation.setParentState(PARENT_STATE);

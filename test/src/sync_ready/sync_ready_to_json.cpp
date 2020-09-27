@@ -3,12 +3,9 @@
 #include <rapidjson/document.h>
 #include <conversion.h>
 
-SyncReady sync_ready() {
-    capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
-    return {
-        senderId,
-        SYNC_ID
-    };
+conversion::SyncReady sync_ready() {
+     conversion::capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
+    return { senderId, SYNC_ID };
 }
 
 TEST(SyncReadyToJson, it_is_an_object) {

@@ -5,7 +5,7 @@
 TEST(CapnzeroIDToJson, it_creates_an_object) {
     uint8_t type { 0 };
     std::string value { "value" };
-    capnzero::Id id(type, std::vector<uint8_t>(value.begin(), value.end()));
+    conversion::capnzero::Id id(type, std::vector<uint8_t>(value.begin(), value.end()));
 
     std::string json = id.toJson();
 
@@ -18,7 +18,7 @@ TEST(CapnzeroIDToJson, it_creates_an_object) {
 TEST(CapnzeroIDToJson, it_contains_the_type) {
     uint8_t type { 0 };
     std::string value { "value" };
-    capnzero::Id id(type, std::vector<uint8_t>(value.begin(), value.end()));
+    conversion::capnzero::Id id(type, std::vector<uint8_t>(value.begin(), value.end()));
 
     std::string json = id.toJson();
 
@@ -31,7 +31,7 @@ TEST(CapnzeroIDToJson, it_contains_the_type) {
 TEST(CapnzeroIDToJson, it_contains_the_value) {
     uint8_t type { 0 };
     std::string value { "value" };
-    capnzero::Id id(type, std::vector<uint8_t>(value.begin(), value.end()));
+    conversion::capnzero::Id id(type, std::vector<uint8_t>(value.begin(), value.end()));
 
     std::string json = id.toJson();
 

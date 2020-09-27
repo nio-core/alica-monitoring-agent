@@ -12,7 +12,7 @@ TEST(AlicaEngineInfoFromCapnp, it_can_be_parsed_if_valid) {
     auto message = alica_engine_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_NO_THROW(AlicaEngineInfo::from(reader));
+    EXPECT_NO_THROW(conversion::AlicaEngineInfo::from(reader));
 }
 
 TEST(AlicaEngineInfoFromCapnp, with_missing_fields_can_not_be_parsed) {
@@ -21,7 +21,7 @@ TEST(AlicaEngineInfoFromCapnp, with_missing_fields_can_not_be_parsed) {
     auto message = capnp::messageToFlatArray(builder);
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_THROW(AlicaEngineInfo::from(reader), std::runtime_error);
+    EXPECT_THROW(conversion::AlicaEngineInfo::from(reader), std::runtime_error);
 }
 
 TEST(AlicaEngineInfoFromCapnp, other_messages_can_not_be_parsed) {
@@ -30,14 +30,14 @@ TEST(AlicaEngineInfoFromCapnp, other_messages_can_not_be_parsed) {
     auto message = capnp::messageToFlatArray(builder);
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_THROW(AlicaEngineInfo::from(reader), std::runtime_error);
+    EXPECT_THROW(conversion::AlicaEngineInfo::from(reader), std::runtime_error);
 }
 
 TEST(AlicaEngineInfoFromCapnp, sender_id_is_set_correctly) {
     auto message = alica_engine_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    auto engineInfo = AlicaEngineInfo::from(reader);
+    auto engineInfo = conversion::AlicaEngineInfo::from(reader);
     auto senderId = engineInfo.getSenderId();
 
     EXPECT_EQ(senderId.getType(), ID_TYPE);
@@ -48,7 +48,7 @@ TEST(AlicaEngineInfoFromCapnp, master_plan_is_set_correctly) {
     auto message = alica_engine_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    auto engineInfo = AlicaEngineInfo::from(reader);
+    auto engineInfo = conversion::AlicaEngineInfo::from(reader);
 
     EXPECT_EQ(engineInfo.getMasterPlan(), MASTER_PLAN);
 }
@@ -57,7 +57,7 @@ TEST(AlicaEngineInfoFromCapnp, current_plan_is_set_correctly) {
     auto message = alica_engine_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    auto engineInfo = AlicaEngineInfo::from(reader);
+    auto engineInfo = conversion::AlicaEngineInfo::from(reader);
 
     EXPECT_EQ(engineInfo.getCurrentPlan(), PLAN);
 }
@@ -66,7 +66,7 @@ TEST(AlicaEngineInfoFromCapnp, current_state_is_set_correctly) {
     auto message = alica_engine_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    auto engineInfo = AlicaEngineInfo::from(reader);
+    auto engineInfo = conversion::AlicaEngineInfo::from(reader);
 
     EXPECT_EQ(engineInfo.getCurrentState(), STATE);
 }
@@ -75,7 +75,7 @@ TEST(AlicaEngineInfoFromCapnp, current_role_is_set_correctly) {
     auto message = alica_engine_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    auto engineInfo = AlicaEngineInfo::from(reader);
+    auto engineInfo = conversion::AlicaEngineInfo::from(reader);
 
     EXPECT_EQ(engineInfo.getCurrentRole(), ROLE);
 }
@@ -84,7 +84,7 @@ TEST(AlicaEngineInfoFromCapnp, current_task_is_set_correctly) {
     auto message = alica_engine_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    auto engineInfo = AlicaEngineInfo::from(reader);
+    auto engineInfo = conversion::AlicaEngineInfo::from(reader);
 
     EXPECT_EQ(engineInfo.getCurrentTask(), TASK);
 }
@@ -93,7 +93,7 @@ TEST(AlicaEngineInfoFromCapnp, agent_ids_with_me_are_set_correctly) {
     auto message = alica_engine_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    auto engineInfo = AlicaEngineInfo::from(reader);
+    auto engineInfo = conversion::AlicaEngineInfo::from(reader);
 
     auto agentIdsWithMe = engineInfo.getAgentIdsWithMe();
     EXPECT_EQ(agentIdsWithMe.size(), AGENT_COUNT);

@@ -3,46 +3,49 @@
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
 
-SyncReady SyncReady::from(capnp::MessageReader &reader) {
-    auto syncReady = reader.getRoot<alica_msgs::SyncReady>();
-    if(!syncReady.hasSenderId()) {
-        throw std::runtime_error("Invalid Sync Ready");
+
+namespace conversion {
+    SyncReady SyncReady::from(capnp::MessageReader &reader) {
+        auto syncReady = reader.getRoot<alica_msgs::SyncReady>();
+        if (!syncReady.hasSenderId()) {
+            throw std::runtime_error("Invalid Sync Ready");
+        }
+
+        auto senderIdReader = syncReady.getSenderId();
+        auto senderId = capnzero::Id::from(senderIdReader);
+
+        return {
+                senderId,
+                syncReady.getSynchronisationId()
+        };
     }
 
-    auto senderIdReader = syncReady.getSenderId();
-    auto senderId = capnzero::Id::from(senderIdReader);
+    bool SyncReady::isValid(alica_msgs::SyncReady::Reader &reader) {
+        return reader.hasSenderId();
+    }
 
-    return {
-        senderId,
-        syncReady.getSynchronisationId()
-    };
-}
+    SyncReady::SyncReady(const capnzero::Id &senderId, int64_t syncId) : senderId_(senderId), syncId_(syncId) {}
 
-bool SyncReady::isValid(alica_msgs::SyncReady::Reader &reader) {
-    return reader.hasSenderId();
-}
+    capnzero::Id SyncReady::getSenderId() const {
+        return senderId_;
+    }
 
-SyncReady::SyncReady(const capnzero::Id &senderId, int64_t syncId) : senderId_(senderId), syncId_(syncId) {}
+    int64_t SyncReady::getSyncId() const {
+        return syncId_;
+    }
 
-capnzero::Id SyncReady::getSenderId() const {
-    return senderId_;
-}
+    const std::string SyncReady::toJson() const {
+        rapidjson::Document syncReady(rapidjson::kObjectType);
 
-int64_t SyncReady::getSyncId() const {
-    return syncId_;
-}
+        rapidjson::Document senderId;
+        senderId.Parse(senderId_.toJson().c_str());
+        syncReady.AddMember("senderId", senderId.GetObject(), syncReady.GetAllocator());
+        syncReady.AddMember("synchronisationId", syncId_, syncReady.GetAllocator());
 
-const std::string SyncReady::toJson() const {
-    rapidjson::Document syncReady(rapidjson::kObjectType);
+        rapidjson::StringBuffer buffer;
+        rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+        syncReady.Accept(writer);
 
-    rapidjson::Document senderId;
-    senderId.Parse(senderId_.toJson().c_str());
-    syncReady.AddMember("senderId", senderId.GetObject(), syncReady.GetAllocator());
-    syncReady.AddMember("synchronisationId", syncId_, syncReady.GetAllocator());
-
-    rapidjson::StringBuffer buffer;
-    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-    syncReady.Accept(writer);
-
-    return buffer.GetString();
+        return buffer.GetString();
+    }
 }

@@ -4,23 +4,26 @@
 #include <conversion/capnzero/Id.h>
 #include <RoleSwitch.capnp.h>
 
-class RoleSwitch {
-public:
-    static RoleSwitch from(capnp::MessageReader &reader);
 
-    static bool isValid(alica_msgs::RoleSwitch::Reader& reader);
+namespace conversion {
+    class RoleSwitch {
+    public:
+        static RoleSwitch from(capnp::MessageReader &reader);
 
-public:
-    RoleSwitch(const capnzero::Id &senderId, int64_t roleId, const std::string& type);
+        static bool isValid(alica_msgs::RoleSwitch::Reader &reader);
 
-    capnzero::Id getSenderId() const;
+    public:
+        RoleSwitch(const capnzero::Id &senderId, int64_t roleId, const std::string &type);
 
-    int64_t getRoleId() const;
+        capnzero::Id getSenderId() const;
 
-    const std::string toJson() const;
+        int64_t getRoleId() const;
 
-private:
-    capnzero::Id senderId_;
-    int64_t roleId_;
-    std::string type_;
-};
+        const std::string toJson() const;
+
+    private:
+        capnzero::Id senderId_;
+        int64_t roleId_;
+        std::string type_;
+    };
+}

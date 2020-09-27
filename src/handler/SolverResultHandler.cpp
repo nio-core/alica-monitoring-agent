@@ -6,7 +6,7 @@ SolverResultHandler::SolverResultHandler(CapnprotoMessageHandler *successor) : C
 
 bool SolverResultHandler::doHandle(capnp::FlatArrayMessageReader &reader) {
     try {
-        std::cout << SolverResult::from(reader).toJson() << std::endl;
+        std::cout << conversion::SolverResult::from(reader).toJson() << std::endl;
         return true;
     } catch (std::runtime_error&) {
         return false;

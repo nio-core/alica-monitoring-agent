@@ -3,18 +3,18 @@
 #include "../../helper/include/test_values_common.h"
 #include <rapidjson/document.h>
 
-AlicaEngineInfo alica_engine_info() {
+conversion::AlicaEngineInfo alica_engine_info() {
     auto valueString = std::string(ID_VALUE);
-    std::vector<capnzero::Id> agentIdsWithMe;
+    std::vector< conversion::capnzero::Id> agentIdsWithMe;
     agentIdsWithMe.reserve(AGENT_COUNT);
     for(int i = 0; i < AGENT_COUNT; i++) {
         agentIdsWithMe.emplace_back(ID_TYPE, std::vector<uint8_t>(valueString.begin(), valueString.end()));
     }
 
     std::string idValue {ID_VALUE};
-    capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(idValue.begin(), idValue.end()));
+     conversion::capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(idValue.begin(), idValue.end()));
 
-    return AlicaEngineInfo(senderId, MASTER_PLAN, PLAN, STATE, ROLE, TASK, agentIdsWithMe);
+    return { senderId, MASTER_PLAN, PLAN, STATE, ROLE, TASK, agentIdsWithMe };
 }
 
 TEST(AlicaEngineInfoToJson, it_contains_master_plan ) {
