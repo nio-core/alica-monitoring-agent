@@ -2,20 +2,20 @@
 #include <model/SyncTalk.h>
 #include <serialization/SerializationStrategy.h>
 #include <iostream>
+#include <exception/MessageHandlingException.h>
 
 
 SyncTalkHandler::SyncTalkHandler(SerializationStrategy *serializationStrategy)
         : CapnprotoMessageHandler(serializationStrategy) {}
 
-bool SyncTalkHandler::doHandle(capnp::FlatArrayMessageReader &reader) {
+void SyncTalkHandler::doHandle(capnp::FlatArrayMessageReader &reader) {
     try {
         auto syncTalk = model::SyncTalk::from(reader);
         const std::string json = serializationStrategy->serializeSyncTalk(syncTalk);
         std::cout << json << std::endl;
-        return true;
     } catch (std::runtime_error& e) {
-        return false;
+        throw MessageHandlingException();
     } catch (kj::Exception&) {
-        return false;
+        throw MessageHandlingException();
     }
 }

@@ -2,20 +2,20 @@
 #include <model/PlanTreeInfo.h>
 #include <serialization/SerializationStrategy.h>
 #include <iostream>
+#include <exception/MessageHandlingException.h>
 
 
 PlanTreeInfoHandler::PlanTreeInfoHandler(SerializationStrategy *serializationStrategy)
     : CapnprotoMessageHandler(serializationStrategy) {}
 
-bool PlanTreeInfoHandler::doHandle(capnp::FlatArrayMessageReader &reader) {
+void PlanTreeInfoHandler::doHandle(capnp::FlatArrayMessageReader &reader) {
     try {
         auto planTreeInfo = model::PlanTreeInfo::from(reader);
         const std::string json = serializationStrategy->serializePlanTreeInfo(planTreeInfo);
         std::cout << json << std::endl;
-        return true;
     } catch (std::runtime_error&) {
-        return false;
+        throw MessageHandlingException();
     } catch (kj::Exception&) {
-        return false;
+        throw MessageHandlingException();
     }
 }

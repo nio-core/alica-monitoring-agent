@@ -1,6 +1,8 @@
 #include <handler/CapnprotoMessageHandler.h>
 #include <serialization/SerializationStrategy.h>
 #include <iostream>
+#include "exception/MessageHandlingException.h"
+#include "exception/NoFittingHandlerException.h"
 
 CapnprotoMessageHandler::CapnprotoMessageHandler(SerializationStrategy *serializationStrategy)
         : successor(nullptr), serializationStrategy(serializationStrategy) {}
@@ -10,13 +12,13 @@ CapnprotoMessageHandler::~CapnprotoMessageHandler() {
 }
 
 void CapnprotoMessageHandler::handle(capnp::FlatArrayMessageReader &reader) {
-    auto messageHandlingSuccessful = doHandle(reader);
-
-    if (!messageHandlingSuccessful) {
-        if(successor) {
+    try {
+        doHandle(reader);
+    } catch (MessageHandlingException& e) {
+        if (successor) {
             successor->handle(reader);
         } else {
-            std::cout << "No matching handler available" << std::endl;
+            throw NoFittingHandlerException();
         }
     }
 }

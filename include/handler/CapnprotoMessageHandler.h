@@ -18,5 +18,5 @@ protected:
     CapnprotoMessageHandler* successor;
     SerializationStrategy* serializationStrategy;
 
-    virtual bool doHandle(capnp::FlatArrayMessageReader &reader) = 0;
+    virtual void doHandle(capnp::FlatArrayMessageReader &reader) = 0;
 };

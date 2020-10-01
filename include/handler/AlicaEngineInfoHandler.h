@@ -7,5 +7,5 @@ public:
     explicit AlicaEngineInfoHandler(SerializationStrategy* serializationStrategy);
 
 private:
-    bool doHandle(capnp::FlatArrayMessageReader& reader) override;
+    void doHandle(capnp::FlatArrayMessageReader& reader) override;
 };

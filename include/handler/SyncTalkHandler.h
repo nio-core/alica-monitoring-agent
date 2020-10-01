@@ -6,7 +6,6 @@ class SyncTalkHandler : public CapnprotoMessageHandler {
 public:
     explicit SyncTalkHandler(SerializationStrategy* serializationStrategy);
 
-
 private:
-    bool doHandle(capnp::FlatArrayMessageReader &reader) override;
+    void doHandle(capnp::FlatArrayMessageReader &reader) override;
 };
