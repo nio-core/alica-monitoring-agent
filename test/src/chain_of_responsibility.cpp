@@ -1,7 +1,14 @@
 #include <gtest/gtest.h>
 #include <test_messages_common.h>
-#include <handler.h>
 #include <serialization/JsonSerializationStrategy.h>
+#include <handler/CapnprotoMessageHandler.h>
+#include <handler/AlicaEngineInfoHandler.h>
+#include <handler/AllocationAuthorityInfoHandler.h>
+#include <handler/PlanTreeInfoHandler.h>
+#include <handler/SolverResultHandler.h>
+#include <handler/SyncTalkHandler.h>
+#include <handler/RoleSwitchHandler.h>
+#include <handler/SyncReadyHandler.h>
 
 CapnprotoMessageHandler* handler(SerializationStrategy* serializationStrategy) {
     auto alicaEngineInfoHandler = new AlicaEngineInfoHandler(serializationStrategy);

@@ -1,7 +1,13 @@
 #include <gtest/gtest.h>
 #include <test_messages_common.h>
-#include <handler.h>
 #include <serialization/JsonSerializationStrategy.h>
+#include <handler/AllocationAuthorityInfoHandler.h>
+#include <handler/AlicaEngineInfoHandler.h>
+#include <handler/PlanTreeInfoHandler.h>
+#include <handler/RoleSwitchHandler.h>
+#include <handler/SolverResultHandler.h>
+#include <handler/SyncReadyHandler.h>
+#include <handler/SyncTalkHandler.h>
 
 
 TEST(HandlingAllocationAuthorityInformation, it_emits_allocation_authority_information_json) {
