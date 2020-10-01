@@ -2,6 +2,7 @@
 #include <test_values_common.h>
 #include <rapidjson/document.h>
 #include <conversion.h>
+#include <serialization/JsonSerializationStrategy.h>
 
 conversion::SyncReady sync_ready() {
      conversion::capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
@@ -9,7 +10,9 @@ conversion::SyncReady sync_ready() {
 }
 
 TEST(SyncReadyToJson, it_is_an_object) {
-    const std::string json = sync_ready().toJson();
+    auto syncReady = sync_ready();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeSyncReady(syncReady);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -17,7 +20,9 @@ TEST(SyncReadyToJson, it_is_an_object) {
 }
 
 TEST(SyncReadyToJson, it_contains_sender_id) {
-    const std::string json = sync_ready().toJson();
+    auto syncReady = sync_ready();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeSyncReady(syncReady);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -27,7 +32,9 @@ TEST(SyncReadyToJson, it_contains_sender_id) {
 }
 
 TEST(SyncReadyToJson, it_contains_sync_id) {
-    const std::string json = sync_ready().toJson();
+    auto syncReady = sync_ready();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeSyncReady(syncReady);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 

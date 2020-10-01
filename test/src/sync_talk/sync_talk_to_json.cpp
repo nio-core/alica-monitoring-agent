@@ -2,6 +2,7 @@
 #include <test_values_common.h>
 #include <rapidjson/document.h>
 #include <conversion.h>
+#include <serialization/JsonSerializationStrategy.h>
 
 conversion::SyncTalk sync_talk() {
      conversion::capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
@@ -16,7 +17,9 @@ conversion::SyncTalk sync_talk() {
 }
 
 TEST(SyncTalkToJson, it_is_an_object ) {
-    const std::string json = sync_talk().toJson();
+    auto syncTalk = sync_talk();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeSyncTalk(syncTalk);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -24,7 +27,9 @@ TEST(SyncTalkToJson, it_is_an_object ) {
 }
 
 TEST(SyncTalkToJson, it_contains_sender_id ) {
-    const std::string json = sync_talk().toJson();
+    auto syncTalk = sync_talk();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeSyncTalk(syncTalk);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -34,7 +39,9 @@ TEST(SyncTalkToJson, it_contains_sender_id ) {
 }
 
 TEST(SyncTalkToJson, it_contains_sync_data ) {
-    const std::string json = sync_talk().toJson();
+    auto syncTalk = sync_talk();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeSyncTalk(syncTalk);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 

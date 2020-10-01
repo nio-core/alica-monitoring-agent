@@ -58,7 +58,7 @@ TEST(SyncDataFromCapnp, it_contains_the_transition_hold_status) {
 
     auto syncData = conversion::SyncData::from(reader);
 
-    EXPECT_EQ(syncData.transition_holds(), TRANSITION_HOLDS);
+    EXPECT_EQ(syncData.transitionHolds(), TRANSITION_HOLDS);
 }
 
 TEST(SyncDataFromCapnp, it_contains_the_acknowledgement_status) {

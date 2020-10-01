@@ -1,10 +1,17 @@
 #include <handler/SyncTalkHandler.h>
+#include <conversion/SyncTalk.h>
+#include <serialization/SerializationStrategy.h>
 #include <iostream>
-#include <conversion.h>
+
+
+SyncTalkHandler::SyncTalkHandler(SerializationStrategy *serializationStrategy)
+        : CapnprotoMessageHandler(serializationStrategy) {}
 
 bool SyncTalkHandler::doHandle(capnp::FlatArrayMessageReader &reader) {
     try {
-        std::cout << conversion::SyncTalk::from(reader).toJson() << std::endl;
+        auto syncTalk = conversion::SyncTalk::from(reader);
+        const std::string json = serializationStrategy->serializeSyncTalk(syncTalk);
+        std::cout << json << std::endl;
         return true;
     } catch (std::runtime_error& e) {
         return false;

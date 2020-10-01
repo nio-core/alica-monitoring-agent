@@ -82,7 +82,5 @@ namespace conversion {
         planTreeInfo.Accept(writer);
 
         return buffer.GetString();
-
-
     }
 }

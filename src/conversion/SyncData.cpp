@@ -40,7 +40,7 @@ namespace conversion {
         return transitionId_;
     }
 
-    bool SyncData::transition_holds() const {
+    bool SyncData::transitionHolds() const {
         return transitionHolds_;
     }
 

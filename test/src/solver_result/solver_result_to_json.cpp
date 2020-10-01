@@ -2,6 +2,7 @@
 #include <test_values_common.h>
 #include <conversion.h>
 #include <rapidjson/document.h>
+#include <serialization/JsonSerializationStrategy.h>
 
 conversion::SolverResult solver_result() {
      conversion::capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
@@ -19,7 +20,9 @@ conversion::SolverResult solver_result() {
 }
 
 TEST(SolverResultCapnprotoToJson, it_is_an_object) {
-    const std::string json = solver_result().toJson();
+    auto solverResult = solver_result();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeSolverResult(solverResult);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -27,7 +30,9 @@ TEST(SolverResultCapnprotoToJson, it_is_an_object) {
 }
 
 TEST(SolverResultCapnprotoToJson, it_contains_sender_id) {
-    const std::string json = solver_result().toJson();
+    auto solverResult = solver_result();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeSolverResult(solverResult);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -37,7 +42,9 @@ TEST(SolverResultCapnprotoToJson, it_contains_sender_id) {
 }
 
 TEST(SolverResultCapnprotoToJson, it_contains_solver_vars) {
-    const std::string json = solver_result().toJson();
+    auto solverResult = solver_result();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeSolverResult(solverResult);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 

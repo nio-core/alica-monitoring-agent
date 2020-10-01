@@ -19,6 +19,8 @@ namespace conversion {
 
         int64_t getRoleId() const;
 
+        std::string getType() const;
+
         const std::string toJson() const;
 
     private:

@@ -1,13 +1,15 @@
 #include <gtest/gtest.h>
 #include <conversion.h>
 #include <rapidjson/document.h>
+#include <serialization/JsonSerializationStrategy.h>
 
 TEST(CapnzeroIDToJson, it_creates_an_object) {
     uint8_t type { 0 };
     std::string value { "value" };
     conversion::capnzero::Id id(type, std::vector<uint8_t>(value.begin(), value.end()));
 
-    std::string json = id.toJson();
+    JsonSerializationStrategy serializationStrategy;
+    std::string json = serializationStrategy.serializeCapnzeroId(id);
 
     rapidjson::Document doc;
     doc.Parse(json.c_str());
@@ -20,7 +22,8 @@ TEST(CapnzeroIDToJson, it_contains_the_type) {
     std::string value { "value" };
     conversion::capnzero::Id id(type, std::vector<uint8_t>(value.begin(), value.end()));
 
-    std::string json = id.toJson();
+    JsonSerializationStrategy serializationStrategy;
+    std::string json = serializationStrategy.serializeCapnzeroId(id);
 
     rapidjson::Document doc;
     doc.Parse(json.c_str());
@@ -33,7 +36,8 @@ TEST(CapnzeroIDToJson, it_contains_the_value) {
     std::string value { "value" };
     conversion::capnzero::Id id(type, std::vector<uint8_t>(value.begin(), value.end()));
 
-    std::string json = id.toJson();
+    JsonSerializationStrategy serializationStrategy;
+    std::string json = serializationStrategy.serializeCapnzeroId(id);
 
     rapidjson::Document doc;
     doc.Parse(json.c_str());

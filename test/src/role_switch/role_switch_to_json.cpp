@@ -2,6 +2,7 @@
 #include <conversion.h>
 #include <test_values_common.h>
 #include <rapidjson/document.h>
+#include <serialization/JsonSerializationStrategy.h>
 
 conversion::RoleSwitch role_switch() {
      conversion::capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
@@ -10,7 +11,9 @@ conversion::RoleSwitch role_switch() {
 }
 
 TEST(RoleSwtichToJson, it_is_an_object) {
-    const std::string json = role_switch().toJson();
+    auto roleSwitch = role_switch();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeRoleSwitch(roleSwitch);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -18,7 +21,9 @@ TEST(RoleSwtichToJson, it_is_an_object) {
 }
 
 TEST(RoleSwtichToJson, it_contains_sender_id) {
-    const std::string json = role_switch().toJson();
+    auto roleSwitch = role_switch();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeRoleSwitch(roleSwitch);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -28,7 +33,9 @@ TEST(RoleSwtichToJson, it_contains_sender_id) {
 }
 
 TEST(RoleSwtichToJson, it_contains_the_role_id) {
-    const std::string json = role_switch().toJson();
+    auto roleSwitch = role_switch();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeRoleSwitch(roleSwitch);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 

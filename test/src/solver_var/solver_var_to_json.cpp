@@ -2,6 +2,7 @@
 #include <rapidjson/document.h>
 #include <conversion.h>
 #include <test_values_common.h>
+#include <serialization/JsonSerializationStrategy.h>
 
 conversion::SolverVar solver_var() {
     std::vector<uint8_t> value;
@@ -13,7 +14,9 @@ conversion::SolverVar solver_var() {
 }
 
 TEST(SolverVarToJson, it_is_an_object) {
-    const std::string json = solver_var().toJson();
+    auto solverVar = solver_var();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeSolverVar(solverVar);
 
     rapidjson::Document doc;
     doc.Parse(json.c_str());
@@ -22,7 +25,9 @@ TEST(SolverVarToJson, it_is_an_object) {
 }
 
 TEST(SolverVarToJson, it_contains_the_id) {
-    const std::string json = solver_var().toJson();
+    auto solverVar = solver_var();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeSolverVar(solverVar);
 
     rapidjson::Document doc;
     doc.Parse(json.c_str());
@@ -31,7 +36,9 @@ TEST(SolverVarToJson, it_contains_the_id) {
 }
 
 TEST(SolverVarToJson, it_contains_the_value) {
-    const std::string json = solver_var().toJson();
+    auto solverVar = solver_var();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeSolverVar(solverVar);
 
     rapidjson::Document doc;
     doc.Parse(json.c_str());

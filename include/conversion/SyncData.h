@@ -20,7 +20,7 @@ namespace conversion {
 
         int64_t getTransitionId() const;
 
-        bool transition_holds() const;
+        bool transitionHolds() const;
 
         bool ack() const;
 

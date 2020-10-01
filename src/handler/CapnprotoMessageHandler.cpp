@@ -1,15 +1,20 @@
 #include <handler/CapnprotoMessageHandler.h>
-#include <conversion.h>
+#include <serialization/SerializationStrategy.h>
 #include <iostream>
 
-CapnprotoMessageHandler::CapnprotoMessageHandler() : successor_(nullptr) {}
+CapnprotoMessageHandler::CapnprotoMessageHandler(SerializationStrategy *serializationStrategy)
+        : successor(nullptr), serializationStrategy(serializationStrategy) {}
+
+CapnprotoMessageHandler::~CapnprotoMessageHandler() {
+    delete successor;
+}
 
 void CapnprotoMessageHandler::handle(capnp::FlatArrayMessageReader &reader) {
     auto messageHandlingSuccessful = doHandle(reader);
 
     if (!messageHandlingSuccessful) {
-        if(successor_) {
-            successor_->handle(reader);
+        if(successor) {
+            successor->handle(reader);
         } else {
             std::cout << "No matching handler available" << std::endl;
         }
@@ -17,6 +22,6 @@ void CapnprotoMessageHandler::handle(capnp::FlatArrayMessageReader &reader) {
 }
 
 CapnprotoMessageHandler *CapnprotoMessageHandler::chain(CapnprotoMessageHandler *successor) {
-    successor_ = successor;
-    return successor_;
+    this->successor = successor;
+    return successor;
 }

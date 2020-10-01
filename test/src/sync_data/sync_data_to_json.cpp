@@ -2,6 +2,7 @@
 #include <rapidjson/document.h>
 #include <conversion.h>
 #include <test_values_common.h>
+#include <serialization/JsonSerializationStrategy.h>
 
 conversion::SyncData sync_data() {
      conversion::capnzero::Id robotId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
@@ -10,7 +11,9 @@ conversion::SyncData sync_data() {
 
 TEST(SyncDataToJson, it_is_an_object)
 {
-    const std::string json = sync_data().toJson();
+    auto syncData = sync_data();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeSyncData(syncData);
 
     rapidjson::Document doc;
     doc.Parse(json.c_str());
@@ -20,7 +23,9 @@ TEST(SyncDataToJson, it_is_an_object)
 
 TEST(SyncDataToJson, it_contains_the_robot_id)
 {
-    const std::string json = sync_data().toJson();
+    auto syncData = sync_data();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeSyncData(syncData);
 
     rapidjson::Document doc;
     doc.Parse(json.c_str());
@@ -32,7 +37,9 @@ TEST(SyncDataToJson, it_contains_the_robot_id)
 
 TEST(SyncDataToJson, it_contains_the_transition_id)
 {
-    const std::string json = sync_data().toJson();
+    auto syncData = sync_data();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeSyncData(syncData);
 
     rapidjson::Document doc;
     doc.Parse(json.c_str());
@@ -42,7 +49,9 @@ TEST(SyncDataToJson, it_contains_the_transition_id)
 
 TEST(SyncDataToJson, it_contains_the_transition_hold_status)
 {
-    const std::string json = sync_data().toJson();
+    auto syncData = sync_data();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeSyncData(syncData);
 
     rapidjson::Document doc;
     doc.Parse(json.c_str());
@@ -52,7 +61,9 @@ TEST(SyncDataToJson, it_contains_the_transition_hold_status)
 
 TEST(SyncDataToJson, it_contains_the_acknowledgement_status)
 {
-    const std::string json = sync_data().toJson();
+    auto syncData = sync_data();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeSyncData(syncData);
 
     rapidjson::Document doc;
     doc.Parse(json.c_str());

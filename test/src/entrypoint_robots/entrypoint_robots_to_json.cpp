@@ -2,6 +2,7 @@
 #include <rapidjson/document.h>
 #include <conversion.h>
 #include <test_values_common.h>
+#include <serialization/JsonSerializationStrategy.h>
 
 conversion::EntrypointRobots entrypoint_robots() {
     std::vector< conversion::capnzero::Id> robots;
@@ -13,7 +14,9 @@ conversion::EntrypointRobots entrypoint_robots() {
 }
 
 TEST(EntrypointRobotsToJson, it_creates_an_object) {
-    std::string json = entrypoint_robots().toJson();
+    auto entrypointRobots = entrypoint_robots();
+    JsonSerializationStrategy serializationStrategy;
+    std::string json = serializationStrategy.serializeEntryPointRobots(entrypointRobots);
 
     rapidjson::Document doc;
     doc.Parse(json.c_str());
@@ -22,7 +25,9 @@ TEST(EntrypointRobotsToJson, it_creates_an_object) {
 }
 
 TEST(EntrypointRobotsToJson, it_contains_the_entrypoint) {
-    std::string json = entrypoint_robots().toJson();
+    auto entrypointRobots = entrypoint_robots();
+    JsonSerializationStrategy serializationStrategy;
+    std::string json = serializationStrategy.serializeEntryPointRobots(entrypointRobots);
 
     rapidjson::Document doc;
     doc.Parse(json.c_str());
@@ -31,7 +36,9 @@ TEST(EntrypointRobotsToJson, it_contains_the_entrypoint) {
 }
 
 TEST(EntrypointRobotsToJson, it_contains_the_robots) {
-    std::string json = entrypoint_robots().toJson();
+    auto entrypointRobots = entrypoint_robots();
+    JsonSerializationStrategy serializationStrategy;
+    std::string json = serializationStrategy.serializeEntryPointRobots(entrypointRobots);
 
     rapidjson::Document doc;
     doc.Parse(json.c_str());

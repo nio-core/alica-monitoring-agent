@@ -58,7 +58,7 @@ TEST(SyncTalkFromCapnp, it_contains_the_syn_data) {
         EXPECT_EQ(robotId.getType(), ID_TYPE);
         EXPECT_EQ(robotId.getValue(), std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
         EXPECT_EQ(data.getTransitionId(), TRANSITION_ID);
-        EXPECT_EQ(data.transition_holds(), TRANSITION_HOLDS);
+        EXPECT_EQ(data.transitionHolds(), TRANSITION_HOLDS);
         EXPECT_EQ(data.ack(), ACK);
     }
 }

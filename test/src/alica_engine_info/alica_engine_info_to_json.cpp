@@ -2,6 +2,7 @@
 #include <conversion.h>
 #include <test_values_common.h>
 #include <rapidjson/document.h>
+#include <serialization/JsonSerializationStrategy.h>
 
 conversion::AlicaEngineInfo alica_engine_info() {
     auto valueString = std::string(ID_VALUE);
@@ -18,7 +19,9 @@ conversion::AlicaEngineInfo alica_engine_info() {
 }
 
 TEST(AlicaEngineInfoToJson, it_contains_master_plan ) {
-    const std::string json = alica_engine_info().toJson();
+    auto alicaEngineInfo = alica_engine_info();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeAlicaEngineInfo(alicaEngineInfo);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -26,7 +29,9 @@ TEST(AlicaEngineInfoToJson, it_contains_master_plan ) {
 }
 
 TEST(AlicaEngineInfoToJson, it_contains_current_plan ) {
-    const std::string json = alica_engine_info().toJson();
+    auto alicaEngineInfo = alica_engine_info();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeAlicaEngineInfo(alicaEngineInfo);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -34,7 +39,9 @@ TEST(AlicaEngineInfoToJson, it_contains_current_plan ) {
 }
 
 TEST(AlicaEngineInfoToJson, it_contains_current_state ) {
-    const std::string json = alica_engine_info().toJson();
+    auto alicaEngineInfo = alica_engine_info();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeAlicaEngineInfo(alicaEngineInfo);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -42,7 +49,9 @@ TEST(AlicaEngineInfoToJson, it_contains_current_state ) {
 }
 
 TEST(AlicaEngineInfoToJson, it_contains_current_role ) {
-    const std::string json = alica_engine_info().toJson();
+    auto alicaEngineInfo = alica_engine_info();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeAlicaEngineInfo(alicaEngineInfo);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -50,7 +59,9 @@ TEST(AlicaEngineInfoToJson, it_contains_current_role ) {
 }
 
 TEST(AlicaEngineInfoToJson, it_contains_current_task ) {
-    const std::string json = alica_engine_info().toJson();
+    auto alicaEngineInfo = alica_engine_info();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeAlicaEngineInfo(alicaEngineInfo);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -58,7 +69,9 @@ TEST(AlicaEngineInfoToJson, it_contains_current_task ) {
 }
 
 TEST(AlicaEngineInfoToJson, it_contains_sender_id ) {
-    const std::string json = alica_engine_info().toJson();
+    auto alicaEngineInfo = alica_engine_info();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeAlicaEngineInfo(alicaEngineInfo);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -69,7 +82,9 @@ TEST(AlicaEngineInfoToJson, it_contains_sender_id ) {
 
 
 TEST(AlicaEngineInfoToJson, it_contains_additional_agents ) {
-    const std::string json = alica_engine_info().toJson();
+    auto alicaEngineInfo = alica_engine_info();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeAlicaEngineInfo(alicaEngineInfo);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 

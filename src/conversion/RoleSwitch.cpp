@@ -37,6 +37,11 @@ namespace conversion {
         return roleId_;
     }
 
+
+    std::string RoleSwitch::getType() const {
+        return type_;
+    }
+
     const std::string RoleSwitch::toJson() const {
         rapidjson::Document roleSwitch(rapidjson::kObjectType);
 
@@ -55,6 +60,5 @@ namespace conversion {
         roleSwitch.Accept(writer);
 
         return buffer.GetString();
-
     }
 }

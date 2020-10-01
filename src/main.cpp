@@ -1,5 +1,6 @@
 #include <capnzero/Subscriber.h>
 #include <handler.h>
+#include <serialization/JsonSerializationStrategy.h>
 
 void usage() {
     std::cout << "task-allocation-monitor <options>" << std::endl
@@ -28,13 +29,15 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    CapnprotoMessageHandler* alicaEngineInfoHandler = new AlicaEngineInfoHandler();
-    CapnprotoMessageHandler* allocationAuthorityInfoHandler = new AllocationAuthorityInfoHandler();
-    CapnprotoMessageHandler* planTreeInfoHandler = new PlanTreeInfoHandler();
-    CapnprotoMessageHandler* solverResultHandler = new SolverResultHandler();
-    CapnprotoMessageHandler* syncTalkHandler = new SyncTalkHandler();
-    CapnprotoMessageHandler* roleSwitchHandler = new RoleSwitchHandler();
-    CapnprotoMessageHandler* syncReadyHandler = new SyncReadyHandler();
+    SerializationStrategy* serializationStrategy = new JsonSerializationStrategy();
+
+    CapnprotoMessageHandler* alicaEngineInfoHandler = new AlicaEngineInfoHandler(serializationStrategy);
+    CapnprotoMessageHandler* allocationAuthorityInfoHandler = new AllocationAuthorityInfoHandler(serializationStrategy);
+    CapnprotoMessageHandler* planTreeInfoHandler = new PlanTreeInfoHandler(serializationStrategy);
+    CapnprotoMessageHandler* solverResultHandler = new SolverResultHandler(serializationStrategy);
+    CapnprotoMessageHandler* syncTalkHandler = new SyncTalkHandler(serializationStrategy);
+    CapnprotoMessageHandler* roleSwitchHandler = new RoleSwitchHandler(serializationStrategy);
+    CapnprotoMessageHandler* syncReadyHandler = new SyncReadyHandler(serializationStrategy);
 
     alicaEngineInfoHandler->chain(allocationAuthorityInfoHandler)
                           ->chain(planTreeInfoHandler)

@@ -1,10 +1,17 @@
 #include <handler/RoleSwitchHandler.h>
-#include <conversion.h>
+#include <conversion/RoleSwitch.h>
+#include <serialization/SerializationStrategy.h>
 #include <iostream>
+
+
+RoleSwitchHandler::RoleSwitchHandler(SerializationStrategy *serializationStrategy)
+        : CapnprotoMessageHandler(serializationStrategy) {}
 
 bool RoleSwitchHandler::doHandle(capnp::FlatArrayMessageReader &reader) {
     try {
-        std::cout << conversion::RoleSwitch::from(reader).toJson() << std::endl;
+        auto roleSwitch = conversion::RoleSwitch::from(reader);
+        const std::string json = serializationStrategy->serializeRoleSwitch(roleSwitch);
+        std::cout << json << std::endl;
         return true;
     } catch (std::runtime_error&) {
         return false;
@@ -12,3 +19,4 @@ bool RoleSwitchHandler::doHandle(capnp::FlatArrayMessageReader &reader) {
         return false;
     }
 }
+

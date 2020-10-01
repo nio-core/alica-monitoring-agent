@@ -2,18 +2,21 @@
 
 #include <capnp/serialize.h>
 
+class SerializationStrategy;
+
 class CapnprotoMessageHandler {
 public:
-    explicit CapnprotoMessageHandler();
+    explicit CapnprotoMessageHandler(SerializationStrategy *serializationStrategy);
 
-    virtual ~CapnprotoMessageHandler() = default;
+    virtual ~CapnprotoMessageHandler();
 
     void handle(capnp::FlatArrayMessageReader& reader);
 
     CapnprotoMessageHandler* chain(CapnprotoMessageHandler* successor);
 
 protected:
-    CapnprotoMessageHandler* successor_;
+    CapnprotoMessageHandler* successor;
+    SerializationStrategy* serializationStrategy;
 
     virtual bool doHandle(capnp::FlatArrayMessageReader &reader) = 0;
 };

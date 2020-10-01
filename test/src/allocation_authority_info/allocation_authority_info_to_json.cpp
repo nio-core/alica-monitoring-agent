@@ -2,6 +2,7 @@
 #include <rapidjson/document.h>
 #include <conversion.h>
 #include <test_values_common.h>
+#include <serialization/JsonSerializationStrategy.h>
 
 conversion::AllocationAuthorityInfo allocation_authority_info() {
     conversion::capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
@@ -21,7 +22,9 @@ conversion::AllocationAuthorityInfo allocation_authority_info() {
 }
 
 TEST(AllocationAuthorityInfoToJson, it_is_an_object) {
-    const std::string json = allocation_authority_info().toJson();
+    auto allocationAuthorityInfo = allocation_authority_info();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeAllocationAuthorityInfo(allocationAuthorityInfo);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -29,7 +32,9 @@ TEST(AllocationAuthorityInfoToJson, it_is_an_object) {
 }
 
 TEST(AllocationAuthorityInfoToJson, it_contains_parent_state) {
-    const std::string json = allocation_authority_info().toJson();
+    auto allocationAuthorityInfo = allocation_authority_info();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeAllocationAuthorityInfo(allocationAuthorityInfo);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -37,7 +42,9 @@ TEST(AllocationAuthorityInfoToJson, it_contains_parent_state) {
 }
 
 TEST(AllocationAuthorityInfoToJson, it_contains_plan_type) {
-    const std::string json = allocation_authority_info().toJson();
+    auto allocationAuthorityInfo = allocation_authority_info();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeAllocationAuthorityInfo(allocationAuthorityInfo);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -45,7 +52,9 @@ TEST(AllocationAuthorityInfoToJson, it_contains_plan_type) {
 }
 
 TEST(AllocationAuthorityInfoToJson, it_contains_plan_id) {
-    const std::string json = allocation_authority_info().toJson();
+    auto allocationAuthorityInfo = allocation_authority_info();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeAllocationAuthorityInfo(allocationAuthorityInfo);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -53,7 +62,9 @@ TEST(AllocationAuthorityInfoToJson, it_contains_plan_id) {
 }
 
 TEST(AllocationAuthorityInfoToJson, it_contains_authority) {
-    const std::string json = allocation_authority_info().toJson();
+    auto allocationAuthorityInfo = allocation_authority_info();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeAllocationAuthorityInfo(allocationAuthorityInfo);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -63,7 +74,9 @@ TEST(AllocationAuthorityInfoToJson, it_contains_authority) {
 }
 
 TEST(AllocationAuthorityInfoToJson, it_contains_sender_id) {
-    const std::string json = allocation_authority_info().toJson();
+    auto allocationAuthorityInfo = allocation_authority_info();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeAllocationAuthorityInfo(allocationAuthorityInfo);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -73,7 +86,9 @@ TEST(AllocationAuthorityInfoToJson, it_contains_sender_id) {
 }
 
 TEST(AllocationAuthorityInfoToJson, it_contains_entry_point_robots) {
-    const std::string json = allocation_authority_info().toJson();
+    auto allocationAuthorityInfo = allocation_authority_info();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializeAllocationAuthorityInfo(allocationAuthorityInfo);
 
     rapidjson::Document doc;
     doc.Parse(json.c_str());

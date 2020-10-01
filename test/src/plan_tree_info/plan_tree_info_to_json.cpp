@@ -2,6 +2,7 @@
 #include <test_values_common.h>
 #include <conversion.h>
 #include <rapidjson/document.h>
+#include <serialization/JsonSerializationStrategy.h>
 
 conversion::PlanTreeInfo plan_tree_info() {
      conversion::capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
@@ -20,7 +21,9 @@ conversion::PlanTreeInfo plan_tree_info() {
 }
 
 TEST(PlanTreeInfoToJson, it_is_an_object) {
-    const std::string json = plan_tree_info().toJson();
+    auto planTreeInfo = plan_tree_info();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializePlanTreeInfo(planTreeInfo);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -28,7 +31,9 @@ TEST(PlanTreeInfoToJson, it_is_an_object) {
 }
 
 TEST(PlanTreeInfoToJson, it_contains_sender_id) {
-    const std::string json = plan_tree_info().toJson();
+    auto planTreeInfo = plan_tree_info();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializePlanTreeInfo(planTreeInfo);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -38,7 +43,9 @@ TEST(PlanTreeInfoToJson, it_contains_sender_id) {
 }
 
 TEST(PlanTreeInfoToJson, it_contains_state_ids) {
-    const std::string json = plan_tree_info().toJson();
+    auto planTreeInfo = plan_tree_info();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializePlanTreeInfo(planTreeInfo);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
@@ -47,7 +54,9 @@ TEST(PlanTreeInfoToJson, it_contains_state_ids) {
 }
 
 TEST(PlanTreeInfoToJson, it_contains_succeeded_eps) {
-    const std::string json = plan_tree_info().toJson();
+    auto planTreeInfo = plan_tree_info();
+    JsonSerializationStrategy serializationStrategy;
+    const std::string json = serializationStrategy.serializePlanTreeInfo(planTreeInfo);
     rapidjson::Document doc;
     doc.Parse(json.c_str());
 
