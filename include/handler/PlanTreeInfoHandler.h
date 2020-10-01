@@ -4,7 +4,7 @@
 
 class PlanTreeInfoHandler : public CapnprotoMessageHandler {
 public:
-    explicit PlanTreeInfoHandler(SerializationStrategy* serializationStrategy);
+    explicit PlanTreeInfoHandler(SerializationStrategy* serializationStrategy, StorageStrategy* storageStrategy);
 
 private:
     void doHandle(capnp::FlatArrayMessageReader &reader) override;

@@ -4,7 +4,7 @@
 
 class SolverResultHandler : public CapnprotoMessageHandler {
 public:
-    explicit SolverResultHandler(SerializationStrategy* serializationStrategy);
+    explicit SolverResultHandler(SerializationStrategy* serializationStrategy, StorageStrategy* storageStrategy);
 
 private:
     void doHandle(capnp::FlatArrayMessageReader &reader) override;

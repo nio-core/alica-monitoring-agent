@@ -4,7 +4,7 @@
 
 class RoleSwitchHandler : public CapnprotoMessageHandler {
 public:
-    explicit RoleSwitchHandler(SerializationStrategy* serializationStrategy);
+    explicit RoleSwitchHandler(SerializationStrategy* serializationStrategy, StorageStrategy* storageStrategy);
 
 private:
     void doHandle(capnp::FlatArrayMessageReader &reader) override;

@@ -3,6 +3,7 @@
 #include <gmock/gmock.h>
 #include <serialization/SerializationStrategy.h>
 #include <model/capnzero/Id.h>
+#include <storage/StorageStrategy.h>
 
 class MockSerializationStrategy : public SerializationStrategy {
 public:
@@ -17,4 +18,9 @@ public:
     MOCK_CONST_METHOD1(serializeSolverResult, std::string(model::SolverResult& solverResult));
     MOCK_CONST_METHOD1(serializeSyncReady, std::string(model::SyncReady& syncReady));
     MOCK_CONST_METHOD1(serializeSyncTalk, std::string(model::SyncTalk& syncTalk));
+};
+
+class MockStorageStrategy : public StorageStrategy {
+public:
+    MOCK_METHOD3(store, void(const model::capnzero::Id& id, const std::string& messageType, const std::string& message));
 };

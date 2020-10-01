@@ -4,8 +4,9 @@
 #include "exception/MessageHandlingException.h"
 #include "exception/NoFittingHandlerException.h"
 
-CapnprotoMessageHandler::CapnprotoMessageHandler(SerializationStrategy *serializationStrategy)
-        : successor(nullptr), serializationStrategy(serializationStrategy) {}
+CapnprotoMessageHandler::CapnprotoMessageHandler(SerializationStrategy *serializationStrategy,
+                                                 StorageStrategy *storageStrategy)
+        : successor(nullptr), serializationStrategy(serializationStrategy), storageStrategy(storageStrategy) {}
 
 CapnprotoMessageHandler::~CapnprotoMessageHandler() {
     delete successor;

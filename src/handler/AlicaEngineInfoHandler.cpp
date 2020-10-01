@@ -3,15 +3,16 @@
 #include <serialization/SerializationStrategy.h>
 #include <iostream>
 #include <exception/MessageHandlingException.h>
+#include <storage/StorageStrategy.h>
 
-AlicaEngineInfoHandler::AlicaEngineInfoHandler(SerializationStrategy *serializationStrategy) :
-    CapnprotoMessageHandler(serializationStrategy) {}
+AlicaEngineInfoHandler::AlicaEngineInfoHandler(SerializationStrategy *serializationStrategy, StorageStrategy* storageStrategy) :
+        CapnprotoMessageHandler(serializationStrategy, storageStrategy) {}
 
 void AlicaEngineInfoHandler::doHandle(capnp::FlatArrayMessageReader &reader) {
     try {
         auto engineInfo = model::AlicaEngineInfo::from(reader);
         const std::string json = serializationStrategy->serializeAlicaEngineInfo(engineInfo);
-        std::cout << json << std::endl;
+        storageStrategy->store(engineInfo.getSenderId(), "ALICA_ENGINE_INFO", json);
     } catch (std::runtime_error&) {
         throw MessageHandlingException();
     } catch (kj::Exception&) {

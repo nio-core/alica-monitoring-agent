@@ -11,10 +11,13 @@
 #include <mocks.h>
 
 
-TEST(HandlingAllocationAuthorityInformation, it_emits_allocation_authority_information_json) {
+TEST(HandlingAllocationAuthorityInformation, it_handles_allocation_authority_info_messages) {
+    auto storageStrategy = new MockStorageStrategy();
+    EXPECT_CALL(*storageStrategy, store(testing::An<const model::capnzero::Id&>(),
+            testing::StrEq("ALLOCATION_AUTHORITY_INFO"), testing::An<const std::string&>()));
     auto serializationStrategy = new MockSerializationStrategy();
     EXPECT_CALL(*serializationStrategy, serializeAllocationAuthorityInfo(testing::An<model::AllocationAuthorityInfo&>()));
-    AllocationAuthorityInfoHandler handler(serializationStrategy);
+    AllocationAuthorityInfoHandler handler(serializationStrategy, storageStrategy);
 
     auto message = allocation_authority_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
@@ -22,12 +25,16 @@ TEST(HandlingAllocationAuthorityInformation, it_emits_allocation_authority_infor
     handler.handle(reader);
 
     delete serializationStrategy;
+    delete storageStrategy;
 }
 
-TEST(HandlingEngineInformation, it_emits_alica_engine_information_json) {
+TEST(HandlingEngineInformation, it_handles_alica_engine_info_messages) {
+    auto storageStrategy = new MockStorageStrategy();
+    EXPECT_CALL(*storageStrategy, store(testing::An<const model::capnzero::Id&>(),
+            testing::StrEq("ALICA_ENGINE_INFO"), testing::An<const std::string&>()));
     auto serializationStrategy = new MockSerializationStrategy();
     EXPECT_CALL(*serializationStrategy, serializeAlicaEngineInfo(testing::An<model::AlicaEngineInfo&>()));
-    AlicaEngineInfoHandler handler(serializationStrategy);
+    AlicaEngineInfoHandler handler(serializationStrategy, storageStrategy);
 
     auto message = alica_engine_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
@@ -35,12 +42,16 @@ TEST(HandlingEngineInformation, it_emits_alica_engine_information_json) {
     handler.handle(reader);
 
     delete serializationStrategy;
+    delete storageStrategy;
 }
 
-TEST(HandlingPlanTreeInfo, it_emits_plan_tree_info_json) {
+TEST(HandlingPlanTreeInfo, it_handles_plan_tree_info_messages) {
+    auto storageStrategy = new MockStorageStrategy();
+    EXPECT_CALL(*storageStrategy, store(testing::An<const model::capnzero::Id&>(),
+            testing::StrEq("PLAN_TREE_INFO"), testing::An<const std::string&>()));
     auto serializationStrategy = new MockSerializationStrategy();
     EXPECT_CALL(*serializationStrategy, serializePlanTreeInfo(testing::An<model::PlanTreeInfo&>()));
-    PlanTreeInfoHandler handler(serializationStrategy);
+    PlanTreeInfoHandler handler(serializationStrategy, storageStrategy);
 
     auto message = plan_tree_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
@@ -48,12 +59,16 @@ TEST(HandlingPlanTreeInfo, it_emits_plan_tree_info_json) {
     handler.handle(reader);
 
     delete serializationStrategy;
+    delete storageStrategy;
 }
 
-TEST(HandlingRoleSwitch, it_emits_role_switch_json) {
+TEST(HandlingRoleSwitch, it_handles_role_switch_messages) {
+    auto storageStrategy = new MockStorageStrategy();
+    EXPECT_CALL(*storageStrategy, store(testing::An<const model::capnzero::Id&>(),
+            testing::StrEq("ROLE_SWITCH"), testing::An<const std::string&>()));
     auto serializationStrategy = new MockSerializationStrategy();
     EXPECT_CALL(*serializationStrategy, serializeRoleSwitch(testing::An<model::RoleSwitch&>()));
-    RoleSwitchHandler handler(serializationStrategy);
+    RoleSwitchHandler handler(serializationStrategy, storageStrategy);
 
     auto message = role_switch_message();
     auto reader = capnp::FlatArrayMessageReader(message);
@@ -61,12 +76,16 @@ TEST(HandlingRoleSwitch, it_emits_role_switch_json) {
     handler.handle(reader);
 
     delete serializationStrategy;
+    delete storageStrategy;
 }
 
-TEST(HandlingSolverResult, it_emits_solver_result_json) {
+TEST(HandlingSolverResult, it_handles_solver_result_messages) {
+    auto storageStrategy = new MockStorageStrategy();
+    EXPECT_CALL(*storageStrategy, store(testing::An<const model::capnzero::Id&>(),
+            testing::StrEq("SOLVER_RESULT"), testing::An<const std::string&>()));
     auto serializationStrategy = new MockSerializationStrategy();
     EXPECT_CALL(*serializationStrategy, serializeSolverResult(testing::An<model::SolverResult&>()));
-    SolverResultHandler handler(serializationStrategy);
+    SolverResultHandler handler(serializationStrategy, storageStrategy);
 
     auto message = solver_result_message();
     auto reader = capnp::FlatArrayMessageReader(message);
@@ -74,12 +93,16 @@ TEST(HandlingSolverResult, it_emits_solver_result_json) {
     handler.handle(reader);
 
     delete serializationStrategy;
+    delete storageStrategy;
 }
 
-TEST(HandlingSyncReady, it_emits_sync_ready_json) {
+TEST(HandlingSyncReady, it_handles_sync_ready_messages) {
+    auto storageStrategy = new MockStorageStrategy();
+    EXPECT_CALL(*storageStrategy, store(testing::An<const model::capnzero::Id&>(),
+            testing::StrEq("SYNC_READY"), testing::An<const std::string&>()));
     auto serializationStrategy = new MockSerializationStrategy();
     EXPECT_CALL(*serializationStrategy, serializeSyncReady(testing::An<model::SyncReady&>()));
-    SyncReadyHandler handler(serializationStrategy);
+    SyncReadyHandler handler(serializationStrategy, storageStrategy);
 
     auto message = sync_ready_message();
     auto reader = capnp::FlatArrayMessageReader(message);
@@ -87,12 +110,16 @@ TEST(HandlingSyncReady, it_emits_sync_ready_json) {
     handler.handle(reader);
 
     delete serializationStrategy;
+    delete storageStrategy;
 }
 
-TEST(HandlingSyncTalk, it_emits_sync_talk_json) {
+TEST(HandlingSyncTalk, it_handles_sync_talk_messages) {
+    auto storageStrategy = new MockStorageStrategy();
+    EXPECT_CALL(*storageStrategy, store(testing::An<const model::capnzero::Id&>(),
+            testing::StrEq("SYNC_TALK"), testing::An<const std::string&>()));
     auto serializationStrategy = new MockSerializationStrategy();
     EXPECT_CALL(*serializationStrategy, serializeSyncTalk(testing::An<model::SyncTalk&>()));
-    SyncTalkHandler handler(serializationStrategy);
+    SyncTalkHandler handler(serializationStrategy, storageStrategy);
 
     auto message = sync_talk_message();
     auto reader = capnp::FlatArrayMessageReader(message);
@@ -100,5 +127,6 @@ TEST(HandlingSyncTalk, it_emits_sync_talk_json) {
     handler.handle(reader);
 
     delete serializationStrategy;
+    delete storageStrategy;
 }
 
