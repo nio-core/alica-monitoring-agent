@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <rapidjson/document.h>
 #include <conversion.h>
-#include "../../helper/include/test_values_common.h"
+#include <test_values_common.h>
 
 conversion::EntrypointRobots entrypoint_robots() {
     std::vector< conversion::capnzero::Id> robots;

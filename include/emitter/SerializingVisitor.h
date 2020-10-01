@@ -2,9 +2,9 @@
 
 #include <conversion.h>
 
-class StringificationVisitor {
+class SerializingVisitor {
 public:
-    virtual ~StringificationVisitor() = default;
+    virtual ~SerializingVisitor() = default;
 
     virtual void visitAlicaEngineInfo(conversion::AlicaEngineInfo* engineInfo) = 0;
 

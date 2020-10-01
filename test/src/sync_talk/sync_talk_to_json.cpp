@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../../helper/include/test_values_common.h"
+#include <test_values_common.h>
 #include <rapidjson/document.h>
 #include <conversion.h>
 
