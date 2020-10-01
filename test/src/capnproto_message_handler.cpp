@@ -4,7 +4,7 @@
 
 
 TEST(HandlingAllocationAuthorityInformation, it_emits_allocation_authority_information_json) {
-    AllocationAuthorityInfoHandler handler(nullptr);
+    AllocationAuthorityInfoHandler handler;
 
     auto message = allocation_authority_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
@@ -13,7 +13,7 @@ TEST(HandlingAllocationAuthorityInformation, it_emits_allocation_authority_infor
 }
 
 TEST(HandlingEngineInformation, it_emits_alica_engine_information_json) {
-    AlicaEngineInfoHandler handler(nullptr);
+    AlicaEngineInfoHandler handler;
 
     auto message = alica_engine_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
@@ -22,7 +22,7 @@ TEST(HandlingEngineInformation, it_emits_alica_engine_information_json) {
 }
 
 TEST(HandlingPlanTreeInfo, it_emits_plan_tree_info_json) {
-    PlanTreeInfoHandler handler(nullptr);
+    PlanTreeInfoHandler handler;
 
     auto message = plan_tree_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
@@ -31,7 +31,7 @@ TEST(HandlingPlanTreeInfo, it_emits_plan_tree_info_json) {
 }
 
 TEST(HandlingRoleSwitch, it_emits_role_switch_json) {
-    RoleSwitchHandler handler(nullptr);
+    RoleSwitchHandler handler;
 
     auto message = role_switch_message();
     auto reader = capnp::FlatArrayMessageReader(message);
@@ -40,7 +40,7 @@ TEST(HandlingRoleSwitch, it_emits_role_switch_json) {
 }
 
 TEST(HandlingSolverResult, it_emits_solver_result_json) {
-    SolverResultHandler handler(nullptr);
+    SolverResultHandler handler;
 
     auto message = solver_result_message();
     auto reader = capnp::FlatArrayMessageReader(message);
@@ -49,7 +49,7 @@ TEST(HandlingSolverResult, it_emits_solver_result_json) {
 }
 
 TEST(HandlingSyncReady, it_emits_sync_ready_json) {
-    SyncReadyHandler handler(nullptr);
+    SyncReadyHandler handler;
 
     auto message = sync_ready_message();
     auto reader = capnp::FlatArrayMessageReader(message);
@@ -58,7 +58,7 @@ TEST(HandlingSyncReady, it_emits_sync_ready_json) {
 }
 
 TEST(HandlingSyncTalk, it_emits_sync_talk_json) {
-    SyncTalkHandler handler(nullptr);
+    SyncTalkHandler handler;
 
     auto message = sync_talk_message();
     auto reader = capnp::FlatArrayMessageReader(message);

@@ -2,9 +2,6 @@
 #include <conversion.h>
 #include <iostream>
 
-AllocationAuthorityInfoHandler::AllocationAuthorityInfoHandler(CapnprotoMessageHandler *successor)
-        : CapnprotoMessageHandler(successor) {}
-
 bool AllocationAuthorityInfoHandler::doHandle(capnp::FlatArrayMessageReader &reader) {
     try {
         std::cout << conversion::AllocationAuthorityInfo::from(reader).toJson() << std::endl;

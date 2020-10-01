@@ -3,8 +3,6 @@
 #include "CapnprotoMessageHandler.h"
 
 class SyncReadyHandler : public CapnprotoMessageHandler {
-public:
-    explicit SyncReadyHandler(CapnprotoMessageHandler *successor);
-
+private:
     bool doHandle(capnp::FlatArrayMessageReader &reader) override;
 };

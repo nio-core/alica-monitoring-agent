@@ -2,8 +2,6 @@
 #include <conversion/SolverResult.h>
 #include <iostream>
 
-SolverResultHandler::SolverResultHandler(CapnprotoMessageHandler *successor) : CapnprotoMessageHandler(successor) {}
-
 bool SolverResultHandler::doHandle(capnp::FlatArrayMessageReader &reader) {
     try {
         std::cout << conversion::SolverResult::from(reader).toJson() << std::endl;

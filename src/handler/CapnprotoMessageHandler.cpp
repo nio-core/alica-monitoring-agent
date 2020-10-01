@@ -2,7 +2,7 @@
 #include <conversion.h>
 #include <iostream>
 
-CapnprotoMessageHandler::CapnprotoMessageHandler(CapnprotoMessageHandler *successor) : successor_(successor) {}
+CapnprotoMessageHandler::CapnprotoMessageHandler() : successor_(nullptr) {}
 
 void CapnprotoMessageHandler::handle(capnp::FlatArrayMessageReader &reader) {
     auto messageHandlingSuccessful = doHandle(reader);
@@ -14,4 +14,9 @@ void CapnprotoMessageHandler::handle(capnp::FlatArrayMessageReader &reader) {
             std::cout << "No matching handler available" << std::endl;
         }
     }
+}
+
+CapnprotoMessageHandler *CapnprotoMessageHandler::chain(CapnprotoMessageHandler *successor) {
+    successor_ = successor;
+    return successor_;
 }

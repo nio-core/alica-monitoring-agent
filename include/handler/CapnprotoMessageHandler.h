@@ -4,11 +4,13 @@
 
 class CapnprotoMessageHandler {
 public:
-    explicit CapnprotoMessageHandler(CapnprotoMessageHandler *successor);
+    explicit CapnprotoMessageHandler();
 
     virtual ~CapnprotoMessageHandler() = default;
 
     void handle(capnp::FlatArrayMessageReader& reader);
+
+    CapnprotoMessageHandler* chain(CapnprotoMessageHandler* successor);
 
 protected:
     CapnprotoMessageHandler* successor_;

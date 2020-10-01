@@ -28,19 +28,20 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    CapnprotoMessageHandler* handler = new AlicaEngineInfoHandler(
-            new AllocationAuthorityInfoHandler(
-                    new PlanTreeInfoHandler(
-                            new SolverResultHandler(
-                                new SyncTalkHandler(
-                                        new RoleSwitchHandler(
-                                                new SyncReadyHandler(nullptr)
-                                                )
-                                        )
-                                    )
-                            )
-                    )
-            );
+    CapnprotoMessageHandler* alicaEngineInfoHandler = new AlicaEngineInfoHandler();
+    CapnprotoMessageHandler* allocationAuthorityInfoHandler = new AllocationAuthorityInfoHandler();
+    CapnprotoMessageHandler* planTreeInfoHandler = new PlanTreeInfoHandler();
+    CapnprotoMessageHandler* solverResultHandler = new SolverResultHandler();
+    CapnprotoMessageHandler* syncTalkHandler = new SyncTalkHandler();
+    CapnprotoMessageHandler* roleSwitchHandler = new RoleSwitchHandler();
+    CapnprotoMessageHandler* syncReadyHandler = new SyncReadyHandler();
+
+    alicaEngineInfoHandler->chain(allocationAuthorityInfoHandler)
+                          ->chain(planTreeInfoHandler)
+                          ->chain(solverResultHandler)
+                          ->chain(syncTalkHandler)
+                          ->chain(roleSwitchHandler)
+                          ->chain(syncReadyHandler);
 
     void* ctx = zmq_ctx_new();
     capnzero::Subscriber subscriber(ctx, capnzero::UDP);
@@ -49,7 +50,7 @@ int main(int argc, char* argv[]) {
         subscriber.setTopic(topic);
     }
 
-    subscriber.subscribe(&CapnprotoMessageHandler::handle, handler);
+    subscriber.subscribe(&CapnprotoMessageHandler::handle, alicaEngineInfoHandler);
 
     while(true);
 }

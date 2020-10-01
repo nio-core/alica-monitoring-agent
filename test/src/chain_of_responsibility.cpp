@@ -3,19 +3,22 @@
 #include <handler.h>
 
 CapnprotoMessageHandler* handler() {
-    return new AlicaEngineInfoHandler(
-            new AllocationAuthorityInfoHandler(
-                    new PlanTreeInfoHandler(
-                            new SolverResultHandler(
-                                    new SyncTalkHandler(
-                                            new RoleSwitchHandler(
-                                                    new SyncReadyHandler(nullptr)
-                                            )
-                                    )
-                            )
-                    )
-            )
-    );
+    auto alicaEngineInfoHandler = new AlicaEngineInfoHandler();
+    auto allocationAuthorityInfoHandler = new AllocationAuthorityInfoHandler();
+    auto planTreeInfoHandler = new PlanTreeInfoHandler();
+    auto solverResultHandler = new SolverResultHandler();
+    auto syncTalkHandler = new SyncTalkHandler();
+    auto roleSwitchHandler = new RoleSwitchHandler();
+    auto syncReadyHandler = new SyncReadyHandler();
+
+    alicaEngineInfoHandler->chain(allocationAuthorityInfoHandler)
+                          ->chain(planTreeInfoHandler)
+                          ->chain(solverResultHandler)
+                          ->chain(syncTalkHandler)
+                          ->chain(roleSwitchHandler)
+                          ->chain(syncReadyHandler);
+
+    return alicaEngineInfoHandler;
 }
 
 TEST(FullChainTest, it_emits_allocation_authority_information_json) {

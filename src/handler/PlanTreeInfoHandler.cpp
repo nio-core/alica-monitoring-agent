@@ -2,8 +2,6 @@
 #include <iostream>
 #include <conversion.h>
 
-PlanTreeInfoHandler::PlanTreeInfoHandler(CapnprotoMessageHandler *successor) : CapnprotoMessageHandler(successor) {}
-
 bool PlanTreeInfoHandler::doHandle(capnp::FlatArrayMessageReader &reader) {
     try {
         std::cout << conversion::PlanTreeInfo::from(reader).toJson() << std::endl;
