@@ -1,11 +1,11 @@
 #include <gtest/gtest.h>
-#include <conversion.h>
+
 #include <test_values_common.h>
 #include <rapidjson/document.h>
 #include <serialization/JsonSerializationStrategy.h>
 
-conversion::RoleSwitch role_switch() {
-     conversion::capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
+model::RoleSwitch role_switch() {
+     model::capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
 
     return { senderId, ROLE_ID, TYPE };
 }

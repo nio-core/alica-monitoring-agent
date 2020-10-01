@@ -1,11 +1,11 @@
 #include <gtest/gtest.h>
 #include <rapidjson/document.h>
-#include <conversion.h>
+
 #include <test_values_common.h>
 #include <serialization/JsonSerializationStrategy.h>
 
-conversion::SyncData sync_data() {
-     conversion::capnzero::Id robotId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
+model::SyncData sync_data() {
+     model::capnzero::Id robotId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
     return { robotId, TRANSITION_ID, TRANSITION_HOLDS, ACK };
 }
 

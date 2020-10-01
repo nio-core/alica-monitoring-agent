@@ -1,11 +1,11 @@
 #pragma once
 
 #include <capnp/message.h>
-#include <conversion/capnzero/Id.h>
+#include <model/capnzero/Id.h>
 #include <RoleSwitch.capnp.h>
 
 
-namespace conversion {
+namespace model {
     class RoleSwitch {
     public:
         static RoleSwitch from(capnp::MessageReader &reader);

@@ -1,5 +1,5 @@
 #include <handler/AlicaEngineInfoHandler.h>
-#include <conversion/AlicaEngineInfo.h>
+#include <model/AlicaEngineInfo.h>
 #include <serialization/SerializationStrategy.h>
 #include <iostream>
 
@@ -8,7 +8,7 @@ AlicaEngineInfoHandler::AlicaEngineInfoHandler(SerializationStrategy *serializat
 
 bool AlicaEngineInfoHandler::doHandle(capnp::FlatArrayMessageReader &reader) {
     try {
-        auto engineInfo = conversion::AlicaEngineInfo::from(reader);
+        auto engineInfo = model::AlicaEngineInfo::from(reader);
         const std::string json = serializationStrategy->serializeAlicaEngineInfo(engineInfo);
         std::cout << json << std::endl;
         return true;

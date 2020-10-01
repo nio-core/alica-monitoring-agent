@@ -1,11 +1,10 @@
 #include <gtest/gtest.h>
 #include <rapidjson/document.h>
-#include <conversion.h>
 #include <test_values_common.h>
 #include <serialization/JsonSerializationStrategy.h>
 
-conversion::EntrypointRobots entrypoint_robots() {
-    std::vector< conversion::capnzero::Id> robots;
+model::EntrypointRobots entrypoint_robots() {
+    std::vector< model::capnzero::Id> robots;
     robots.reserve(ROBOT_COUNT);
     for(int i = 0; i < ROBOT_COUNT; i++) {
         robots.emplace_back(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));

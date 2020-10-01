@@ -2,9 +2,9 @@
 
 #include <capnp/serialize.h>
 #include <AlicaEngineInfo.capnp.h>
-#include <conversion/capnzero/Id.h>
+#include <model/capnzero/Id.h>
 
-namespace conversion {
+namespace model {
     class AlicaEngineInfo {
     public:
         static AlicaEngineInfo from(capnp::MessageReader &reader);

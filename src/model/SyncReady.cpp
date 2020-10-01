@@ -1,10 +1,10 @@
-#include <conversion/SyncReady.h>
+#include <model/SyncReady.h>
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
 
 
-namespace conversion {
+namespace model {
     SyncReady SyncReady::from(capnp::MessageReader &reader) {
         auto syncReady = reader.getRoot<alica_msgs::SyncReady>();
         if (!syncReady.hasSenderId()) {

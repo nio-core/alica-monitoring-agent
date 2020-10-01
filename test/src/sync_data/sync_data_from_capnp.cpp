@@ -3,15 +3,16 @@
 #include <SyncTalk.capnp.h>
 #include <test_values_common.h>
 #include <capnp/serialize.h>
-#include <conversion.h>
+
 #include <test_messages_common.h>
+#include <model/SyncData.h>
 
 
 TEST(SyncDataFromCapnp, it_can_be_parsed) {
     auto message = sync_data_message();
     capnp::FlatArrayMessageReader reader(message);
 
-    EXPECT_NO_THROW(conversion::SyncData::from(reader));
+    EXPECT_NO_THROW(model::SyncData::from(reader));
 }
 
 TEST(SyncDataFromCapnp, it_can_not_be_parsed_if_robot_id_is_missing) {
@@ -20,7 +21,7 @@ TEST(SyncDataFromCapnp, it_can_not_be_parsed_if_robot_id_is_missing) {
     auto message = capnp::messageToFlatArray(builder);
     capnp::FlatArrayMessageReader reader(message);
 
-    EXPECT_THROW(conversion::SyncData::from(reader), std::runtime_error);
+    EXPECT_THROW(model::SyncData::from(reader), std::runtime_error);
 }
 
 TEST(SyncDataFromCapnp, it_can_not_parse_other_message) {
@@ -29,14 +30,14 @@ TEST(SyncDataFromCapnp, it_can_not_parse_other_message) {
     auto message = capnp::messageToFlatArray(builder);
     capnp::FlatArrayMessageReader reader(message);
 
-    EXPECT_THROW(conversion::SyncData::from(reader), std::runtime_error);
+    EXPECT_THROW(model::SyncData::from(reader), std::runtime_error);
 }
 
 TEST(SyncDataFromCapnp, it_contains_the_robot_id) {
     auto message = sync_data_message();
     capnp::FlatArrayMessageReader reader(message);
 
-    auto syncData = conversion::SyncData::from(reader);
+    auto syncData = model::SyncData::from(reader);
     auto robotId = syncData.getRobotId();
 
     EXPECT_EQ(robotId.getType(), ID_TYPE);
@@ -47,7 +48,7 @@ TEST(SyncDataFromCapnp, it_contains_the_transition_id) {
     auto message = sync_data_message();
     capnp::FlatArrayMessageReader reader(message);
 
-    auto syncData = conversion::SyncData::from(reader);
+    auto syncData = model::SyncData::from(reader);
 
     EXPECT_EQ(syncData.getTransitionId(), TRANSITION_ID);
 }
@@ -56,7 +57,7 @@ TEST(SyncDataFromCapnp, it_contains_the_transition_hold_status) {
     auto message = sync_data_message();
     capnp::FlatArrayMessageReader reader(message);
 
-    auto syncData = conversion::SyncData::from(reader);
+    auto syncData = model::SyncData::from(reader);
 
     EXPECT_EQ(syncData.transitionHolds(), TRANSITION_HOLDS);
 }
@@ -65,7 +66,7 @@ TEST(SyncDataFromCapnp, it_contains_the_acknowledgement_status) {
     auto message = sync_data_message();
     capnp::FlatArrayMessageReader reader(message);
 
-    auto syncData = conversion::SyncData::from(reader);
+    auto syncData = model::SyncData::from(reader);
 
     EXPECT_EQ(syncData.ack(), ACK);
 }

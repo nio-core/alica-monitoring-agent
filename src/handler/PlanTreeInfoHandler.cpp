@@ -1,5 +1,5 @@
 #include <handler/PlanTreeInfoHandler.h>
-#include <conversion/PlanTreeInfo.h>
+#include <model/PlanTreeInfo.h>
 #include <serialization/SerializationStrategy.h>
 #include <iostream>
 
@@ -9,7 +9,7 @@ PlanTreeInfoHandler::PlanTreeInfoHandler(SerializationStrategy *serializationStr
 
 bool PlanTreeInfoHandler::doHandle(capnp::FlatArrayMessageReader &reader) {
     try {
-        auto planTreeInfo = conversion::PlanTreeInfo::from(reader);
+        auto planTreeInfo = model::PlanTreeInfo::from(reader);
         const std::string json = serializationStrategy->serializePlanTreeInfo(planTreeInfo);
         std::cout << json << std::endl;
         return true;

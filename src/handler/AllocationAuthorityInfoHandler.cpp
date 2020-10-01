@@ -1,5 +1,5 @@
 #include <handler/AllocationAuthorityInfoHandler.h>
-#include <conversion/AllocationAuthorityInfo.h>
+#include <model/AllocationAuthorityInfo.h>
 #include <serialization/SerializationStrategy.h>
 #include <iostream>
 
@@ -8,7 +8,7 @@ AllocationAuthorityInfoHandler::AllocationAuthorityInfoHandler(SerializationStra
 
 bool AllocationAuthorityInfoHandler::doHandle(capnp::FlatArrayMessageReader &reader) {
     try {
-        auto allocationAuthorityInfo = conversion::AllocationAuthorityInfo::from(reader);
+        auto allocationAuthorityInfo = model::AllocationAuthorityInfo::from(reader);
         const std::string json = serializationStrategy->serializeAllocationAuthorityInfo(allocationAuthorityInfo);
         std::cout << json << std::endl;
         return true;

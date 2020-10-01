@@ -5,7 +5,7 @@
 #include <string>
 #include <SolverResult.capnp.h>
 
-namespace conversion {
+namespace model {
     class SolverVar {
     public:
         static SolverVar from(capnp::MessageReader &reader);

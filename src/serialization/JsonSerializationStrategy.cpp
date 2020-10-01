@@ -10,7 +10,7 @@ std::string to_string(rapidjson::Document& doc) {
     return buffer.GetString();
 }
 
-std::string JsonSerializationStrategy::serializeCapnzeroId(conversion::capnzero::Id &id) const {
+std::string JsonSerializationStrategy::serializeCapnzeroId(model::capnzero::Id &id) const {
     rapidjson::Document idJson(rapidjson::kObjectType);
     rapidjson::Value genericJsonValue;
 
@@ -25,7 +25,7 @@ std::string JsonSerializationStrategy::serializeCapnzeroId(conversion::capnzero:
     return to_string(idJson);
 }
 
-std::string JsonSerializationStrategy::serializeEntryPointRobots(conversion::EntrypointRobots &entrypointRobots) const {
+std::string JsonSerializationStrategy::serializeEntryPointRobots(model::EntrypointRobots &entrypointRobots) const {
     rapidjson::Document entrypointRobotsJson(rapidjson::kObjectType);
     rapidjson::Document genericJsonDocument;
     rapidjson::Value genericJsonValue;
@@ -44,7 +44,7 @@ std::string JsonSerializationStrategy::serializeEntryPointRobots(conversion::Ent
     return to_string(entrypointRobotsJson);
 }
 
-std::string JsonSerializationStrategy::serializeSolverVar(conversion::SolverVar &solverVar) const {
+std::string JsonSerializationStrategy::serializeSolverVar(model::SolverVar &solverVar) const {
     rapidjson::Document solverVarJson(rapidjson::kObjectType);
     rapidjson::Value genericJsonValue;
 
@@ -61,7 +61,7 @@ std::string JsonSerializationStrategy::serializeSolverVar(conversion::SolverVar 
     return to_string(solverVarJson);
 }
 
-std::string JsonSerializationStrategy::serializeSyncData(conversion::SyncData &syncData) const {
+std::string JsonSerializationStrategy::serializeSyncData(model::SyncData &syncData) const {
     rapidjson::Document syncDataJson(rapidjson::kObjectType);
     rapidjson::Document robotIdJson;
 
@@ -75,7 +75,7 @@ std::string JsonSerializationStrategy::serializeSyncData(conversion::SyncData &s
     return to_string(syncDataJson);
 }
 
-std::string JsonSerializationStrategy::serializeAlicaEngineInfo(conversion::AlicaEngineInfo &alicaEngineInfo) const {
+std::string JsonSerializationStrategy::serializeAlicaEngineInfo(model::AlicaEngineInfo &alicaEngineInfo) const {
     rapidjson::Document alicaEngineInfoJson(rapidjson::kObjectType);
     rapidjson::Document genericJsonDocument;
     rapidjson::Value genericJsonValue;
@@ -116,7 +116,7 @@ std::string JsonSerializationStrategy::serializeAlicaEngineInfo(conversion::Alic
 }
 
 std::string JsonSerializationStrategy::serializeAllocationAuthorityInfo(
-        conversion::AllocationAuthorityInfo &allocationAuthorityInfo) const {
+        model::AllocationAuthorityInfo &allocationAuthorityInfo) const {
     rapidjson::Document allocationAuthorityInfoJson(rapidjson::kObjectType);
     rapidjson::Document genericJsonDocument;
     rapidjson::Value genericJsonValue;
@@ -144,7 +144,7 @@ std::string JsonSerializationStrategy::serializeAllocationAuthorityInfo(
     return to_string(allocationAuthorityInfoJson);
 }
 
-std::string JsonSerializationStrategy::serializePlanTreeInfo(conversion::PlanTreeInfo &planTreeInfo) const {
+std::string JsonSerializationStrategy::serializePlanTreeInfo(model::PlanTreeInfo &planTreeInfo) const {
     rapidjson::Document planTreeInfoJson(rapidjson::kObjectType);
     rapidjson::Document genericJsonDocument;
     rapidjson::Value genericJsonValue;
@@ -170,7 +170,7 @@ std::string JsonSerializationStrategy::serializePlanTreeInfo(conversion::PlanTre
     return to_string(planTreeInfoJson);
 }
 
-std::string JsonSerializationStrategy::serializeRoleSwitch(conversion::RoleSwitch &roleSwitch) const {
+std::string JsonSerializationStrategy::serializeRoleSwitch(model::RoleSwitch &roleSwitch) const {
     rapidjson::Document roleSwitchJson(rapidjson::kObjectType);
     rapidjson::Document genericJsonDocument;
     rapidjson::Value genericJsonValue;
@@ -187,7 +187,7 @@ std::string JsonSerializationStrategy::serializeRoleSwitch(conversion::RoleSwitc
     return to_string(roleSwitchJson);
 }
 
-std::string JsonSerializationStrategy::serializeSolverResult(conversion::SolverResult &solverResult) const {
+std::string JsonSerializationStrategy::serializeSolverResult(model::SolverResult &solverResult) const {
     rapidjson::Document solverResultJson(rapidjson::kObjectType);
     rapidjson::Document genericJsonDocument;
     rapidjson::Value genericJsonValue;
@@ -207,7 +207,7 @@ std::string JsonSerializationStrategy::serializeSolverResult(conversion::SolverR
     return to_string(solverResultJson);
 }
 
-std::string JsonSerializationStrategy::serializeSyncReady(conversion::SyncReady &syncReady) const {
+std::string JsonSerializationStrategy::serializeSyncReady(model::SyncReady &syncReady) const {
     rapidjson::Document syncReadyJson(rapidjson::kObjectType);
     rapidjson::Document genericJsonDocument;
 
@@ -219,7 +219,7 @@ std::string JsonSerializationStrategy::serializeSyncReady(conversion::SyncReady 
     return to_string(syncReadyJson);
 }
 
-std::string JsonSerializationStrategy::serializeSyncTalk(conversion::SyncTalk &syncTalk) const {
+std::string JsonSerializationStrategy::serializeSyncTalk(model::SyncTalk &syncTalk) const {
     rapidjson::Document syncTalkJson(rapidjson::kObjectType);
     rapidjson::Document genericJsonDocument;
     rapidjson::Value genericJsonValue;

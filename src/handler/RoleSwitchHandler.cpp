@@ -1,5 +1,5 @@
 #include <handler/RoleSwitchHandler.h>
-#include <conversion/RoleSwitch.h>
+#include <model/RoleSwitch.h>
 #include <serialization/SerializationStrategy.h>
 #include <iostream>
 
@@ -9,7 +9,7 @@ RoleSwitchHandler::RoleSwitchHandler(SerializationStrategy *serializationStrateg
 
 bool RoleSwitchHandler::doHandle(capnp::FlatArrayMessageReader &reader) {
     try {
-        auto roleSwitch = conversion::RoleSwitch::from(reader);
+        auto roleSwitch = model::RoleSwitch::from(reader);
         const std::string json = serializationStrategy->serializeRoleSwitch(roleSwitch);
         std::cout << json << std::endl;
         return true;

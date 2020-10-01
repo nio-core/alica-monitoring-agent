@@ -1,10 +1,10 @@
 #include <gtest/gtest.h>
 #include <rapidjson/document.h>
-#include <conversion.h>
+
 #include <test_values_common.h>
 #include <serialization/JsonSerializationStrategy.h>
 
-conversion::SolverVar solver_var() {
+model::SolverVar solver_var() {
     std::vector<uint8_t> value;
     value.reserve(SOLVER_VAR_VALUE_SIZE);
     for(int i = 0; i < SOLVER_VAR_VALUE_SIZE; i++) {

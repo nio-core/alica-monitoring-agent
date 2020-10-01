@@ -1,10 +1,10 @@
 #pragma once
 
 #include <string>
-#include <conversion/capnzero/Id.h>
+#include <model/capnzero/Id.h>
 #include <SyncReady.capnp.h>
 
-namespace conversion {
+namespace model {
     class SyncReady {
     public:
         static SyncReady from(capnp::MessageReader &reader);

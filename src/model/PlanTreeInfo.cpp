@@ -1,11 +1,11 @@
-#include <conversion/PlanTreeInfo.h>
+#include <model/PlanTreeInfo.h>
 #include <stdexcept>
 #include <rapidjson/rapidjson.h>
 #include <rapidjson/document.h>
 #include <rapidjson/writer.h>
 
 
-namespace conversion {
+namespace model {
     PlanTreeInfo PlanTreeInfo::from(capnp::MessageReader &reader) {
         auto planTreeInfo = reader.getRoot<alica_msgs::PlanTreeInfo>();
         if (!isValid(planTreeInfo)) {

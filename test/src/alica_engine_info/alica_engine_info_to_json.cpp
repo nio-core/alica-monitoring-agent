@@ -1,19 +1,19 @@
 #include <gtest/gtest.h>
-#include <conversion.h>
+
 #include <test_values_common.h>
 #include <rapidjson/document.h>
 #include <serialization/JsonSerializationStrategy.h>
 
-conversion::AlicaEngineInfo alica_engine_info() {
+model::AlicaEngineInfo alica_engine_info() {
     auto valueString = std::string(ID_VALUE);
-    std::vector< conversion::capnzero::Id> agentIdsWithMe;
+    std::vector< model::capnzero::Id> agentIdsWithMe;
     agentIdsWithMe.reserve(AGENT_COUNT);
     for(int i = 0; i < AGENT_COUNT; i++) {
         agentIdsWithMe.emplace_back(ID_TYPE, std::vector<uint8_t>(valueString.begin(), valueString.end()));
     }
 
     std::string idValue {ID_VALUE};
-     conversion::capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(idValue.begin(), idValue.end()));
+     model::capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(idValue.begin(), idValue.end()));
 
     return { senderId, MASTER_PLAN, PLAN, STATE, ROLE, TASK, agentIdsWithMe };
 }

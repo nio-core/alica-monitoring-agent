@@ -1,12 +1,12 @@
 #include <gtest/gtest.h>
-#include <conversion.h>
+
 #include <rapidjson/document.h>
 #include <serialization/JsonSerializationStrategy.h>
 
 TEST(CapnzeroIDToJson, it_creates_an_object) {
     uint8_t type { 0 };
     std::string value { "value" };
-    conversion::capnzero::Id id(type, std::vector<uint8_t>(value.begin(), value.end()));
+    model::capnzero::Id id(type, std::vector<uint8_t>(value.begin(), value.end()));
 
     JsonSerializationStrategy serializationStrategy;
     std::string json = serializationStrategy.serializeCapnzeroId(id);
@@ -20,7 +20,7 @@ TEST(CapnzeroIDToJson, it_creates_an_object) {
 TEST(CapnzeroIDToJson, it_contains_the_type) {
     uint8_t type { 0 };
     std::string value { "value" };
-    conversion::capnzero::Id id(type, std::vector<uint8_t>(value.begin(), value.end()));
+    model::capnzero::Id id(type, std::vector<uint8_t>(value.begin(), value.end()));
 
     JsonSerializationStrategy serializationStrategy;
     std::string json = serializationStrategy.serializeCapnzeroId(id);
@@ -34,7 +34,7 @@ TEST(CapnzeroIDToJson, it_contains_the_type) {
 TEST(CapnzeroIDToJson, it_contains_the_value) {
     uint8_t type { 0 };
     std::string value { "value" };
-    conversion::capnzero::Id id(type, std::vector<uint8_t>(value.begin(), value.end()));
+    model::capnzero::Id id(type, std::vector<uint8_t>(value.begin(), value.end()));
 
     JsonSerializationStrategy serializationStrategy;
     std::string json = serializationStrategy.serializeCapnzeroId(id);

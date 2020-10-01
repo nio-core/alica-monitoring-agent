@@ -1,10 +1,10 @@
 #pragma once
 
 #include <capnp/serialize.h>
-#include <conversion//capnzero/Id.h>
-#include <conversion/EntrypointRobots.h>
+#include <model//capnzero/Id.h>
+#include <model/EntrypointRobots.h>
 
-namespace conversion {
+namespace model {
 
     class AllocationAuthorityInfo {
     public:
@@ -15,7 +15,7 @@ namespace conversion {
     public:
         AllocationAuthorityInfo(capnzero::Id &senderId, int64_t planId, int64_t parentState,
                                 int64_t planType, capnzero::Id &authority,
-                                std::vector<conversion::EntrypointRobots> &entrypointRobots);
+                                std::vector<model::EntrypointRobots> &entrypointRobots);
 
         capnzero::Id getSenderId() const;
 

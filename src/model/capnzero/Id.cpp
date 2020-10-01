@@ -1,11 +1,11 @@
-#include <conversion/capnzero/Id.h>
+#include <model/capnzero/Id.h>
 #include <stdexcept>
 #include <vector>
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
 
-namespace conversion {
+namespace model {
     capnzero::Id capnzero::Id::from(capnp::MessageReader& reader) {
         auto idReader = reader.getRoot<::capnzero::ID>();
         return from(idReader);

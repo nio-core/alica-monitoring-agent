@@ -1,5 +1,5 @@
 #include <handler/SyncReadyHandler.h>
-#include <conversion/SyncReady.h>
+#include <model/SyncReady.h>
 #include <serialization/SerializationStrategy.h>
 #include <iostream>
 
@@ -9,7 +9,7 @@ SyncReadyHandler::SyncReadyHandler(SerializationStrategy *serializationStrategy)
 
 bool SyncReadyHandler::doHandle(capnp::FlatArrayMessageReader &reader) {
     try {
-        auto syncReady = conversion::SyncReady::from(reader);
+        auto syncReady = model::SyncReady::from(reader);
         const std::string json = serializationStrategy->serializeSyncReady(syncReady);
         std::cout << json << std::endl;
         return true;

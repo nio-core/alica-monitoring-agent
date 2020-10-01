@@ -1,15 +1,15 @@
 #include <gtest/gtest.h>
 #include <test_values_common.h>
 #include <rapidjson/document.h>
-#include <conversion.h>
+
 #include <serialization/JsonSerializationStrategy.h>
 
-conversion::SyncTalk sync_talk() {
-     conversion::capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
-    std::vector<conversion::SyncData> data;
+model::SyncTalk sync_talk() {
+     model::capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
+    std::vector<model::SyncData> data;
     data.reserve(SYNC_DATA_COUNT);
     for(int i = 0; i < SYNC_DATA_COUNT; i++) {
-         conversion::capnzero::Id robotId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
+         model::capnzero::Id robotId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
         data.emplace_back(robotId, TRANSITION_ID, TRANSITION_HOLDS, ACK);
     }
 

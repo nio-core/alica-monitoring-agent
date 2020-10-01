@@ -1,10 +1,10 @@
-#include <conversion/AllocationAuthorityInfo.h>
+#include <model/AllocationAuthorityInfo.h>
 #include <stdexcept>
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
 
-namespace conversion {
+namespace model {
     AllocationAuthorityInfo AllocationAuthorityInfo::from(capnp::MessageReader &reader) {
         auto allocationAuthorityInfo = reader.getRoot<alica_msgs::AllocationAuthorityInfo>();
         if (!isValid(allocationAuthorityInfo)) {

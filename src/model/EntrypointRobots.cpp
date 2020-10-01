@@ -1,10 +1,10 @@
-#include <conversion/EntrypointRobots.h>
+#include <model/EntrypointRobots.h>
 #include <stdexcept>
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
 
-namespace conversion {
+namespace model {
 
 
     EntrypointRobots EntrypointRobots::from(capnp::MessageReader &reader) {

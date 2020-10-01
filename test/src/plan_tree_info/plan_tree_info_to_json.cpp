@@ -1,11 +1,11 @@
 #include <gtest/gtest.h>
 #include <test_values_common.h>
-#include <conversion.h>
+
 #include <rapidjson/document.h>
 #include <serialization/JsonSerializationStrategy.h>
 
-conversion::PlanTreeInfo plan_tree_info() {
-     conversion::capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
+model::PlanTreeInfo plan_tree_info() {
+     model::capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
     std::vector<int64_t> stateIds;
     stateIds.reserve(STATE_ID_COUNT);
     for(int i = 0; i < STATE_ID_COUNT; i++) {

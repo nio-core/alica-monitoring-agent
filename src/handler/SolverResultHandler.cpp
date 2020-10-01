@@ -1,5 +1,5 @@
 #include <handler/SolverResultHandler.h>
-#include <conversion/SolverResult.h>
+#include <model/SolverResult.h>
 #include <serialization/SerializationStrategy.h>
 #include <iostream>
 
@@ -8,7 +8,7 @@ SolverResultHandler::SolverResultHandler(SerializationStrategy *serializationStr
         
 bool SolverResultHandler::doHandle(capnp::FlatArrayMessageReader &reader) {
     try {
-        auto solverResult = conversion::SolverResult::from(reader);
+        auto solverResult = model::SolverResult::from(reader);
         const std::string json = serializationStrategy->serializeSolverResult(solverResult);
         std::cout << json << std::endl;
         return true;

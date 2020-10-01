@@ -2,10 +2,10 @@
 
 #include <capnp/serialize.h>
 #include <vector>
-#include <conversion/capnzero/Id.h>
+#include <model/capnzero/Id.h>
 #include <AllocationAuthorityInfo.capnp.h>
 
-namespace conversion {
+namespace model {
     class EntrypointRobots {
     public:
         static EntrypointRobots from(capnp::MessageReader &reader);

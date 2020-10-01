@@ -4,9 +4,10 @@
 #include <test_values_common.h>
 #include <RoleSwitch.capnp.h>
 #include <capnp/serialize.h>
-#include <conversion.h>
+
 #include <AllocationAuthorityInfo.capnp.h>
 #include <test_messages_common.h>
+#include <model/RoleSwitch.h>
 
 
 TEST(RoleSwtichFromCapnp, with_missing_fields_can_not_be_parsed) {
@@ -15,7 +16,7 @@ TEST(RoleSwtichFromCapnp, with_missing_fields_can_not_be_parsed) {
     auto message = capnp::messageToFlatArray(builder);
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_THROW(conversion::RoleSwitch::from(reader), std::runtime_error);
+    EXPECT_THROW(model::RoleSwitch::from(reader), std::runtime_error);
 }
 
 TEST(RoleSwtichFromCapnp, it_can_not_parse_other_message) {
@@ -24,21 +25,21 @@ TEST(RoleSwtichFromCapnp, it_can_not_parse_other_message) {
     auto message = capnp::messageToFlatArray(builder);
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_THROW(conversion::RoleSwitch::from(reader), std::runtime_error);
+    EXPECT_THROW(model::RoleSwitch::from(reader), std::runtime_error);
 }
 
 TEST(RoleSwtichFromCapnp, it_can_be_parsed) {
     auto message = role_switch_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_NO_THROW(conversion::RoleSwitch::from(reader));
+    EXPECT_NO_THROW(model::RoleSwitch::from(reader));
 }
 
 TEST(RoleSwtichFromCapnp, it_contains_the_sender_id) {
     auto message = role_switch_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    auto roleSwitch = conversion::RoleSwitch::from(reader);
+    auto roleSwitch = model::RoleSwitch::from(reader);
     auto senderId = roleSwitch.getSenderId();
 
     EXPECT_EQ(senderId.getType(), ID_TYPE);
@@ -49,7 +50,7 @@ TEST(RoleSwtichFromCapnp, it_contains_the_role_id) {
     auto message = role_switch_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    auto roleSwitch = conversion::RoleSwitch::from(reader);
+    auto roleSwitch = model::RoleSwitch::from(reader);
 
     EXPECT_EQ(roleSwitch.getRoleId(), ROLE_ID);
 }

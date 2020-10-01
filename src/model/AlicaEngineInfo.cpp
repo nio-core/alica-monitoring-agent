@@ -1,11 +1,11 @@
-#include <conversion/AlicaEngineInfo.h>
+#include <model/AlicaEngineInfo.h>
 #include <stdexcept>
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
 
 
-namespace conversion {
+namespace model {
     AlicaEngineInfo AlicaEngineInfo::from(capnp::MessageReader &reader) {
         auto engineInfo = reader.getRoot<alica_msgs::AlicaEngineInfo>();
         if (!isValid(engineInfo)) {

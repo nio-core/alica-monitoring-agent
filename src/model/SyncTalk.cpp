@@ -1,11 +1,11 @@
-#include <conversion/SyncTalk.h>
+#include <model/SyncTalk.h>
 #include <string>
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
 
 
-namespace conversion {
+namespace model {
     SyncTalk SyncTalk::from(capnp::MessageReader &reader) {
         auto syncTalk = reader.getRoot<alica_msgs::SyncTalk>();
         if (!isValid(syncTalk)) {

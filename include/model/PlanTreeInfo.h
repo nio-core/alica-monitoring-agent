@@ -2,9 +2,9 @@
 
 #include <capnp/message.h>
 #include <PlanTreeInfo.capnp.h>
-#include <conversion/capnzero/Id.h>
+#include <model/capnzero/Id.h>
 
-namespace conversion {
+namespace model {
     class PlanTreeInfo {
     public:
         static PlanTreeInfo from(capnp::MessageReader &reader);

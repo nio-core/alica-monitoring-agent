@@ -1,5 +1,5 @@
 #include <handler/SyncTalkHandler.h>
-#include <conversion/SyncTalk.h>
+#include <model/SyncTalk.h>
 #include <serialization/SerializationStrategy.h>
 #include <iostream>
 
@@ -9,7 +9,7 @@ SyncTalkHandler::SyncTalkHandler(SerializationStrategy *serializationStrategy)
 
 bool SyncTalkHandler::doHandle(capnp::FlatArrayMessageReader &reader) {
     try {
-        auto syncTalk = conversion::SyncTalk::from(reader);
+        auto syncTalk = model::SyncTalk::from(reader);
         const std::string json = serializationStrategy->serializeSyncTalk(syncTalk);
         std::cout << json << std::endl;
         return true;

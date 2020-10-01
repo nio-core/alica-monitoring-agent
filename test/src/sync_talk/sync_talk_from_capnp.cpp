@@ -5,8 +5,9 @@
 #include <test_values_common.h>
 #include <capnp/serialize.h>
 #include <rapidjson/document.h>
-#include <conversion.h>
+
 #include <test_messages_common.h>
+#include <model/SyncTalk.h>
 
 
 TEST(SyncTalkFromCapnp, with_missing_fields_can_not_be_parsed) {
@@ -15,7 +16,7 @@ TEST(SyncTalkFromCapnp, with_missing_fields_can_not_be_parsed) {
     auto message = capnp::messageToFlatArray(builder);
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_THROW(conversion::SyncTalk::from(reader), std::runtime_error);
+    EXPECT_THROW(model::SyncTalk::from(reader), std::runtime_error);
 }
 
 TEST(SyncTalkFromCapnp, it_can_not_parse_other_messages) {
@@ -24,21 +25,21 @@ TEST(SyncTalkFromCapnp, it_can_not_parse_other_messages) {
     auto message = capnp::messageToFlatArray(builder);
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_THROW(conversion::SyncTalk::from(reader), std::runtime_error);
+    EXPECT_THROW(model::SyncTalk::from(reader), std::runtime_error);
 }
 
 TEST(SyncTalkFromCapnp, it_can_be_parsed) {
     auto message = sync_talk_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    EXPECT_NO_THROW(conversion::SyncTalk::from(reader));
+    EXPECT_NO_THROW(model::SyncTalk::from(reader));
 }
 
 TEST(SyncTalkFromCapnp, it_contains_the_sender_id) {
     auto message = sync_talk_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    auto syncTalk = conversion::SyncTalk::from(reader);
+    auto syncTalk = model::SyncTalk::from(reader);
     auto senderId = syncTalk.getSenderId();
 
     EXPECT_EQ(senderId.getType(), ID_TYPE);
@@ -49,7 +50,7 @@ TEST(SyncTalkFromCapnp, it_contains_the_syn_data) {
     auto message = sync_talk_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
-    auto syncTalk = conversion::SyncTalk::from(reader);
+    auto syncTalk = model::SyncTalk::from(reader);
     auto syncData = syncTalk.getSyncData();
 
     EXPECT_EQ(syncData.size(), SYNC_DATA_COUNT);

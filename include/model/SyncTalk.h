@@ -1,9 +1,9 @@
 #pragma once
 
-#include <conversion/capnzero/Id.h>
+#include <model/capnzero/Id.h>
 #include "SyncData.h"
 
-namespace conversion {
+namespace model {
     class SyncTalk {
     public:
         static SyncTalk from(capnp::MessageReader &reader);

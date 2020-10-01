@@ -1,16 +1,15 @@
 #include <gtest/gtest.h>
 #include <rapidjson/document.h>
-#include <conversion.h>
 #include <test_values_common.h>
 #include <serialization/JsonSerializationStrategy.h>
 
-conversion::AllocationAuthorityInfo allocation_authority_info() {
-    conversion::capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
-    conversion::capnzero::Id authority(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
-    std::vector<conversion::EntrypointRobots> entrypointRobots;
+model::AllocationAuthorityInfo allocation_authority_info() {
+    model::capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
+    model::capnzero::Id authority(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
+    std::vector<model::EntrypointRobots> entrypointRobots;
     entrypointRobots.reserve(ENTRY_POINT_COUNT);
     for(int i = 0; i < ENTRY_POINT_COUNT; i++) {
-        std::vector<conversion::capnzero::Id> robots;
+        std::vector<model::capnzero::Id> robots;
         robots.reserve(ROBOT_COUNT);
         for(int j = 0; j < ROBOT_COUNT; j++) {
             robots.emplace_back(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));

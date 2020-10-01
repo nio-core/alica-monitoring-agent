@@ -1,11 +1,11 @@
-#include <conversion/RoleSwitch.h>
+#include <model/RoleSwitch.h>
 #include <stdexcept>
 #include <rapidjson/rapidjson.h>
 #include <rapidjson/document.h>
 #include <rapidjson/writer.h>
 
 
-namespace conversion {
+namespace model {
     RoleSwitch RoleSwitch::from(capnp::MessageReader &reader) {
         auto roleSwitch = reader.getRoot<alica_msgs::RoleSwitch>();
         if (!isValid(roleSwitch)) {

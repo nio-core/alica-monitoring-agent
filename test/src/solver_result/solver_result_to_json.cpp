@@ -1,12 +1,12 @@
 #include <gtest/gtest.h>
 #include <test_values_common.h>
-#include <conversion.h>
+
 #include <rapidjson/document.h>
 #include <serialization/JsonSerializationStrategy.h>
 
-conversion::SolverResult solver_result() {
-     conversion::capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
-    std::vector<conversion::SolverVar> vars;
+model::SolverResult solver_result() {
+     model::capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
+    std::vector<model::SolverVar> vars;
     vars.reserve(SOLVER_VAR_COUNT);
     for(int i = 0; i < SOLVER_VAR_COUNT; i++) {
         std::vector<uint8_t> value;

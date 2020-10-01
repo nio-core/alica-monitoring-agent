@@ -1,11 +1,11 @@
 #include <gtest/gtest.h>
 #include <test_values_common.h>
 #include <rapidjson/document.h>
-#include <conversion.h>
+
 #include <serialization/JsonSerializationStrategy.h>
 
-conversion::SyncReady sync_ready() {
-     conversion::capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
+model::SyncReady sync_ready() {
+     model::capnzero::Id senderId(ID_TYPE, std::vector<uint8_t>(ID_VALUE.begin(), ID_VALUE.end()));
     return { senderId, SYNC_ID };
 }
 

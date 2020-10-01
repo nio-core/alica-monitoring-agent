@@ -1,9 +1,9 @@
-#include <conversion/SyncData.h>
+#include <model/SyncData.h>
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
 
-namespace conversion {
+namespace model {
     SyncData SyncData::from(capnp::MessageReader &reader) {
         auto syncData = reader.getRoot<alica_msgs::SyncData>();
         return from(syncData);

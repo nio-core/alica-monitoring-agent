@@ -1,10 +1,10 @@
-#include <conversion/SolverVar.h>
+#include <model/SolverVar.h>
 #include <stdexcept>
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
 
-namespace conversion {
+namespace model {
     SolverVar SolverVar::from(capnp::MessageReader &reader) {
         auto solverVar = reader.getRoot<alica_msgs::SolverVar>();
         return from(solverVar);

@@ -1,10 +1,10 @@
-#include <conversion/SolverResult.h>
+#include <model/SolverResult.h>
 #include <stdexcept>
 #include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
 
-namespace conversion {
+namespace model {
     SolverResult SolverResult::from(capnp::MessageReader &reader) {
         auto solverResult = reader.getRoot<alica_msgs::SolverResult>();
         return from(solverResult);

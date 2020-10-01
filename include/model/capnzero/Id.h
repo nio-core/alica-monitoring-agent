@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 
-namespace conversion {
+namespace model {
     namespace capnzero {
         class Id {
         public:

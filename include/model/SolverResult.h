@@ -2,11 +2,11 @@
 
 #include <capnp/message.h>
 #include <SolverResult.capnp.h>
-#include <conversion/capnzero/Id.h>
-#include <conversion/SolverVar.h>
+#include <model/capnzero/Id.h>
+#include <model/SolverVar.h>
 
 
-namespace conversion {
+namespace model {
     class SolverResult {
     public:
         static SolverResult from(capnp::MessageReader &reader);
