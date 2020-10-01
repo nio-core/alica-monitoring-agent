@@ -8,10 +8,12 @@
 #include <handler/SolverResultHandler.h>
 #include <handler/SyncReadyHandler.h>
 #include <handler/SyncTalkHandler.h>
+#include <mocks.h>
 
 
 TEST(HandlingAllocationAuthorityInformation, it_emits_allocation_authority_information_json) {
-    SerializationStrategy* serializationStrategy = new JsonSerializationStrategy();
+    auto serializationStrategy = new MockSerializationStrategy();
+    EXPECT_CALL(*serializationStrategy, serializeAllocationAuthorityInfo(testing::An<model::AllocationAuthorityInfo&>()));
     AllocationAuthorityInfoHandler handler(serializationStrategy);
 
     auto message = allocation_authority_info_message();
@@ -23,7 +25,8 @@ TEST(HandlingAllocationAuthorityInformation, it_emits_allocation_authority_infor
 }
 
 TEST(HandlingEngineInformation, it_emits_alica_engine_information_json) {
-    SerializationStrategy* serializationStrategy = new JsonSerializationStrategy();
+    auto serializationStrategy = new MockSerializationStrategy();
+    EXPECT_CALL(*serializationStrategy, serializeAlicaEngineInfo(testing::An<model::AlicaEngineInfo&>()));
     AlicaEngineInfoHandler handler(serializationStrategy);
 
     auto message = alica_engine_info_message();
@@ -35,7 +38,8 @@ TEST(HandlingEngineInformation, it_emits_alica_engine_information_json) {
 }
 
 TEST(HandlingPlanTreeInfo, it_emits_plan_tree_info_json) {
-    SerializationStrategy* serializationStrategy = new JsonSerializationStrategy();
+    auto serializationStrategy = new MockSerializationStrategy();
+    EXPECT_CALL(*serializationStrategy, serializePlanTreeInfo(testing::An<model::PlanTreeInfo&>()));
     PlanTreeInfoHandler handler(serializationStrategy);
 
     auto message = plan_tree_info_message();
@@ -47,7 +51,8 @@ TEST(HandlingPlanTreeInfo, it_emits_plan_tree_info_json) {
 }
 
 TEST(HandlingRoleSwitch, it_emits_role_switch_json) {
-    SerializationStrategy* serializationStrategy = new JsonSerializationStrategy();
+    auto serializationStrategy = new MockSerializationStrategy();
+    EXPECT_CALL(*serializationStrategy, serializeRoleSwitch(testing::An<model::RoleSwitch&>()));
     RoleSwitchHandler handler(serializationStrategy);
 
     auto message = role_switch_message();
@@ -59,7 +64,8 @@ TEST(HandlingRoleSwitch, it_emits_role_switch_json) {
 }
 
 TEST(HandlingSolverResult, it_emits_solver_result_json) {
-    SerializationStrategy* serializationStrategy = new JsonSerializationStrategy();
+    auto serializationStrategy = new MockSerializationStrategy();
+    EXPECT_CALL(*serializationStrategy, serializeSolverResult(testing::An<model::SolverResult&>()));
     SolverResultHandler handler(serializationStrategy);
 
     auto message = solver_result_message();
@@ -71,7 +77,8 @@ TEST(HandlingSolverResult, it_emits_solver_result_json) {
 }
 
 TEST(HandlingSyncReady, it_emits_sync_ready_json) {
-    SerializationStrategy* serializationStrategy = new JsonSerializationStrategy();
+    auto serializationStrategy = new MockSerializationStrategy();
+    EXPECT_CALL(*serializationStrategy, serializeSyncReady(testing::An<model::SyncReady&>()));
     SyncReadyHandler handler(serializationStrategy);
 
     auto message = sync_ready_message();
@@ -83,7 +90,8 @@ TEST(HandlingSyncReady, it_emits_sync_ready_json) {
 }
 
 TEST(HandlingSyncTalk, it_emits_sync_talk_json) {
-    SerializationStrategy* serializationStrategy = new JsonSerializationStrategy();
+    auto serializationStrategy = new MockSerializationStrategy();
+    EXPECT_CALL(*serializationStrategy, serializeSyncTalk(testing::An<model::SyncTalk&>()));
     SyncTalkHandler handler(serializationStrategy);
 
     auto message = sync_talk_message();

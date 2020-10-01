@@ -9,6 +9,7 @@
 #include <handler/SyncTalkHandler.h>
 #include <handler/RoleSwitchHandler.h>
 #include <handler/SyncReadyHandler.h>
+#include <mocks.h>
 
 CapnprotoMessageHandler* handler(SerializationStrategy* serializationStrategy) {
     auto alicaEngineInfoHandler = new AlicaEngineInfoHandler(serializationStrategy);
@@ -30,7 +31,9 @@ CapnprotoMessageHandler* handler(SerializationStrategy* serializationStrategy) {
 }
 
 TEST(FullChainTest, it_emits_allocation_authority_information_json) {
-    SerializationStrategy* serializationStrategy = new JsonSerializationStrategy();
+    auto serializationStrategy = new MockSerializationStrategy();
+    EXPECT_CALL(*serializationStrategy, serializeAllocationAuthorityInfo(testing::An<model::AllocationAuthorityInfo&>()));
+
     auto message = allocation_authority_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
@@ -42,7 +45,8 @@ TEST(FullChainTest, it_emits_allocation_authority_information_json) {
 }
 
 TEST(FullChainTest, it_emits_alica_engine_information_json) {
-    SerializationStrategy* serializationStrategy = new JsonSerializationStrategy();
+    auto serializationStrategy = new MockSerializationStrategy();
+    EXPECT_CALL(*serializationStrategy, serializeAlicaEngineInfo(testing::An<model::AlicaEngineInfo&>()));
     auto message = alica_engine_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
@@ -54,7 +58,8 @@ TEST(FullChainTest, it_emits_alica_engine_information_json) {
 }
 
 TEST(FullChainTest, it_emits_plan_tree_info_json) {
-    SerializationStrategy* serializationStrategy = new JsonSerializationStrategy();
+    auto serializationStrategy = new MockSerializationStrategy();
+    EXPECT_CALL(*serializationStrategy, serializePlanTreeInfo(testing::An<model::PlanTreeInfo&>()));
     auto message = plan_tree_info_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
@@ -66,7 +71,8 @@ TEST(FullChainTest, it_emits_plan_tree_info_json) {
 }
 
 TEST(FullChainTest, it_emits_role_switch_json) {
-    SerializationStrategy* serializationStrategy = new JsonSerializationStrategy();
+    auto serializationStrategy = new MockSerializationStrategy();
+    EXPECT_CALL(*serializationStrategy, serializeRoleSwitch(testing::An<model::RoleSwitch&>()));
     auto message = role_switch_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
@@ -78,7 +84,8 @@ TEST(FullChainTest, it_emits_role_switch_json) {
 }
 
 TEST(FullChainTest, it_emits_solver_result_json) {
-    SerializationStrategy* serializationStrategy = new JsonSerializationStrategy();
+    auto serializationStrategy = new MockSerializationStrategy();
+    EXPECT_CALL(*serializationStrategy, serializeSolverResult(testing::An<model::SolverResult&>()));
     auto message = solver_result_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
@@ -90,7 +97,8 @@ TEST(FullChainTest, it_emits_solver_result_json) {
 }
 
 TEST(FullChainTest, it_emits_sync_ready_json) {
-    SerializationStrategy* serializationStrategy = new JsonSerializationStrategy();
+    auto serializationStrategy = new MockSerializationStrategy();
+    EXPECT_CALL(*serializationStrategy, serializeSyncReady(testing::An<model::SyncReady&>()));
     auto message = sync_ready_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
@@ -102,7 +110,8 @@ TEST(FullChainTest, it_emits_sync_ready_json) {
 }
 
 TEST(FullChainTest, it_emits_sync_talk_json) {
-    SerializationStrategy* serializationStrategy = new JsonSerializationStrategy();
+    auto serializationStrategy = new MockSerializationStrategy();
+    EXPECT_CALL(*serializationStrategy, serializeSyncTalk(testing::An<model::SyncTalk&>()));
     auto message = sync_talk_message();
     auto reader = capnp::FlatArrayMessageReader(message);
 
