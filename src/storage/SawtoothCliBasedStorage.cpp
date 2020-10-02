@@ -19,8 +19,8 @@ void SawtoothCliBasedStorage::store(const model::capnzero::Id &agent, const std:
             << " --connect " << validatorAddress
             << " new"
             << " --id " << agentId
-            << " --type" << messageType
-            << " --message " << message
+            << " --type " << messageType
+            << " --message '" << message << "'"
             << " --timestamp " << secondsSinceEpoch;
 
     const std::string finalCommand = command.str();
