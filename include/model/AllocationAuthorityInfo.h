@@ -1,7 +1,7 @@
 #pragma once
 
 #include <capnp/serialize.h>
-#include <model//capnzero/Id.h>
+#include <model/capnzero/Id.h>
 #include <model/EntrypointRobots.h>
 
 namespace model {
@@ -28,8 +28,6 @@ namespace model {
         capnzero::Id getAuthority() const;
 
         std::vector<EntrypointRobots> getEntrypointRobots() const;
-
-        const std::string toJson() const;
 
     private:
         capnzero::Id senderId_;

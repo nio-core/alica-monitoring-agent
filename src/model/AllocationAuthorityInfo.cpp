@@ -1,8 +1,5 @@
 #include <model/AllocationAuthorityInfo.h>
 #include <stdexcept>
-#include <rapidjson/document.h>
-#include <rapidjson/stringbuffer.h>
-#include <rapidjson/writer.h>
 
 namespace model {
     AllocationAuthorityInfo AllocationAuthorityInfo::from(capnp::MessageReader &reader) {
@@ -66,35 +63,5 @@ namespace model {
 
     std::vector<EntrypointRobots> AllocationAuthorityInfo::getEntrypointRobots() const {
         return entrypointRobots_;
-    }
-
-    const std::string AllocationAuthorityInfo::toJson() const {
-        rapidjson::Document allocationAuthorityInfo(rapidjson::kObjectType);
-
-        allocationAuthorityInfo.AddMember("parentState", parentState_, allocationAuthorityInfo.GetAllocator());
-        allocationAuthorityInfo.AddMember("planType", planType_, allocationAuthorityInfo.GetAllocator());
-        allocationAuthorityInfo.AddMember("planId", planId_, allocationAuthorityInfo.GetAllocator());
-
-        rapidjson::Document authority;
-        authority.Parse(authority_.toJson().c_str());
-        allocationAuthorityInfo.AddMember("authority", authority.GetObject(), allocationAuthorityInfo.GetAllocator());
-
-        rapidjson::Document senderId;
-        senderId.Parse(senderId_.toJson().c_str());
-        allocationAuthorityInfo.AddMember("senderId", senderId.GetObject(), allocationAuthorityInfo.GetAllocator());
-
-        rapidjson::Document entrypointRobot;
-        rapidjson::Value entrypointRobots(rapidjson::kArrayType);
-        for (const auto &epr: entrypointRobots_) {
-            entrypointRobot.Parse(epr.toJson().c_str());
-            entrypointRobots.PushBack(entrypointRobot.GetObject(), allocationAuthorityInfo.GetAllocator());
-        }
-        allocationAuthorityInfo.AddMember("entrypointRobots", entrypointRobots, allocationAuthorityInfo.GetAllocator());
-
-        rapidjson::StringBuffer buffer;
-        rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-        allocationAuthorityInfo.Accept(writer);
-
-        return buffer.GetString();
     }
 }

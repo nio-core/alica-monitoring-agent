@@ -1,9 +1,5 @@
 #include <model/RoleSwitch.h>
 #include <stdexcept>
-#include <rapidjson/rapidjson.h>
-#include <rapidjson/document.h>
-#include <rapidjson/writer.h>
-
 
 namespace model {
     RoleSwitch RoleSwitch::from(capnp::MessageReader &reader) {
@@ -40,25 +36,5 @@ namespace model {
 
     std::string RoleSwitch::getType() const {
         return type_;
-    }
-
-    const std::string RoleSwitch::toJson() const {
-        rapidjson::Document roleSwitch(rapidjson::kObjectType);
-
-        rapidjson::Document senderId;
-        senderId.Parse(senderId_.toJson().c_str());
-        roleSwitch.AddMember("senderId", senderId.GetObject(), roleSwitch.GetAllocator());
-
-        roleSwitch.AddMember("roleId", roleId_, roleSwitch.GetAllocator());
-
-        rapidjson::Value type;
-        type.SetString(type_.c_str(), type_.size());
-        roleSwitch.AddMember("type", type, roleSwitch.GetAllocator());
-
-        rapidjson::StringBuffer buffer;
-        rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-        roleSwitch.Accept(writer);
-
-        return buffer.GetString();
     }
 }

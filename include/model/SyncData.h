@@ -24,8 +24,6 @@ namespace model {
 
         bool ack() const;
 
-        const std::string toJson() const;
-
     private:
         capnzero::Id robotId_;
         int64_t transitionId_;

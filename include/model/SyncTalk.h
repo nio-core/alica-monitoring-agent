@@ -1,7 +1,7 @@
 #pragma once
 
 #include <model/capnzero/Id.h>
-#include "SyncData.h"
+#include <model/SyncData.h>
 
 namespace model {
     class SyncTalk {
@@ -16,8 +16,6 @@ namespace model {
         capnzero::Id getSenderId() const;
 
         std::vector<SyncData> getSyncData() const;
-
-        const std::string toJson() const;
 
     private:
         capnzero::Id senderId_;

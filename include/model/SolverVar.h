@@ -21,8 +21,6 @@ namespace model {
 
         std::vector<uint8_t> getValue() const;
 
-        const std::string toJson() const;
-
     private:
         int64_t id_;
         std::vector<uint8_t> value_;

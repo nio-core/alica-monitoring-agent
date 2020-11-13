@@ -1,8 +1,5 @@
 #include <model/SyncReady.h>
-#include <rapidjson/document.h>
-#include <rapidjson/stringbuffer.h>
-#include <rapidjson/writer.h>
-
+#include <stdexcept>
 
 namespace model {
     SyncReady SyncReady::from(capnp::MessageReader &reader) {
@@ -32,20 +29,5 @@ namespace model {
 
     int64_t SyncReady::getSyncId() const {
         return syncId_;
-    }
-
-    const std::string SyncReady::toJson() const {
-        rapidjson::Document syncReady(rapidjson::kObjectType);
-
-        rapidjson::Document senderId;
-        senderId.Parse(senderId_.toJson().c_str());
-        syncReady.AddMember("senderId", senderId.GetObject(), syncReady.GetAllocator());
-        syncReady.AddMember("synchronisationId", syncId_, syncReady.GetAllocator());
-
-        rapidjson::StringBuffer buffer;
-        rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-        syncReady.Accept(writer);
-
-        return buffer.GetString();
     }
 }

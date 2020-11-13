@@ -5,7 +5,6 @@
 #include <model/capnzero/Id.h>
 #include <model/SolverVar.h>
 
-
 namespace model {
     class SolverResult {
     public:
@@ -21,8 +20,6 @@ namespace model {
         capnzero::Id getSenderId() const;
 
         std::vector<SolverVar> getVars() const;
-
-        const std::string toJson() const;
 
     private:
         capnzero::Id senderId_;
