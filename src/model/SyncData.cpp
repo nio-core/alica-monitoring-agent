@@ -1,7 +1,5 @@
 #include <model/SyncData.h>
-#include <rapidjson/document.h>
-#include <rapidjson/stringbuffer.h>
-#include <rapidjson/writer.h>
+#include <stdexcept>
 
 namespace model {
     SyncData SyncData::from(capnp::MessageReader &reader) {
@@ -46,22 +44,5 @@ namespace model {
 
     bool SyncData::ack() const {
         return ack_;
-    }
-
-    const std::string SyncData::toJson() const {
-        rapidjson::Document syncData(rapidjson::kObjectType);
-
-        rapidjson::Document robotId;
-        robotId.Parse(robotId_.toJson().c_str());
-        syncData.AddMember("robotId", robotId, syncData.GetAllocator());
-        syncData.AddMember("transitionId", transitionId_, syncData.GetAllocator());
-        syncData.AddMember("transitionHolds", transitionHolds_, syncData.GetAllocator());
-        syncData.AddMember("ack", ack_, syncData.GetAllocator());
-
-        rapidjson::StringBuffer buffer;
-        rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-        syncData.Accept(writer);
-
-        return buffer.GetString();
     }
 }

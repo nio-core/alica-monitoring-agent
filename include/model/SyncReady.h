@@ -18,8 +18,6 @@ namespace model {
 
         int64_t getSyncId() const;
 
-        const std::string toJson() const;
-
     private:
         capnzero::Id senderId_;
         int64_t syncId_;

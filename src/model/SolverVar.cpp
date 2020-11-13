@@ -1,8 +1,6 @@
 #include <model/SolverVar.h>
 #include <stdexcept>
-#include <rapidjson/document.h>
 #include <rapidjson/stringbuffer.h>
-#include <rapidjson/writer.h>
 
 namespace model {
     SolverVar SolverVar::from(capnp::MessageReader &reader) {
@@ -40,21 +38,5 @@ namespace model {
 
     std::vector<uint8_t> SolverVar::getValue() const {
         return value_;
-    }
-
-    const std::string SolverVar::toJson() const {
-        rapidjson::Document solverVar(rapidjson::kObjectType);
-        solverVar.AddMember("id", id_, solverVar.GetAllocator());
-        rapidjson::Value value(rapidjson::kArrayType);
-        for (auto v: value_) {
-            value.PushBack(v, solverVar.GetAllocator());
-        }
-        solverVar.AddMember("value", value, solverVar.GetAllocator());
-
-        rapidjson::StringBuffer buffer;
-        rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-        solverVar.Accept(writer);
-
-        return buffer.GetString();
     }
 }

@@ -1,12 +1,7 @@
 #include <model/EntrypointRobots.h>
 #include <stdexcept>
-#include <rapidjson/document.h>
-#include <rapidjson/stringbuffer.h>
-#include <rapidjson/writer.h>
 
 namespace model {
-
-
     EntrypointRobots EntrypointRobots::from(capnp::MessageReader &reader) {
         auto entrypointRobots = reader.getRoot<alica_msgs::EntrypointRobots>();
         return from(entrypointRobots);
@@ -41,24 +36,5 @@ namespace model {
 
     std::vector<capnzero::Id> EntrypointRobots::getRobots() const {
         return robots_;
-    }
-
-    std::string EntrypointRobots::toJson() const {
-        rapidjson::Document entrypointRobots(rapidjson::kObjectType);
-        entrypointRobots.AddMember("entrypoint", entrypoint_, entrypointRobots.GetAllocator());
-        rapidjson::Value robots(rapidjson::kArrayType);
-        robots.GetArray().Reserve(robots_.size(), entrypointRobots.GetAllocator());
-        rapidjson::Document r;
-        for (const auto &robot: robots_) {
-            r.Parse(robot.toJson().c_str());
-            robots.PushBack(r, entrypointRobots.GetAllocator());
-        }
-        entrypointRobots.AddMember("robots", robots, entrypointRobots.GetAllocator());
-
-        rapidjson::StringBuffer buffer;
-        rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-        entrypointRobots.Accept(writer);
-
-        return buffer.GetString();
     }
 }

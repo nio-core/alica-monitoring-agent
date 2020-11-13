@@ -21,8 +21,6 @@ namespace model {
 
         std::vector<capnzero::Id> getRobots() const;
 
-        std::string toJson() const;
-
     private:
         int64_t entrypoint_;
         std::vector<capnzero::Id> robots_;

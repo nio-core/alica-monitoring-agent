@@ -1,9 +1,6 @@
 #include <model/capnzero/Id.h>
 #include <stdexcept>
 #include <vector>
-#include <rapidjson/document.h>
-#include <rapidjson/stringbuffer.h>
-#include <rapidjson/writer.h>
 
 namespace model {
     capnzero::Id capnzero::Id::from(capnp::MessageReader& reader) {
@@ -34,17 +31,5 @@ namespace model {
 
     std::vector<uint8_t> capnzero::Id::getValue() const {
         return value_;
-    }
-
-    std::string capnzero::Id::toJson() const {
-        rapidjson::Document id(rapidjson::kObjectType);
-        id.AddMember("type", type_, id.GetAllocator());
-        auto stringValue = std::string(value_.begin(), value_.end());
-        id.AddMember("value", rapidjson::Value(stringValue.c_str(), stringValue.size(), id.GetAllocator()), id.GetAllocator());
-
-        rapidjson::StringBuffer buffer;
-        rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-        id.Accept(writer);
-        return buffer.GetString();
     }
 }

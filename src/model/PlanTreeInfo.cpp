@@ -1,9 +1,5 @@
 #include <model/PlanTreeInfo.h>
 #include <stdexcept>
-#include <rapidjson/rapidjson.h>
-#include <rapidjson/document.h>
-#include <rapidjson/writer.h>
-
 
 namespace model {
     PlanTreeInfo PlanTreeInfo::from(capnp::MessageReader &reader) {
@@ -54,33 +50,5 @@ namespace model {
 
     std::vector<int64_t> PlanTreeInfo::getSucceededEps() const {
         return succeededEps_;
-    }
-
-    const std::string PlanTreeInfo::toJson() const {
-        rapidjson::Document planTreeInfo(rapidjson::kObjectType);
-
-        rapidjson::Document senderId;
-        senderId.Parse(senderId_.toJson().c_str());
-        planTreeInfo.AddMember("senderId", senderId.GetObject(), planTreeInfo.GetAllocator());
-
-        rapidjson::Value stateIds(rapidjson::kArrayType);
-        stateIds.Reserve(stateIds_.size(), planTreeInfo.GetAllocator());
-        for (auto stateId: stateIds_) {
-            stateIds.PushBack(stateId, planTreeInfo.GetAllocator());
-        }
-        planTreeInfo.AddMember("stateIds", stateIds, planTreeInfo.GetAllocator());
-
-        rapidjson::Value succeededEps(rapidjson::kArrayType);
-        succeededEps.Reserve(succeededEps_.size(), planTreeInfo.GetAllocator());
-        for (auto succeededEp: succeededEps_) {
-            succeededEps.PushBack(succeededEp, planTreeInfo.GetAllocator());
-        }
-        planTreeInfo.AddMember("succeededEps", succeededEps, planTreeInfo.GetAllocator());
-
-        rapidjson::StringBuffer buffer;
-        rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-        planTreeInfo.Accept(writer);
-
-        return buffer.GetString();
     }
 }

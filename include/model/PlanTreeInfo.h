@@ -21,8 +21,6 @@ namespace model {
 
         std::vector<int64_t> getSucceededEps() const;
 
-        const std::string toJson() const;
-
     private:
         capnzero::Id senderId_;
         std::vector<int64_t> stateIds_;

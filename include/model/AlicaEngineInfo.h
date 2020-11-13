@@ -30,8 +30,6 @@ namespace model {
 
         std::vector<capnzero::Id> getAgentIdsWithMe() const;
 
-        const std::string toJson() const;
-
     private:
         capnzero::Id senderId_;
         std::string masterPlan_;

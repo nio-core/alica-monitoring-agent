@@ -21,8 +21,6 @@ namespace model {
 
         std::string getType() const;
 
-        const std::string toJson() const;
-
     private:
         capnzero::Id senderId_;
         int64_t roleId_;
