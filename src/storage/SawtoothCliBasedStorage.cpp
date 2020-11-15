@@ -17,8 +17,8 @@ void SawtoothCliBasedStorage::store(const model::capnzero::Id &agent, const std:
     std::stringstream command;
     command << "alica-messages-client"
             << " --connect " << validatorAddress
-            << " batch "
-            << " create "
+            << " batch"
+            << " create"
             << " --id " << agentId
             << " --type " << messageType
             << " --message '" << message << "'"
