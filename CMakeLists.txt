@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(task-allocation-monitor VERSION 0.1.0 LANGUAGES CXX)
 
-execute_process(COMMAND bash -c "conan install .. -if ${CMAKE_CURRENT_BINARY_DIR}")
+execute_process(COMMAND bash -c "conan install . -if ${CMAKE_CURRENT_BINARY_DIR}")
 include("${CMAKE_CURRENT_BINARY_DIR}/conan_paths.cmake")
 
 find_package(rapidjson REQUIRED)
@@ -39,4 +39,5 @@ target_link_libraries(${PROJECT_NAME}
         PRIVATE
         capnzero
         alica_message_processor
+        pthread
         )
