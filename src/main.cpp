@@ -69,17 +69,18 @@ int main(int argc, char* argv[]) {
                           ->chain(syncReadyHandler);
 
     void* ctx = zmq_ctx_new();
-    capnzero::Subscriber subscriber(ctx, capnzero::UDP);
-    subscriber.addAddress(address);
+    auto subscriber = new capnzero::Subscriber(ctx, capnzero::UDP);
+    subscriber->addAddress(address);
     for(const std::string& topic : topics) {
-        subscriber.setTopic(topic);
+        subscriber->setTopic(topic);
     }
 
-    subscriber.subscribe(&CapnprotoMessageHandler::handle, alicaEngineInfoHandler);
+    subscriber->subscribe(&CapnprotoMessageHandler::handle, alicaEngineInfoHandler);
 
     while(true);
 
     delete serializationStrategy;
     delete storageStrategy;
-    zmq_ctx_shutdown(ctx);
+    delete subscriber;
+    zmq_ctx_destroy(ctx);
 }
