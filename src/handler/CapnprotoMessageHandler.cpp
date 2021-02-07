@@ -1,8 +1,7 @@
 #include <handler/CapnprotoMessageHandler.h>
 #include <serialization/SerializationStrategy.h>
-#include <iostream>
-#include "exception/MessageHandlingException.h"
-#include "exception/NoFittingHandlerException.h"
+#include <exception/MessageHandlingException.h>
+#include <exception/NoFittingHandlerException.h>
 
 CapnprotoMessageHandler::CapnprotoMessageHandler(SerializationStrategy *serializationStrategy,
                                                  StorageStrategy *storageStrategy)
