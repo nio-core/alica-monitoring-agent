@@ -75,6 +75,7 @@ int main(int argc, char* argv[]) {
         subscriber->setTopic(topic);
     }
 
+    subscriber->setReceiveQueueSize(0);
     subscriber->subscribe(&CapnprotoMessageHandler::handle, alicaEngineInfoHandler);
 
     while(true);
